@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const multer = require("multer");
 const os = require("os");
+const { isAllow } = require("../../middleware/authApi");
 const {
   getStores,
   getStore,
@@ -14,6 +15,8 @@ const {
 router.get("/", search);
 router.get("/getStores", getStores);
 router.get("/getStore/:id", getStore);
+
+router.use(isAllow);
 router.post(
   "/addStore",
   multer({ dest: os.tmpdir() }).single("image"),

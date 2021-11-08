@@ -112,21 +112,21 @@ app.get(
 );
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["email"] })
+  passport.authenticate("facebook", { scope: ["user_friends", "manage_pages"] })
 );
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     successRedirect: "/protected",
-    failureRedirect: "/",
+    failureRedirect: "/login-page",
   })
 );
 app.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
     successRedirect: "/dashfacebook",
-    failureRedirect: "/",
+    failureRedirect: "/login-page",
   })
 );
 const loginGoogle = require("./routes/signinGoogle");

@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const multer = require("multer");
 const os = require("os");
+const { isAllow } = require("../../middleware/authApi");
 const {
   getBanners,
   getBanner,
@@ -14,6 +15,8 @@ const {
 router.get("/", search);
 router.get("/getBanners", getBanners);
 router.get("/getBanner/:id", getBanner);
+
+router.use(isAllow);
 router.post(
   "/addBanner",
   multer({ dest: os.tmpdir() }).single("image"),

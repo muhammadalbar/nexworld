@@ -20,7 +20,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const store = await db.query(`SELECT * FROM stores WHERE uid = $1`, [id]);
-      if (!store?.rows[0]) {
+      if (!store.rows[0]) {
         res.status(404).json({ message: "Data tidak ditemukan" });
       }
       res.status(200).json({ data: store.rows[0] });

@@ -39,7 +39,7 @@ module.exports = {
       ]);
       const obj1 = partner.rows[0];
       const obj2 = { pics: pics.rows };
-      if (!partner?.rows[0]) {
+      if (!partner.rows[0]) {
         res.status(404).json({ message: "Data tidak ditemukan" });
       } else {
         const data = Object.assign(obj1, obj2);

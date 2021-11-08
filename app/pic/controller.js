@@ -46,7 +46,7 @@ module.exports = {
           "SELECT * FROM pics WHERE partnerid = $1 LIMIT $2 OFFSET $3",
           [partnerid, perPage, page]
         );
-        if (!pics?.rows[0]) {
+        if (!pics.rows[0]) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         }
         res.status(200).json({
@@ -59,7 +59,7 @@ module.exports = {
         const pics = await db.query("SELECT * FROM pics WHERE partnerid = $1", [
           partnerid,
         ]);
-        if (!pics?.rows[0]) {
+        if (!pics.rows[0]) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         }
         res.status(200).json({
@@ -79,7 +79,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const pic = await db.query(`SELECT * FROM pics WHERE uid = $1`, [id]);
-      if (!pic?.rows[0]) {
+      if (!pic.rows[0]) {
         res.status(404).json({ message: "Data tidak ditemukan" });
       }
       res.status(200).json({ data: pic.rows[0] });

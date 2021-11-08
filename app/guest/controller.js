@@ -34,7 +34,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const guest = await db.query(`SELECT * FROM guests WHERE uid = $1`, [id]);
-      if (!guest?.rows[0]) {
+      if (!guest.rows[0]) {
         res.status(404).json({ message: "Data tidak ditemukan" });
       }
       res.status(200).json({ data: guest.rows[0] });

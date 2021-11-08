@@ -31,7 +31,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const booth = await db.query(`SELECT * FROM booths WHERE uid = $1`, [id]);
-      if (!booth?.rows[0]) {
+      if (!booth.rows[0]) {
         res.status(404).json({ message: "Data tidak ditemukan" });
       }
       res.status(200).json({ data: booth.rows[0] });
