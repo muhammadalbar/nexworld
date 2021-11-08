@@ -64,7 +64,7 @@
             />
             <p class="fs-6">EVENT INFO</p>
           </div>
-          <div class="menu px-5 py-2">
+          <div class="menu px-5 py-2" onclick="openNewWindow()">
             <img
               src="./img/landing/hot-sale.png"
               alt="stadium-icon"
@@ -191,6 +191,9 @@
         $(theModal + " iframe").attr("src", videoSRC);
       });
     });
+  }
+  function openNewWindow() {
+    window.open("/special-deal");
   }
 
   $("#expo").click(function() {
