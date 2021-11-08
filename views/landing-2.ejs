@@ -35,7 +35,7 @@
             />
             <p class="fs-6 fw-bolder">BYGE ARENA</p>
           </div>
-          <div class="menu px-5 py-2">
+          <div class="menu px-5 py-2" id="expo">
             <img
               src="./img/landing/barrier.png"
               alt="stadium-icon"
@@ -43,7 +43,12 @@
             />
             <p class="fs-6 fw-bolder">BYGE EXPO</p>
           </div>
-          <div class="menu px-5 py-2">
+          <div
+            class="menu px-5 py-2"
+            data-bs-toggle="modal"
+            data-tagVideo="https://www.youtube.com/embed/zcX7OJ-L8XQ"
+            data-bs-target="#videoModal"
+          >
             <img
               src="./img/landing/prize.png"
               alt="stadium-icon"
@@ -51,7 +56,7 @@
             />
             <p class="fs-6 fw-bolder">WIN PRIZES</p>
           </div>
-          <div class="menu px-5 py-2">
+          <div class="menu px-5 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <img
               src="./img/landing/information.png"
               alt="stadium-icon"
@@ -83,7 +88,7 @@
           <li>
             <div>
               <p>Rocketman</p>
-              <span>1000</span>
+              <span>500</span>
             </div>
           </li>
           <li>
@@ -117,38 +122,127 @@
   </div>
 </div>
 
+<div class="position-fixed top-50 start-0 translate-middle-y" id="expo-list">
+  <div class="card p-3 bg-light">
+    <p style="cursor: pointer;" id="expo-close"><span data-feather="arrow-left" style="color: #01CDF2; margin-bottom: 2px; margin-right: 5px;"></span><strong>Back</strong></p>
+    <div class="container mt-3 overflow-auto" style="height: 350px;">
+      <div class="row">
+        <div class="col-6">
+          <img class="img-fluid mb-4" style="cursor: pointer;" src="./img/landing/acer.png" alt="" />
+        </div>
+        <div class="col-6">
+          <img class="img-fluid mb-4" style="cursor: pointer;" src="./img/landing/acer.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="videoModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="videoModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content position-relative bg-dark">
+      <button
+        type="button"
+        class="btn-close position-absolute top-0 start-100 translate-middle"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        style="background-color: cornflowerblue;width: 30px;height: 30px;z-index: 1080;"
+      ></button>
+        <div class="ratio ratio-16x9">
+          <iframe src="" allow="autoplay;" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel"><strong>BYGE 2021</strong></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  $("#expo-list").hide()
+  function autoPlayYouTubeModal() {
+    var triggerOpen = $("body").find("[data-tagVideo]");
+    triggerOpen.click(function () {
+      var theModal = $(this).data("bs-target"),
+        videoSRC = $(this).attr("data-tagVideo"),
+        videoSRCauto = videoSRC + "?autoplay=1";
+      $(theModal + " iframe").attr("src", videoSRCauto);
+      $(theModal + " button.btn-close").click(function () {
+        $(theModal + " iframe").attr("src", videoSRC);
+      });
+    });
+  }
+
+  $("#expo").click(function() {
+    $("#expo-list").fadeIn(500);
+    $("#left-card-show").show()
+    $("#left-card").hide();
+  })
+  $("#expo-close").click(function(){
+    $("#expo-list").fadeOut(500);
+  })
+
   $(document).ready(function () {
+    autoPlayYouTubeModal();
+    $("#left-card-show").hide()
+    $("#right-card-show").hide()
+
     if ($(window).width() <= 731) {
       $("#right-card").hide();
       $("#right-card-show").hide();
       $("#leftmenu").click(function () {
-        $("#left-card").fadeOut(1000);
+        $("#left-card").fadeOut(500);
         $("#right-card-show").show();
       });
       $("#rightmenu").click(function () {
-        $("#right-card").fadeOut(1000);
+        $("#right-card").fadeOut(500);
         $("#left-card-show").show();
       });
       $("#left-card-show").click(function () {
         $("#left-card").fadeIn(500);
         $("#right-card-show").hide();
+        $("#left-card-show").hide();
       });
       $("#right-card-show").click(function () {
         $("#right-card").fadeIn(500);
         $("#left-card-show").hide();
+        $("#right-card-show").hide();
       });
     } else {
       $("#leftmenu").click(function () {
-        $("#left-card").fadeOut(1000);
+        $("#left-card").fadeOut(500);
+        $("#left-card-show").show()
       });
       $("#rightmenu").click(function () {
-        $("#right-card").fadeOut(1000);
+        $("#right-card").fadeOut(500);
+        $("#right-card-show").show()
       });
       $("#left-card-show").click(function () {
+        $("#left-card-show").hide()
         $("#left-card").fadeIn(500);
       });
       $("#right-card-show").click(function () {
+        $("#right-card-show").hide()
         $("#right-card").fadeIn(500);
       });
     }
@@ -264,5 +358,25 @@
   .view-btn:hover {
     background-color: #b7025f;
     transition: all 0.3s;
+  }
+  ::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px white;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #a0a3bd;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #01CDF2;
   }
 </style>
