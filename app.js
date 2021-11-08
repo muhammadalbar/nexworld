@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const hostname = "localhost";
+const hostname = "0.0.0.0";
 const port = process.env.APP_PORT;
 
 const passport = require("passport");
