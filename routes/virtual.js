@@ -11,8 +11,8 @@ const authMw = require("../middleware/authToken");
 router.get("/", async (req, res) => {
   res.render("virtual", {
     title: "Synnex Virtual",
-    layout: "layouts/virtuallayout",
-    fileAddr: "3d/index.html",
+    layout: "layouts/bootstraplayout",
+    // fileAddr: "3d/index.html",
   });
 });
 

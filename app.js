@@ -72,20 +72,12 @@ const authMw = require("./middleware/authToken");
 
 //ROUTES//
 
-app.get("/", function (req, res) {
-  res.render("index");
+app.get("/", (req, res) => {
+  res.render("index", { layout: "layouts/bootstraplayout" });
 });
 
-app.get("/login-page", (req, res) => {
-  res.render("login", { layout: "layouts/bootstraplayout" });
-});
-
-app.get("/landing-page", (req, res) => {
-  res.render("landing-2", { layout: "layouts/bootstraplayout" });
-});
-
-app.get("/landing-page-3", (req, res) => {
-  res.render("landing-3", { layout: "layouts/bootstraplayout" });
+app.get("/special-deal", (req, res) => {
+  res.render("special_deal", { layout: "layouts/bootstraplayout" });
 });
 
 //Auth
