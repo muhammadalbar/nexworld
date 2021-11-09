@@ -12,10 +12,10 @@ function isLoggedIn(req, res, next) {
 router.get("/dashFacebook", isLoggedIn, async (req, res) => {
   try {
     //EMAIL VALIDATION
-    // const user = req.user;
+    const user = req.user;
     let getemail = req.user.emails;
     // let email = getemail[0].value;
-    res.send({ getemail });
+    res.send({ user, getemail });
     let props = { name: req.user.displayName };
     let uid = uuidv4();
     let register_date = new Date();
