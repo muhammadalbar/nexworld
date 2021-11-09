@@ -104,7 +104,7 @@ app.get(
 );
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["user_friends", "manage_pages"] })
+  passport.authenticate("facebook", { scope: "email" })
 );
 
 app.get(
