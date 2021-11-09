@@ -70,7 +70,7 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        10
+        <%= perPage %>
       </button>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#">10</a></li>
@@ -119,17 +119,18 @@
       </tr>
     </thead>
     <tbody>
+      <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Ottodwda</td>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= item.name %><small> (<%= item.divisi %>)</small></td>
+        <td><%= item.brand %></td>
         <td>
           <div>
             <button
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
-              onclick="goEdit(2)"
+              onclick="goEdit('<%= item.uid %>')"
             >
               Edit
             </button>
@@ -143,30 +144,7 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Ottodwda</td>
-        <td>
-          <div>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-              onclick="goEdit(2)"
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
+      <% }) %>
     </tbody>
   </table>
 </div>
@@ -174,8 +152,8 @@
 <div class="d-flex justify-content-end mt-4">
   <nav>
     <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
+      <li class="page-item">
+        <a class="page-link">Previous</a>
       </li>
       <li class="page-item"><a class="page-link" href="#">1</a></li>
       <li class="page-item active" aria-current="page">
@@ -184,7 +162,7 @@
       <li class="page-item"><a class="page-link" href="#">3</a></li>
       <li class="page-item"><a class="page-link" href="#">4</a></li>
       <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+        <a class="page-link" href="">Next</a>
       </li>
     </ul>
   </nav>
@@ -192,14 +170,14 @@
 <script>
   $(document).ready(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const schVal = urlParams.get("sch");
-    console.log(schVal);
+    const schVal = urlParams.get("search");
+    const pageVal = urlParams.get("page");
+    const limitVal = urlParams.get("perPage");
   });
   const goSch = () => {
     console.log($("#sch").val());
   };
   const goEdit = (id) => {
-    console.log(id, "nya");
     window.location.replace(`/admin/editpartner?id=${id}`);
   };
   const addPartner = () => {

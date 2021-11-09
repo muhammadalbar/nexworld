@@ -158,11 +158,23 @@ router.post("/getData", async (req, res) => {
 });
 
 router.get("/partnerlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/partners/getPartners?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
+
     res.render("admin_partner_list", {
       title: "Synnex Admin - Partner List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      sch: search ? search : "",
+      data: data.data.length > 0 ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
