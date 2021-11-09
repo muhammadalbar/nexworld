@@ -13,17 +13,16 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
   try {
     //EMAIL VALIDATION
     // const user = req.user;
+    // res.send({ email, name });
     let getemail = req.user.emails.map(({ value }) => value);
     let email = getemail[0];
-    let name = req.user.displayName;
-    // let props = { name: req.user.displayName };
-    res.send({ email, name });
-    // let uid = uuidv4();
-    // let register_date = new Date();
-    // let role = "user";
-    // let userkey = "synnex";
+    let props = { name: req.user.displayName };
+    let uid = uuidv4();
+    let register_date = new Date();
+    let role = "user";
+    let userkey = "synnex";
 
-    // let response = await pgdb.getUser(email);
+    let response = await pgdb.getUser(email);
 
     // res.send({
     //   email,
@@ -35,45 +34,45 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
     //   response,
     // });
 
-    // if (response.length == 0) {
-    //   await db.query(
-    //     `INSERT into users (uid, email, role, props, register_date) values ($1, $2, $3, $4, $5)`,
-    //     [uid, email, role, props, register_date]
-    //   );
-    //   const user = {
-    //     email: email,
-    //     devicetoken: uuidv4(),
-    //     role: "user",
-    //   };
+    if (response.length == 0) {
+      await db.query(
+        `INSERT into users (uid, email, role, props, register_date) values ($1, $2, $3, $4, $5)`,
+        [uid, email, role, props, register_date]
+      );
+      const user = {
+        email: email,
+        devicetoken: uuidv4(),
+        role: "user",
+      };
 
-    //   const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    //     expiresIn: "30d",
-    //   });
-    //   res.render("loginform", {
-    //     userkey: "synnex",
-    //     user: email,
-    //     userid: uid,
-    //     jwt: jwtToken,
-    //     redirecturl: "/virtual",
-    //   });
-    // } else {
-    //   const user = {
-    //     email: email,
-    //     devicetoken: uuidv4(),
-    //     role: "user",
-    //   };
+      const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+      res.render("loginform", {
+        userkey: "synnex",
+        user: email,
+        userid: uid,
+        jwt: jwtToken,
+        redirecturl: "/virtual",
+      });
+    } else {
+      const user = {
+        email: email,
+        devicetoken: uuidv4(),
+        role: "user",
+      };
 
-    //   const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    //     expiresIn: "30d",
-    //   });
-    //   res.render("loginform", {
-    //     userkey: "synnex",
-    //     user: email,
-    //     userid: uid,
-    //     jwt: jwtToken,
-    //     redirecturl: "/virtual",
-    //   });
-    // }
+      const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+      res.render("loginform", {
+        userkey: "synnex",
+        user: email,
+        userid: uid,
+        jwt: jwtToken,
+        redirecturl: "/virtual",
+      });
+    }
 
     // let dbpassword = response[0].password;
 
