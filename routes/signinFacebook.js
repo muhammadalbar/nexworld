@@ -16,6 +16,12 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
 
     if (!checkemail) {
       let email = req.user.id;
+      let props = { name: req.user.displayName };
+      let uid = uuidv4();
+      let register_date = new Date();
+      let role = "user";
+      let userkey = "synnex";
+      //
       let response = await pgdb.getUser(email);
       if (response.length == 0) {
         await db.query(
