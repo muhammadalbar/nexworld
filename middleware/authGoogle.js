@@ -10,7 +10,7 @@ passport.use(
       clientID:
         "390503031310-5ri2d4ldchntr6sajueugojgap7d4c17.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "https://byge.synnexmetrodata.com/auth/google/callback",
+      callbackURL: "http://localhost:5031/auth/google/callback",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {

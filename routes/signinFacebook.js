@@ -48,7 +48,8 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "30d",
       });
-      res.render("loginform", {
+      res.render("loginredirect", {
+        layout: "layouts/bootstraplayout",
         userkey: "synnex",
         user: email,
         userid: uid,
@@ -65,7 +66,8 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "30d",
       });
-      res.render("loginform", {
+      res.render("loginredirect", {
+        layout: "layouts/bootstraplayout",
         userkey: "synnex",
         user: email,
         userid: uid,
