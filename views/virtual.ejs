@@ -296,6 +296,17 @@
     type: 'expanded_bubble',
     launcherTitle: 'Chat with us'
   }
+
+  $(document).ready(function () {
+    waitForEl(".woot-widget-holder", function () {
+      $(".woot-widget-holder").css("position", "relative");
+      $(".woot-widget-holder").append(`
+        <div class="position-absolute top-100 start-50 translate-middle" style="height: 60px; width: 200px; background-color:#f4f6fb;">
+        </div>
+        `);
+      console.log("wooott")
+    });
+  });
 </script>
 
 <script>
