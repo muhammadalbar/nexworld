@@ -102,7 +102,10 @@ app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
-app.get("/auth/facebook", passport.authenticate("facebook"));
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["email", "profile"] })
+);
 
 app.get(
   "/auth/google/callback",
