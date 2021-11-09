@@ -21,55 +21,55 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
 
     let response = await pgdb.getUser(email);
 
-    res.send({
-      email,
-      props,
-      uid,
-      register_date,
-      role,
-      userkey,
-      response,
-    });
+    // res.send({
+    //   email,
+    //   props,
+    //   uid,
+    //   register_date,
+    //   role,
+    //   userkey,
+    //   response,
+    // });
 
-    // if (response.length == 0) {
-    //   await db.query(
-    //     `INSERT into users (uid, email, role, props, register_date) values ($1, $2, $3, $4, $5)`,
-    //     [uid, email, role, props, register_date]
-    //   );
-    //   const user = {
-    //     email: email,
-    //     devicetoken: uuidv4(),
-    //     role: "user",
-    //   };
+    if (response.length == 0) {
+      await db.query(
+        `INSERT into users (uid, email, role, props, register_date) values ($1, $2, $3, $4, $5)`,
+        [uid, email, role, props, register_date]
+      );
+      const user = {
+        email: email,
+        devicetoken: uuidv4(),
+        role: "user",
+      };
 
-    //   const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    //     expiresIn: "30d",
-    //   });
-    //   res.render("loginform", {
-    //     userkey: "synnex",
-    //     user: email,
-    //     userid: uid,
-    //     jwt: jwtToken,
-    //     redirecturl: "/virtual",
-    //   });
-    // } else {
-    //   const user = {
-    //     email: email,
-    //     devicetoken: uuidv4(),
-    //     role: "user",
-    //   };
+      const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+      res.render("loginform", {
+        userkey: "synnex",
+        user: email,
+        userid: uid,
+        jwt: jwtToken,
+        redirecturl: "/virtual",
+      });
+    } else {
+      const user = {
+        email: email,
+        devicetoken: uuidv4(),
+        role: "user",
+      };
 
-    //   const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    //     expiresIn: "30d",
-    //   });
-    //   res.render("loginform", {
-    //     userkey: "synnex",
-    //     user: email,
-    //     userid: uid,
-    //     jwt: jwtToken,
-    //     redirecturl: "/virtual",
-    //   });
-    // }
+      const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+      res.render("loginform", {
+        userkey: "synnex",
+        user: email,
+        userid: uid,
+        jwt: jwtToken,
+        redirecturl: "/virtual",
+      });
+    }
 
     // let dbpassword = response[0].password;
 

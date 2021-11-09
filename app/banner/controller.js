@@ -7,9 +7,22 @@ const config = require("../../config/config");
 
 module.exports = {
   getBanners: async (req, res) => {
+    const search = req.query.search || null;
     try {
-      const banners = await db.query("SELECT * FROM banners");
-      res.status(200).json({ data: banners.rows });
+      if (search) {
+        const banner = await db.query(
+          `SELECT * FROM banners WHERE concat(name, image, imageurl) ILIKE '%'|| $1 ||'%'`,
+          [search]
+        );
+        if (!Array.isArray(banner.rows) || !banner.rows.length) {
+          res.status(404).json({ message: "Data tidak ditemukan" });
+        } else {
+          res.status(200).json({ data: banner.rows });
+        }
+      } else {
+        const banners = await db.query("SELECT * FROM banners");
+        res.status(200).json({ data: banners.rows });
+      }
     } catch (err) {
       res
         .status(500)
@@ -47,7 +60,7 @@ module.exports = {
         let filename = req.file.filename + "." + originaExt;
         let target_path = path.resolve(
           config.rootPath,
-          `public/banner/${filename}`
+          `/public/banner/${filename}`
         );
 
         const src = fs.createReadStream(tmp_path);

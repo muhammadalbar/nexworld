@@ -6,24 +6,37 @@ const validator = require("validator");
 
 module.exports = {
   getPics: async (req, res) => {
+    const search = req.query.search || null;
     const currentPage = req.query.page || 1;
     const perPage = req.query.perPage || 5;
     let page = (currentPage - 1) * perPage;
     let totalData;
     try {
-      const store = await db.query("SELECT * FROM pics");
-      totalData = store.rowCount;
+      if (search) {
+        const pic = await db.query(
+          `SELECT * FROM pics WHERE concat(email, name, phone) ILIKE '%'|| $1 ||'%'`,
+          [search]
+        );
+        if (!Array.isArray(pic.rows) || !pic.rows.length) {
+          res.status(404).json({ message: "Data tidak ditemukan" });
+        } else {
+          res.status(200).json({ data: pic.rows });
+        }
+      } else {
+        const store = await db.query("SELECT * FROM pics");
+        totalData = store.rowCount;
 
-      const pics = await db.query("SELECT * FROM pics LIMIT $1 OFFSET $2", [
-        perPage,
-        page,
-      ]);
-      res.status(200).json({
-        totalData,
-        page: parseInt(currentPage),
-        perPage,
-        data: pics.rows,
-      });
+        const pics = await db.query("SELECT * FROM pics LIMIT $1 OFFSET $2", [
+          perPage,
+          page,
+        ]);
+        res.status(200).json({
+          totalData,
+          page: parseInt(currentPage),
+          perPage,
+          data: pics.rows,
+        });
+      }
     } catch (err) {
       res
         .status(500)

@@ -111,14 +111,14 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     successRedirect: "/protected",
-    failureRedirect: "/login-page",
+    failureRedirect: "/",
   })
 );
 app.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
     successRedirect: "/dashfacebook",
-    failureRedirect: "/login-page",
+    failureRedirect: "/",
   })
 );
 const loginGoogle = require("./routes/signinGoogle");

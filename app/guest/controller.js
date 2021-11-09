@@ -6,24 +6,37 @@ const validator = require("validator");
 
 module.exports = {
   getGuests: async (req, res) => {
+    const search = req.query.search || null;
     const currentPage = req.query.page || 1;
     const perPage = req.query.perPage || 5;
     let page = (currentPage - 1) * perPage;
     let totalData;
     try {
-      const guest = await db.query("SELECT * FROM guests");
-      totalData = guest.rowCount;
+      if (search) {
+        const guest = await db.query(
+          `SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%'`,
+          [search]
+        );
+        if (!Array.isArray(guest.rows) || !guest.rows.length) {
+          res.status(404).json({ message: "Data tidak ditemukan" });
+        } else {
+          res.status(200).json({ data: guest.rows });
+        }
+      } else {
+        const guest = await db.query("SELECT * FROM guests");
+        totalData = guest.rowCount;
 
-      const guests = await db.query("SELECT * FROM guests LIMIT $1 OFFSET $2", [
-        perPage,
-        page,
-      ]);
-      res.status(200).json({
-        totalData,
-        page: parseInt(currentPage),
-        perPage,
-        data: guests.rows,
-      });
+        const guests = await db.query(
+          "SELECT * FROM guests LIMIT $1 OFFSET $2",
+          [perPage, page]
+        );
+        res.status(200).json({
+          totalData,
+          page: parseInt(currentPage),
+          perPage,
+          data: guests.rows,
+        });
+      }
     } catch (err) {
       res
         .status(500)

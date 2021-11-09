@@ -3,24 +3,37 @@ const { v4: uuidv4, stringify } = require("uuid");
 
 module.exports = {
   getBooths: async (req, res) => {
+    const search = req.query.search || null;
     const currentPage = req.query.page || 1;
     const perPage = req.query.perPage || 5;
     let page = (currentPage - 1) * perPage;
     let totalData;
     try {
-      const booths = await db.query("SELECT * FROM booths");
-      totalData = booths.rowCount;
+      if (search) {
+        const booth = await db.query(
+          `SELECT * FROM booths WHERE concat(name, number) ILIKE '%'|| $1 ||'%'`,
+          [search]
+        );
+        if (!Array.isArray(booth.rows) || !booth.rows.length) {
+          res.status(404).json({ message: "Data tidak ditemukan" });
+        } else {
+          res.status(200).json({ data: booth.rows });
+        }
+      } else {
+        const booths = await db.query("SELECT * FROM booths");
+        totalData = booths.rowCount;
 
-      const booth = await db.query(
-        "SELECT * FROM booths  LIMIT $1 OFFSET $2 ",
-        [perPage, page]
-      );
-      res.status(200).json({
-        totalData,
-        page: parseInt(currentPage),
-        perPage,
-        data: booth.rows,
-      });
+        const booth = await db.query(
+          "SELECT * FROM booths  LIMIT $1 OFFSET $2 ",
+          [perPage, page]
+        );
+        res.status(200).json({
+          totalData,
+          page: parseInt(currentPage),
+          perPage,
+          data: booth.rows,
+        });
+      }
     } catch (err) {
       res
         .status(500)

@@ -7,9 +7,22 @@ const config = require("../../config/config");
 
 module.exports = {
   getStores: async (req, res) => {
+    const search = req.query.search || null;
     try {
-      const stores = await db.query("SELECT * FROM stores");
-      res.status(200).json({ data: stores.rows });
+      if (search) {
+        const store = await db.query(
+          `SELECT * FROM stores WHERE concat(name, url, image) ILIKE '%'|| $1 ||'%'`,
+          [search]
+        );
+        if (!Array.isArray(store.rows) || !store.rows.length) {
+          res.status(404).json({ message: "Data tidak ditemukan" });
+        } else {
+          res.status(200).json({ data: store.rows });
+        }
+      } else {
+        const stores = await db.query("SELECT * FROM stores");
+        res.status(200).json({ data: stores.rows });
+      }
     } catch (err) {
       res
         .status(500)
