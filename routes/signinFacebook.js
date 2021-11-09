@@ -16,7 +16,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
     let email = req.user.emails.map(({ value }) => value);
     let name = req.user.displayName;
     // let props = { name: req.user.displayName };
-    res.send(email, name);
+    res.send({ email, name });
     // let uid = uuidv4();
     // let register_date = new Date();
     // let role = "user";
