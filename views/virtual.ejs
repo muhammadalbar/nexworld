@@ -84,37 +84,7 @@
       </a>
       <div class="name-list leaderboard">
         <h1>Leaderboard</h1>
-        <ol>
-          <li>
-            <div>
-              <p>Rocketman</p>
-              <span>500</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>SPIDERTRON</p>
-              <span>890</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>VOXCON</p>
-              <span>780</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>PANGKO</p>
-              <span>670</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>EXHIBITOR</p>
-              <span>650</span>
-            </div>
-          </li>
+        <ol id="lead-list">
         </ol>
       </div>
       <button class="view-btn">view all</button>
@@ -288,6 +258,27 @@
       console.log("wooott")
     });
   });
+</script>
+
+<script>
+  fetch('https://api.nevvorld.cn/api/token/app/findRegistRankList?eventToken=C68H8U8V', {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.data, "DATA")
+            data.data.map((e)=>{
+              $("#lead-list").append(`
+              <li>
+                <div>
+                  <p>${e.ign}</p>
+                  <span>${e.point}</span>
+                </div>
+              </li>
+              `)
+            })
+        })
+        .catch(err => console.log(err))
 </script>
 
 <style>
