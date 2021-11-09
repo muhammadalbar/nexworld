@@ -72,7 +72,7 @@
             />
             <p class="h6">SPECIAL DEAL</p>
           </div>
-          <div class="menu px-5 py-2" onclick="logout()">
+          <div class="menu px-5 py-2" data-bs-toggle="modal" data-bs-target="#modalLogout">
             <img
               src="./img/landing/logout.png"
               alt="stadium-icon"
@@ -151,6 +151,23 @@
       </div>
       <div class="modal-body">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong id="profile-name">BYGE 2021</strong></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure want to logout?
+      </div>
+      <div class="modal-footer">
+        <button class="logout-btn" >Logout</button>
       </div>
     </div>
   </div>
@@ -249,6 +266,7 @@
 </script>
 
 <script>
+  $('#profile-name').text(localStorage.getItem('synnex-user'))
   var waitForEl = function (selector, callback) {
     if (jQuery(selector).length) {
       callback();
@@ -415,6 +433,25 @@
   ol {
     margin-top: 44px;
     margin-bottom: 34px;
+  }
+  .logout-btn{
+    background-color: #01cdf2;
+    /* width: 342px; */
+    padding: 1% 2%;
+    color: #b7025f;
+    font-size: 20px;
+    font-weight: 700;
+    border: 2px solid #01cdf2;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .logout-btn:hover{
+    background-color:#b7025f ;
+    border: 2px solid #b7025f;
+    color: #01cdf2;
+    transition: all 0.3s;
   }
   .view-btn {
     background: transparent;
