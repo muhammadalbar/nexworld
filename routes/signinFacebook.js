@@ -12,10 +12,55 @@ function isLoggedIn(req, res, next) {
 router.get("/dashFacebook", isLoggedIn, async (req, res) => {
   try {
     //EMAIL VALIDATION
-    const user = req.user;
-    let getemail = req.user.emails;
-    // let email = getemail[0].value;
-    res.send({ user, getemail });
+    const checkemail = req.user.emails;
+
+    if (!checkemail) {
+      let email = req.user.id;
+      let response = await pgdb.getUser(email);
+      if (response.length == 0) {
+        await db.query(
+          `INSERT into users (uid, email, role, props, register_date) values ($1, $2, $3, $4, $5)`,
+          [uid, email, role, props, register_date]
+        );
+        const user = {
+          email: email,
+          devicetoken: uuidv4(),
+          role: "user",
+        };
+
+        const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "30d",
+        });
+        res.render("loginredirect", {
+          layout: "layouts/bootstraplayout",
+          userkey: "synnex",
+          user: email,
+          userid: uid,
+          jwt: jwtToken,
+          redirecturl: "/virtual",
+        });
+      } else {
+        const user = {
+          email: email,
+          devicetoken: uuidv4(),
+          role: "user",
+        };
+
+        const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "30d",
+        });
+        res.render("loginredirect", {
+          layout: "layouts/bootstraplayout",
+          userkey: "synnex",
+          user: email,
+          userid: uid,
+          jwt: jwtToken,
+          redirecturl: "/virtual",
+        });
+      }
+    }
+    let getemail = req.user.emails.map(({ value }) => value);
+    let email = getemail[0];
     let props = { name: req.user.displayName };
     let uid = uuidv4();
     let register_date = new Date();
