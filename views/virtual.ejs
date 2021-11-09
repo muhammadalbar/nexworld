@@ -33,7 +33,7 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="fs-6">BYGE ARENA</p>
+            <p class="h6">BYGE ARENA</p>
           </div>
           <div class="menu px-5 py-2" id="expo">
             <img
@@ -41,7 +41,7 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="fs-6">BYGE EXPO</p>
+            <p class="h6">BYGE EXPO</p>
           </div>
           <div
             class="menu px-5 py-2"
@@ -54,7 +54,7 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="fs-6">WIN PRIZES</p>
+            <p class="h6">WIN PRIZES</p>
           </div>
           <div class="menu px-5 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <img
@@ -62,7 +62,7 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="fs-6">EVENT INFO</p>
+            <p class="h6">EVENT INFO</p>
           </div>
           <div class="menu px-5 py-2" onclick="openNewWindow()">
             <img
@@ -70,7 +70,15 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="fs-6">SPECIAL DEAL</p>
+            <p class="h6">SPECIAL DEAL</p>
+          </div>
+          <div class="menu px-5 py-2">
+            <img
+              src="./img/landing/logout.png"
+              alt="stadium-icon"
+              style="width: 40px"
+            />
+            <p class="h6">LOG OUT</p>
           </div>
         </div>
       </div>
@@ -87,7 +95,7 @@
         <ol id="lead-list">
         </ol>
       </div>
-      <button class="view-btn">view all</button>
+      <button class="view-btn" data-bs-toggle="modal" data-bs-target="#exampleModal1">view all</button>
     </div>
   </div>
 </div>
@@ -148,6 +156,19 @@
   </div>
 </div>
 
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content p-4 modal-black">
+      <div class="modal-header leaderboard">
+        <h1 class="modal-title" id="exampleModalLabel">Leaderboard</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modal-leaderboard" style="color: white;">
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   $("#expo-list").hide()
   function autoPlayYouTubeModal() {
@@ -168,11 +189,11 @@
 
   $("#expo").click(function() {
     $("#expo-list").fadeIn(500);
-    $("#left-card-show").show()
     $("#left-card").hide();
   })
   $("#expo-close").click(function(){
     $("#expo-list").fadeOut(500);
+    $("#left-card").fadeIn(500);
   })
 
   $(document).ready(function () {
@@ -266,8 +287,16 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data.data, "DATA")
-            data.data.map((e)=>{
+            data.data.map((e, i)=> {
+              $("#modal-leaderboard").append(`
+                <div class="row">
+                  <div class="col-4 text-center"><strong>${i+1}.</strong></div>
+                  <div class="col-4 text-center"><h5><strong>${e.ign}</strong></h5></div>
+                  <div class="col-4 text-center"><strong>${e.point}</strong></div>
+                </div>
+              `)
+            })
+            data.data.slice(0,5).map((e)=>{
               $("#lead-list").append(`
               <li>
                 <div>
@@ -316,6 +345,13 @@
     border-radius: 20px;
     position: relative;
     width: 350px;
+  }
+  .modal-black {
+    background: rgba(0, 0, 0, 0.8);
+    border: 6px solid #c65a85;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px #d55085;
+    border-radius: 20px;
   }
   .card-header {
     text-align: center;
@@ -376,7 +412,7 @@
   .view-btn {
     background: transparent;
     /* width: 342px; */
-    height: 72px;
+    height: 60px;
     color: #01cdf2;
     font-size: 20px;
     font-weight: 700;
