@@ -8,20 +8,44 @@ const config = require("../../config/config");
 module.exports = {
   getBanners: async (req, res) => {
     const search = req.query.search || null;
+    const currentPage = req.query.page || 1;
+    const perPage = req.query.perPage || 5;
+    let page = (currentPage - 1) * perPage;
+    let totalData;
     try {
       if (search) {
-        const banner = await db.query(
+        const data = await db.query(
           `SELECT * FROM banners WHERE concat(name, image, imageurl) ILIKE '%'|| $1 ||'%'`,
           [search]
+        );
+        totalData = data.rowCount;
+        const banner = await db.query(
+          `SELECT * FROM banners WHERE concat(name, image, imageurl) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          [search, perPage, page]
         );
         if (!Array.isArray(banner.rows) || !banner.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
-          res.status(200).json({ data: banner.rows });
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: banner.rows,
+          });
         }
       } else {
-        const banners = await db.query("SELECT * FROM banners");
-        res.status(200).json({ data: banners.rows });
+        const data = await db.query("SELECT * FROM banners");
+        totalData = data.rowCount;
+        const banners = await db.query(
+          "SELECT * FROM banners LIMIT $1 OFFSET $2",
+          [perPage, page]
+        );
+        res.status(200).json({
+          totalData,
+          page: parseInt(currentPage),
+          perPage,
+          data: banners.rows,
+        });
       }
     } catch (err) {
       res

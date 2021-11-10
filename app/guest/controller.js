@@ -13,14 +13,24 @@ module.exports = {
     let totalData;
     try {
       if (search) {
-        const guest = await db.query(
-          `SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%'`,
+        const store = await db.query(
+          "SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%'",
           [search]
+        );
+        totalData = store.rowCount;
+        const guest = await db.query(
+          `SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          [search, perPage, page]
         );
         if (!Array.isArray(guest.rows) || !guest.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
-          res.status(200).json({ data: guest.rows });
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: guest.rows,
+          });
         }
       } else {
         const guest = await db.query("SELECT * FROM guests");
