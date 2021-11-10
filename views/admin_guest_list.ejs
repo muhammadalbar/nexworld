@@ -65,12 +65,30 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        10
+        <%= perPage %>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">10</a></li>
-        <li><a class="dropdown-item" href="#">50</a></li>
-        <li><a class="dropdown-item" href="#">100</a></li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/guestlist?search=<%= sch %>&page=1&perPage=10"
+            >10</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/guestlist?search=<%= sch %>&page=1&perPage=50"
+            >50</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/guestlist?search=<%= sch %>&page=1&perPage=100"
+            >100</a
+          >
+        </li>
       </ul>
     </div>
     <div class="my-2">Entires</div>
