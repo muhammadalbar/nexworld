@@ -160,14 +160,17 @@
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content p-4">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><strong id="profile-name">BYGE 2021</strong></h5>
+        <div>
+          <h5 class="modal-title"><strong id="profile-name">BYGE 2021</strong></h5>
+          <p class="text-muted font-weight-lighter"id="profile-email"></p>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         Are you sure want to logout?
       </div>
       <div class="modal-footer">
-        <button class="logout-btn" >Logout</button>
+        <button class="logout-btn" onclick="logout()" >Logout</button>
       </div>
     </div>
   </div>
@@ -266,7 +269,8 @@
 </script>
 
 <script>
-  $('#profile-name').text(localStorage.getItem('synnex-user'))
+  $('#profile-email').text(localStorage.getItem('synnex-user'))
+  $('#profile-name').text(localStorage.getItem('synnex-username'))
   var waitForEl = function (selector, callback) {
     if (jQuery(selector).length) {
       callback();
@@ -340,6 +344,7 @@
 <script>
   function logout() {
         localStorage.removeItem("synnex-user");
+        localStorage.removeItem("synnex-username");
         localStorage.removeItem("synnex-jwt");
 
         window.location.href = "/";
