@@ -12,21 +12,27 @@
         <h5>Welcome To</h5>
         <h4>BYGE 2021</h4>
       </div>
-      <input
-        type="text"
-        class="form-control"
-        id="exampleFormControlInput1"
-        placeholder="Full Name"
-      />
-      <input
-        type="email"
-        class="form-control"
-        id="exampleFormControlInput1"
-        placeholder="Email"
-      />
-      <div class="d-grid gap-2 mb-4">
-        <button type="button" class="btn login-btn d-grid">Login</button>
-      </div>
+      <form action="/signin" method="post">
+        <input
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Full Name"
+          name="name"
+          required
+        />
+        <input
+          type="email"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Email"
+          name="email"
+          required
+        />
+        <div class="d-grid gap-2 mb-4">
+          <button type="submit" class="btn login-btn d-grid">Login</button>
+        </div>
+      </form>
       <p class="option"><span>Or</span></p>
       <div class="d-grid gap-2">
         <a class="btn fb-login btn-lg btn-block" href="/auth/facebook">

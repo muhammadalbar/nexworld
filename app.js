@@ -129,10 +129,15 @@ app.get("/dashFacebook", loginFacebook);
 
 // END LOGIN GOOGLE & FACEBOOK
 
-//Login function
-const login = require("./routes/login");
+// USER LOGIN
+const usersRouter = require("./app/users/router");
+app.use("/", usersRouter);
+// END USER LOGIN
 
-app.use("/login", login);
+//Login function SEBELUMNYA
+// const login = require("./routes/login");
+
+// app.use("/login", login);
 
 app.post("/logout", async (req, res) => {
   res.send("Logout");
