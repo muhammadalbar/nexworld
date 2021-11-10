@@ -173,6 +173,7 @@ router.get("/partnerlist", async (req, res) => {
       layout: "layouts/adminsidenav",
       page: page ? page : 1,
       perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
       sch: search ? search : "",
       data: data.data.length > 0 ? data.data : [],
     });
