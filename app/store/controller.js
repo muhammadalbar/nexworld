@@ -8,20 +8,44 @@ const config = require("../../config/config");
 module.exports = {
   getStores: async (req, res) => {
     const search = req.query.search || null;
+    const currentPage = req.query.page || 1;
+    const perPage = req.query.perPage || 5;
+    let page = (currentPage - 1) * perPage;
+    let totalData;
     try {
       if (search) {
-        const store = await db.query(
-          `SELECT * FROM stores WHERE concat(name, url, image) ILIKE '%'|| $1 ||'%'`,
+        const data = await db.query(
+          "SELECT * FROM stores WHERE concat(name, url, image) ILIKE '%'|| $1 ||'%'",
           [search]
+        );
+        totalData = data.rowCount;
+        const store = await db.query(
+          `SELECT * FROM stores WHERE concat(name, url, image) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          [search, perPage, page]
         );
         if (!Array.isArray(store.rows) || !store.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
-          res.status(200).json({ data: store.rows });
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: store.rows,
+          });
         }
       } else {
-        const stores = await db.query("SELECT * FROM stores");
-        res.status(200).json({ data: stores.rows });
+        const data = await db.query("SELECT * FROM stores ");
+        totalData = data.rowCount;
+        const stores = await db.query(
+          "SELECT * FROM stores LIMIT $1 OFFSET $2",
+          [perPage, page]
+        );
+        res.status(200).json({
+          totalData,
+          page: parseInt(currentPage),
+          perPage,
+          data: stores.rows,
+        });
       }
     } catch (err) {
       res

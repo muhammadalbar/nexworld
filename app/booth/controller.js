@@ -10,14 +10,24 @@ module.exports = {
     let totalData;
     try {
       if (search) {
-        const booth = await db.query(
+        const data = await db.query(
           `SELECT * FROM booths WHERE concat(name, number) ILIKE '%'|| $1 ||'%'`,
           [search]
+        );
+        totalData = data.rowCount;
+        const booth = await db.query(
+          `SELECT * FROM booths WHERE concat(name, number) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          [search, perPage, page]
         );
         if (!Array.isArray(booth.rows) || !booth.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
-          res.status(200).json({ data: booth.rows });
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: booth.rows,
+          });
         }
       } else {
         const booths = await db.query("SELECT * FROM booths");

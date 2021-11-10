@@ -11,14 +11,24 @@ module.exports = {
     let totalData;
     try {
       if (search) {
-        const partner = await db.query(
+        const data = await db.query(
           `SELECT * FROM partners WHERE concat(name, brand, divisi) ILIKE '%'|| $1 ||'%'`,
           [search]
+        );
+        totalData = data.rowCount;
+        const partner = await db.query(
+          `SELECT * FROM partners WHERE concat(name, brand, divisi) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          [search, perPage, page]
         );
         if (!Array.isArray(partner.rows) || !partner.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
-          res.status(200).json({ data: partner.rows });
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: partner.rows,
+          });
         }
       } else {
         const store = await db.query("SELECT * FROM partners");
