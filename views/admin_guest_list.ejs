@@ -143,6 +143,7 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
+              onclick="deleteGuest('<%= item.uid %>')"
             >
               Delete
             </button>
@@ -237,6 +238,25 @@
       .then((res) => {
         if (res.ok) {
           alert("Succes add Guest");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const deleteGuest = (id) => {
+    fetch(`/api/guests/deleteGuest/${id}`, {
+      method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes delete PIC");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
