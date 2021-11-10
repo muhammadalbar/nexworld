@@ -16,6 +16,13 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/robot-konten", async (req, res) => {
+  res.render("robot_konten", {
+    title: "Robot Konten",
+    layout: "layouts/bootstraplayout",
+  });
+});
+
 router.post("/getbriefcase", authMw.authToken(), async (req, res) => {
   try {
     let response = await pgdb.getBriefcase(req.body.email);
