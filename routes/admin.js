@@ -173,6 +173,7 @@ router.get("/partnerlist", async (req, res) => {
       layout: "layouts/adminsidenav",
       page: page ? page : 1,
       perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
       sch: search ? search : "",
       data: data.data.length > 0 ? data.data : [],
     });
@@ -205,11 +206,24 @@ router.get("/editpartner", async (req, res) => {
 });
 
 router.get("/guestlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/guests/getGuests?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
+
     res.render("admin_guest_list", {
       title: "Synnex Admin - Guest List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data.length > 0 ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
