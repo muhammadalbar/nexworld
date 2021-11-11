@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const validator = require("validator");
+const TransactionalEmailsApi = require("sib-api-v3-sdk/src/api/TransactionalEmailsApi");
 
 module.exports = {
   getRobots: async (req, res) => {
@@ -84,31 +85,48 @@ module.exports = {
   },
   addRobot: async (req, res) => {
     try {
-      const { email, password, name } = req.body;
-
+      const { title, description, boothid } = req.body;
       const uid = uuidv4();
       const created_at = new Date();
-      if (email) {
-        if (!validator.isEmail(email)) {
-          res.status(500).json({ message: `Format email tidak sesuai` });
-        } else {
-          if (!password) {
-            await db.query(
-              `INSERT into guests (uid, email, name, created_at) values ($1, $2, $3, $4)`,
-              [uid, email, name, created_at]
-            );
-          } else {
-            let salt = await bcrypt.genSalt(saltRounds);
-            const hash = await bcrypt.hash(password, salt);
-            await db.query(
-              `INSERT into guests (uid, email, password, name, created_at) values ($1, $2, $3, $4, $5)`,
-              [uid, email, hash, name, created_at]
-            );
-          }
-          res
-            .status(200)
-            .json({ status: "Success", message: "Add Guest Success!" });
-        }
+
+      await db.query(
+        `INSERT into robots (uid,title,description,boothid,created_at) values ($1, $2,$3,$4,$5)`,
+        [uid, title, description, boothid, created_at]
+      );
+      res
+        .status(200)
+        .json({ status: "Success", message: "Add Robot Success!" });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: err.message || `Terjadi kesalahan pada server` });
+    }
+  },
+  addRobotContent: async (req, res) => {
+    try {
+      const { title, url, robotid } = req.body;
+      const uid = uuidv4();
+      const created_at = new Date();
+
+      const data = await db.query(
+        `SELECT * FROM robot_contents WHERE robotid = $1`,
+        [robotid]
+      );
+      if (data.rowCount >= 4) {
+        res.status(500).json({
+          status: "Failed",
+          message: "Data Content Robot is maximum!",
+        });
+      } else {
+        await db.query(
+          `INSERT into robot_contents (uid,title,url,robotid,created_at) values ($1, $2,$3,$4,$5)`,
+          [uid, title, url, robotid, created_at]
+        );
+        res.status(200).json({
+          status: "Success",
+          message: "Add Content Robot Success!",
+          data,
+        });
       }
     } catch (err) {
       res
@@ -119,30 +137,33 @@ module.exports = {
   updateRobot: async (req, res) => {
     try {
       const { id } = req.params;
-      const { email, password, name } = req.body;
+      const { title, description } = req.body;
 
-      if (email) {
-        if (!validator.isEmail(email)) {
-          res.status(500).json({ message: `Format email tidak sesuai` });
-        } else {
-          if (!password) {
-            await db.query(
-              `UPDATE guests SET (email, name) = ($2, $3) where uid = $1`,
-              [id, email, name]
-            );
-          } else {
-            let salt = await bcrypt.genSalt(saltRounds);
-            const hash = await bcrypt.hash(password, salt);
-            await db.query(
-              `UPDATE guests SET (email, password, name) = ($2, $3, $4) where uid = $1`,
-              [id, email, hash, name]
-            );
-          }
-          res
-            .status(200)
-            .json({ status: "Success", message: "Update Guest Success!" });
-        }
-      }
+      await db.query(
+        `UPDATE robots SET (title, description) = ($2, $3) where uid = $1`,
+        [id, title, description]
+      );
+      res
+        .status(200)
+        .json({ status: "Success", message: "Update Robot Success!" });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: err.message || `Terjadi kesalahan pada server` });
+    }
+  },
+  updateRobotContent: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, url } = req.body;
+
+      await db.query(
+        `UPDATE robot_contents SET (title, url) = ($2, $3) where uid = $1`,
+        [id, title, url]
+      );
+      res
+        .status(200)
+        .json({ status: "Success", message: "Update Content Robot Success!" });
     } catch (err) {
       res
         .status(500)
@@ -152,28 +173,11 @@ module.exports = {
   deleteRobot: async (req, res) => {
     try {
       const { id } = req.params;
-      await db.query(`DELETE from guests WHERE uid = $1`, [id]);
+      await db.query(`DELETE from robots WHERE uid = $1`, [id]);
+      await db.query(`DELETE from robot_contents WHERE robotid = $1`, [id]);
       res
         .status(200)
-        .json({ status: "Success", message: "Delete Guest Success!" });
-    } catch (err) {
-      res
-        .status(500)
-        .json({ message: err.message || `Terjadi kesalahan pada server` });
-    }
-  },
-  search: async (req, res) => {
-    try {
-      const query = req.query.search;
-      const guest = await db.query(
-        `SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%'`,
-        [query]
-      );
-      if (!Array.isArray(guest.rows) || !guest.rows.length) {
-        res.status(404).json({ message: "Data tidak ditemukan" });
-      } else {
-        res.status(200).json({ data: guest.rows });
-      }
+        .json({ status: "Success", message: "Delete Robot Success!" });
     } catch (err) {
       res
         .status(500)
