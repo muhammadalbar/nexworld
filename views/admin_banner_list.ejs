@@ -198,23 +198,22 @@
       </tr>
     </thead>
     <tbody>
+      <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
+        <th scope="row"><%= index + 1 %></th>
         <td>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/2560px-ASUS_Logo.svg.png"
-            style="width: 150px; height: 30px"
-          />
+          <a href="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>">
+            <img
+              src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+              style="height: 30px"
+          /></a>
         </td>
         <td>
-          <a href="#"
-            ><div class="cut-text">
-              https://nexworld.synnexmetroda ta.com/dwadawdaw dad/dawdfwaw/d
-              aw/d/awd/awdaw/d
-            </div></a
+          <a href="<%= item.url %>"
+            ><div class="cut-text"><%= item.url %></div></a
           >
         </td>
-        <td>Lorem ipsum dolor sit ame</td>
+        <td><%= item.name %></td>
         <td>
           <div>
             <button
@@ -223,6 +222,7 @@
               style="font-size: 10px"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal2"
+              onclick="updatePreview('<%= item.uid %>', '<%= process.env.FRONTEND_ADDRESS + item.imageurl %>', '<%= item.url %>', '<%= item.name %>')"
             >
               Edit
             </button>
@@ -230,78 +230,76 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
-              onclick="deleteBanner()"
+              onclick="deleteBanner('<%= item.uid %>')"
             >
               Delete
             </button>
           </div>
         </td>
       </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/2560px-ASUS_Logo.svg.png"
-            style="width: 150px; height: 30px"
-          />
-        </td>
-        <td>
-          <a href="#"
-            ><div class="cut-text">
-              https://nexworld.synnexmetroda ta.com/dwadawdaw dad/dawdfwaw/d
-              aw/d/awd/awdaw/d
-            </div></a
-          >
-        </td>
-        <td>Lorem ipsum dolor sit ame</td>
-        <td>
-          <div>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal2"
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
+      <% }) %>
     </tbody>
   </table>
+  <div id="total-page" class="visually-hidden"><%= totalPage %></div>
 </div>
 
 <div class="d-flex justify-content-end mt-4">
   <nav>
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">2</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
+    <ul class="pagination"></ul>
   </nav>
 </div>
 <script>
+  let path;
+  let limitVal;
   $(document).ready(() => {
+    path = window.location.pathname;
     const urlParams = new URLSearchParams(window.location.search);
-    const schVal = urlParams.get("sch");
-    console.log(schVal);
+    const schVal = urlParams.get("search") ? urlParams.get("search") : "";
+    const pageVal = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+    limitVal = urlParams.get("perPage")
+      ? parseInt(urlParams.get("perPage"))
+      : 10;
+    const totalPage = parseInt($("#total-page").text());
+    console.log(pageVal, limitVal, totalPage);
+
+    if (pageVal > 1) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal - 1
+      }&perPage=${limitVal}">Previous</a>
+        </li>
+      `);
+    }
+
+    const ses = Math.floor(pageVal / 5);
+    let maxPage = ses + 5;
+    if (maxPage > totalPage) {
+      maxPage = totalPage;
+    }
+    for (let i = ses + 1; i <= maxPage; i++) {
+      if (pageVal == i) {
+        $(".pagination").append(`
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">${i}</span>
+        </li>
+      `);
+      } else {
+        $(".pagination").append(`
+        <li class="page-item"><a class="page-link" href="${path}?search=${schVal}&page=${i}&perPage=${limitVal}">${i}</a></li>
+      `);
+      }
+    }
+
+    if (pageVal < maxPage) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal + 1
+      }&perPage=${limitVal}">Next</a>
+        </li>
+      `);
+    }
 
     upimage.onchange = (evt) => {
       const [file] = upimage.files;
@@ -321,9 +319,23 @@
       }
     };
   });
-  const goSch = () => {
-    console.log($("#sch").val());
+
+  let selectedBanner = "";
+
+  const updatePreview = (id, urlImg, url, desc) => {
+    $("#uppreview").attr("src", urlImg);
+    $("#upurl").val(url);
+    $("#updesc").val(desc);
+    selectedBanner = id;
   };
+
+  const goSch = () => {
+    const query = $("#sch").val();
+    window.location.replace(
+      `${path}?search=${query}&page=1&perPage=${limitVal}`
+    );
+  };
+
   const postNewBanner = () => {
     if (!$("#image")[0].files[0]) {
       alert("Please add image");
@@ -335,6 +347,7 @@
       formData.append("image", $("#image")[0].files[0]);
 
       let requestHeaders = new Headers();
+      requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
       requestHeaders.delete("Content-Type");
 
       fetch("/api/banners/addBanner", {
@@ -352,20 +365,22 @@
         });
     }
   };
+
   const updateBanner = () => {
     console.log("uploading...");
     let formData = new FormData();
     formData.append("name", $("#updesc").val());
     formData.append("url", $("#upurl").val());
 
-    if ($("#image")[0].files[0]) {
+    if ($("#upimage")[0].files[0]) {
       formData.append("image", $("#upimage")[0].files[0]);
     }
 
     let requestHeaders = new Headers();
+    requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
     requestHeaders.delete("Content-Type");
 
-    fetch("/api/banners/updateBanner/4f07b268-1983-49ac-9f46-10d3abd2c837", {
+    fetch(`/api/banners/updateBanner/${selectedBanner}`, {
       method: "PUT",
       headers: requestHeaders,
       body: formData,
@@ -380,8 +395,11 @@
       });
   };
   const deleteBanner = (id) => {
-    fetch(`/api/banners/deleteBanner/4f07b268-1983-49ac-9f46-10d3abd2c837`, {
+    fetch(`/api/banners/deleteBanner/${id}`, {
       method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
     })
       .then((res) => {
         if (res.ok) {
