@@ -6,6 +6,8 @@ const defaultClient = SibApiV3Sdk.ApiClient.instance;
 
 //MIDDLEWARE//
 const authMw = require("../middleware/authToken");
+// const { isLogin } = require("../middleware/auth");
+// router.use(isLogin);
 
 //Routes
 router.get("/", async (req, res) => {

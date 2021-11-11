@@ -39,6 +39,7 @@ const store = require("./app/store/router");
 const banner = require("./app/banner/router");
 const annotation = require("./app/annotation/router");
 const guest = require("./app/guest/router");
+const robot = require("./app/robot/router");
 
 // URL API
 const URL = `/api`;
@@ -50,6 +51,7 @@ app.use(`${URL}/stores`, store);
 app.use(`${URL}/banners`, banner);
 app.use(`${URL}/annotations`, annotation);
 app.use(`${URL}/guests`, guest);
+app.use(`${URL}/robots`, robot);
 
 /*
 const cors = require('cors')

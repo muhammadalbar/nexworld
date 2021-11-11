@@ -23,7 +23,7 @@ module.exports = {
           `SELECT * FROM banners WHERE concat(name, image, imageurl) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
           [search, perPage, page]
         );
-        if (!Array.isArray(banner.rows) || !banner.rows.length) {
+        if (!Array.isArray(data.rows) || !data.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
           res.status(200).json({
@@ -84,7 +84,7 @@ module.exports = {
         let filename = req.file.filename + "." + originaExt;
         let target_path = path.resolve(
           config.rootPath,
-          `/public/banner/${filename}`
+          `public/banner/${filename}`
         );
 
         const src = fs.createReadStream(tmp_path);
@@ -96,7 +96,6 @@ module.exports = {
           try {
             const image = filename;
             const imageurl = `/public/banner/${filename}`;
-
             await db.query(
               `INSERT into banners (uid, name, url, image, created_at, imageurl) values ($1, $2, $3, $4, $5, $6)`,
               [uid, name, url, image, created_at, imageurl]

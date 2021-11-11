@@ -23,7 +23,7 @@ module.exports = {
           `SELECT * FROM stores WHERE concat(name, url, image) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
           [search, perPage, page]
         );
-        if (!Array.isArray(store.rows) || !store.rows.length) {
+        if (!Array.isArray(data.rows) || !data.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
           res.status(200).json({
