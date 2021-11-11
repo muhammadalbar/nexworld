@@ -34,24 +34,38 @@ module.exports = {
           });
         }
       } else {
-        const robot = await db.query(
-          "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
-        );
-        totalData = robot.rowCount;
+        if (perPage >= 0) {
+          const robot = await db.query(
+            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+          );
+          totalData = robot.rowCount;
 
-        const robots = await db.query(
-          "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid LIMIT $1 OFFSET $2",
-          [perPage, page]
-        );
-        const robotContents = await db.query(
-          "SELECT (robot_contents.uid),(robot_contents.title),url FROM robots JOIN robot_contents ON robots.uid = robot_contents.robotid"
-        );
-        res.status(200).json({
-          totalData,
-          page: parseInt(currentPage),
-          perPage,
-          data: robots.rows,
-        });
+          const robots = await db.query(
+            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid LIMIT $1 OFFSET $2",
+            [perPage, page]
+          );
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: robots.rows,
+          });
+        } else {
+          const robot = await db.query(
+            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+          );
+          totalData = robot.rowCount;
+
+          const robots = await db.query(
+            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+          );
+          res.status(200).json({
+            totalData,
+            page: parseInt(currentPage),
+            perPage,
+            data: robots.rows,
+          });
+        }
       }
     } catch (err) {
       res
