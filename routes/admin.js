@@ -281,6 +281,7 @@ router.get("/bannerlist", async (req, res) => {
 router.get("/robotlist", async (req, res) => {
   const { page, perPage, search } = req.query;
   try {
+    const allBooths = await pgdb.getBooths();
     const resp = await fetch(
       process.env.FRONTEND_ADDRESS +
         `/api/guests/getGuests?page=${page ? page : 1}&perPage=${
@@ -297,6 +298,7 @@ router.get("/robotlist", async (req, res) => {
       totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
       sch: search ? search : "",
       data: data.data ? data.data : [],
+      booths: allBooths,
     });
   } catch (err) {
     res.send(err.toString());

@@ -225,10 +225,11 @@
     const name = $("#name").val();
     const email = $("#email").val();
     console.log("NAME", name, email);
-    fetch("/api/", {
+    fetch("/api/guests/addGuest", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
         name: $("#name").val(),

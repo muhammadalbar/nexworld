@@ -1,58 +1,152 @@
-<h1>Booths List</h1>
+<div class="d-flex justify-content-between">
+  <div><h1>Booths List</h1></div>
+  <div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      style="background-color: #0b2559; width: 200px; font-size: 12px"
+    >
+      <span data-feather="plus"></span>
+      Add Booth
+    </button>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
+          Add New Booth
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="name" class="form-label" style="font-weight: 700"
+            >Nama Booth</label
+          >
+          <input type="text" class="form-control" id="name" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="addBooth()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="alert-card" class="alert alert-success" role="alert">
-    <%= locals.message ? message : null %>
+  <%= locals.message ? message : null %>
 </div>
 <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Number</th>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% locals.booths ? booths.forEach(function(booth){  %>
-        <tr>
-            <th scope="row">
-                <%= booth.number %>
-            </th>
-            <td>
-                <%= booth.name %>
-            </td>
-            <td><button type="button" class="btn btn-danger" onClick="deleteBooth('<%= booth.uid %>')">Delete</button></td>
-        </tr>
-        <% }) : '' %>
-    </tbody>
+  <thead>
+    <tr>
+      <th scope="col">Number</th>
+      <th scope="col">Name</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% locals.booths ? booths.forEach(function(booth){ %>
+    <tr>
+      <th scope="row"><%= booth.number %></th>
+      <td><%= booth.name %></td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-danger"
+          onClick="deleteBooth('<%= booth.uid %>')"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    <% }) : '' %>
+  </tbody>
 </table>
+<div id="total-booths" class="visually-hidden"><%= locals.booths.length %></div>
 <script>
-function deleteBooth(uid) {
-    fetch('/booths/delete', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('synnex-admin-jwt')
-            },
-            body: JSON.stringify({
-                uid
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.location.replace("/admin/booths" + '?message=1');
-        })
-        .catch(error => {
-            localStorage.removeItem("synnex-admin-user");
-            localStorage.removeItem("synnex-admin-jwt");
-            window.location.replace('/adminlogin?message=2')
-        })
-}
+  function deleteBooth(uid) {
+    fetch("/booths/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("synnex-admin-jwt"),
+      },
+      body: JSON.stringify({
+        uid,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        window.location.replace("/admin/booths" + "?message=1");
+      })
+      .catch((error) => {
+        localStorage.removeItem("synnex-admin-user");
+        localStorage.removeItem("synnex-admin-jwt");
+        window.location.replace("/adminlogin?message=2");
+      });
+  }
 
-const urlParams = new URLSearchParams(window.location.search);
-const message = urlParams.get('message');
+  const urlParams = new URLSearchParams(window.location.search);
+  const message = urlParams.get("message");
 
-if (message) {
-    $('#alert-card').show()
-} else {
-    $('#alert-card').hide()
-}
+  if (message) {
+    $("#alert-card").show();
+  } else {
+    $("#alert-card").hide();
+  }
+
+  const addBooth = () => {
+    fetch("/api/booths/addBooth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
+      },
+      body: JSON.stringify({
+        number: parseInt($("#total-booths").text()) + 1,
+        name: $("#name").val(),
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes add Booth");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
 </script>
