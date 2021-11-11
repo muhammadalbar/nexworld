@@ -345,10 +345,11 @@
 
   let idSelectPIC = "";
   const editPIC = (id, nama, email, hp, password) => {
+    console.log(hp, password);
     idSelectPIC = id;
     $("#upname").val(nama);
     $("#upemail").val(email);
-    $("#uphp").val(hp);
+    $("#uphp").val(parseInt(hp));
   };
   const updatePIC = () => {
     let setData = {
@@ -363,6 +364,7 @@
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify(setData),
     })
@@ -383,6 +385,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
         partnerid: id,
@@ -407,6 +410,9 @@
   const deletePIC = (id) => {
     fetch(`/api/pics/deletePic/${id}`, {
       method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
     })
       .then((res) => {
         if (res.ok) {
@@ -425,6 +431,7 @@
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
         name: $("#partname").val(),

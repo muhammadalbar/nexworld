@@ -175,7 +175,7 @@ router.get("/partnerlist", async (req, res) => {
       perPage: perPage ? perPage : 10,
       totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
       sch: search ? search : "",
-      data: data.data.length > 0 ? data.data : [],
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -223,7 +223,7 @@ router.get("/guestlist", async (req, res) => {
       perPage: perPage ? perPage : 10,
       totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
       sch: search ? search : "",
-      data: data.data.length > 0 ? data.data : [],
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -231,11 +231,23 @@ router.get("/guestlist", async (req, res) => {
 });
 
 router.get("/storelist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/stores/getStores?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
     res.render("admin_store_list", {
       title: "Synnex Admin - Store List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -243,11 +255,23 @@ router.get("/storelist", async (req, res) => {
 });
 
 router.get("/bannerlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
     res.render("admin_banner_list", {
       title: "Synnex Admin - Banner List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -272,7 +296,7 @@ router.get("/robotlist", async (req, res) => {
       perPage: perPage ? perPage : 10,
       totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
       sch: search ? search : "",
-      data: data.data.length > 0 ? data.data : [],
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());

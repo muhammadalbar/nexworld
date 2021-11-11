@@ -156,6 +156,7 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
+              onclick="deletePartner('<%= item.uid %>')"
             >
               Delete
             </button>
@@ -241,6 +242,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
         name: $("#pt").val(),
@@ -251,6 +253,25 @@
       .then((res) => {
         if (res.ok) {
           alert("Succes add Partner");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const deletePartner = (id) => {
+    fetch(`/api/partners/deletePartner/${id}`, {
+      method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes delete Partner");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
