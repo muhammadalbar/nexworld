@@ -2,6 +2,7 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const path = require("path");
+const fetch = require("cross-fetch");
 
 const pgdb = require("./db/pg");
 const dotenv = require("dotenv");
@@ -78,8 +79,28 @@ app.get("/", (req, res) => {
   res.render("index", { layout: "layouts/bootstraplayout" });
 });
 
-app.get("/special-deal", (req, res) => {
-  res.render("special_deal", { layout: "layouts/bootstraplayout" });
+app.get("/special-deal", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+
+    const store = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/stores/getStores?page=1&perPage=10000`
+    );
+    const dataStore = await store.json();
+
+    res.render("special_deal", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data,
+      store: dataStore.data,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
 });
 
 //Auth
