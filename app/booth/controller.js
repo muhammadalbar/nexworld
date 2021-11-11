@@ -19,7 +19,7 @@ module.exports = {
           `SELECT * FROM booths WHERE concat(name, number) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
           [search, perPage, page]
         );
-        if (!Array.isArray(booth.rows) || !booth.rows.length) {
+        if (!Array.isArray(data.rows) || !data.rows.length) {
           res.status(404).json({ message: "Data tidak ditemukan" });
         } else {
           res.status(200).json({

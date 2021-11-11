@@ -5,7 +5,7 @@ const saltRounds = 10;
 const validator = require("validator");
 
 module.exports = {
-  getGuests: async (req, res) => {
+  getRobots: async (req, res) => {
     const search = req.query.search || null;
     const currentPage = req.query.page || 1;
     const perPage = req.query.perPage || 5;
@@ -14,12 +14,12 @@ module.exports = {
     try {
       if (search) {
         const data = await db.query(
-          "SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%'",
+          "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid WHERE concat(name,title) ILIKE '%'|| $1 ||'%'",
           [search]
         );
         totalData = data.rowCount;
-        const guest = await db.query(
-          `SELECT * FROM guests WHERE concat(email, name) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+        const robot = await db.query(
+          `SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid WHERE concat(name,title) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
           [search, perPage, page]
         );
         if (!Array.isArray(data.rows) || !data.rows.length) {
@@ -29,22 +29,27 @@ module.exports = {
             totalData,
             page: parseInt(currentPage),
             perPage,
-            data: guest.rows,
+            data: robot.rows,
           });
         }
       } else {
-        const guest = await db.query("SELECT * FROM guests");
-        totalData = guest.rowCount;
+        const robot = await db.query(
+          "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+        );
+        totalData = robot.rowCount;
 
-        const guests = await db.query(
-          "SELECT * FROM guests LIMIT $1 OFFSET $2",
+        const robots = await db.query(
+          "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid LIMIT $1 OFFSET $2",
           [perPage, page]
+        );
+        const robotContents = await db.query(
+          "SELECT (robot_contents.uid),(robot_contents.title),url FROM robots JOIN robot_contents ON robots.uid = robot_contents.robotid"
         );
         res.status(200).json({
           totalData,
           page: parseInt(currentPage),
           perPage,
-          data: guests.rows,
+          data: robots.rows,
         });
       }
     } catch (err) {
@@ -53,21 +58,31 @@ module.exports = {
         .json({ message: err.message || `Terjadi kesalahan pada server` });
     }
   },
-  getGuest: async (req, res) => {
+  getRobot: async (req, res) => {
     try {
       const { id } = req.params;
-      const guest = await db.query(`SELECT * FROM guests WHERE uid = $1`, [id]);
-      if (!guest.rows[0]) {
+      const robot = await db.query(
+        `SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid WHERE robots.uid = $1`,
+        [id]
+      );
+      const robotContents = await db.query(
+        "SELECT uid,title,url FROM robot_contents WHERE robotid = $1",
+        [id]
+      );
+      const obj1 = robot.rows[0];
+      const obj2 = { contents: robotContents.rows };
+      const data = Object.assign(obj1, obj2);
+      if (!robot.rows[0]) {
         res.status(404).json({ message: "Data tidak ditemukan" });
       }
-      res.status(200).json({ data: guest.rows[0] });
+      res.status(200).json({ data });
     } catch (err) {
       res
         .status(500)
         .json({ message: err.message || `Terjadi kesalahan pada server` });
     }
   },
-  addGuest: async (req, res) => {
+  addRobot: async (req, res) => {
     try {
       const { email, password, name } = req.body;
 
@@ -101,7 +116,7 @@ module.exports = {
         .json({ message: err.message || `Terjadi kesalahan pada server` });
     }
   },
-  updateGuest: async (req, res) => {
+  updateRobot: async (req, res) => {
     try {
       const { id } = req.params;
       const { email, password, name } = req.body;
@@ -134,7 +149,7 @@ module.exports = {
         .json({ message: err.message || `Terjadi kesalahan pada server` });
     }
   },
-  deleteGuest: async (req, res) => {
+  deleteRobot: async (req, res) => {
     try {
       const { id } = req.params;
       await db.query(`DELETE from guests WHERE uid = $1`, [id]);
