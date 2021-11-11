@@ -198,4 +198,17 @@ module.exports = {
         .json({ message: err.message || `Terjadi kesalahan pada server` });
     }
   },
+  deleteRobotContent: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.query(`DELETE from robot_contents WHERE uid = $1`, [id]);
+      res
+        .status(200)
+        .json({ status: "Success", message: "Delete Robot Content Success!" });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: err.message || `Terjadi kesalahan pada server` });
+    }
+  },
 };

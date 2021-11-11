@@ -9,6 +9,7 @@ const {
   updateRobot,
   updateRobotContent,
   deleteRobot,
+  deleteRobotContent,
 } = require("./controller");
 
 router.get("/getRobots", getRobots);
@@ -20,5 +21,6 @@ router.post("/addRobotContent", addRobotContent);
 router.put("/updateRobot/:id", updateRobot);
 router.put("/updateRobotContent/:id", updateRobotContent);
 router.delete("/deleteRobot/:id", deleteRobot);
+router.delete("/deleteRobotContent/:id", deleteRobotContent);
 
 module.exports = router;
