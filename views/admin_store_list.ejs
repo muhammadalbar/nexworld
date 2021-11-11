@@ -41,12 +41,7 @@
           <label for="upstore-name" class="form-label" style="font-weight: 700"
             >Store Name</label
           >
-          <input
-            type="text"
-            class="form-control"
-            id="upstore-name"
-            value="<%= sch %>"
-          />
+          <input type="text" class="form-control" id="upstore-name" />
         </div>
         <div class="mb-3">
           <label for="upurl" class="form-label" style="font-weight: 700"
@@ -153,12 +148,30 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        10
+        <%= perPage %>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">10</a></li>
-        <li><a class="dropdown-item" href="#">50</a></li>
-        <li><a class="dropdown-item" href="#">100</a></li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/storelist?search=<%= sch %>&page=1&perPage=10"
+            >10</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/storelist?search=<%= sch %>&page=1&perPage=50"
+            >50</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/storelist?search=<%= sch %>&page=1&perPage=100"
+            >100</a
+          >
+        </li>
       </ul>
     </div>
     <div class="my-2">Entires</div>
@@ -203,19 +216,18 @@
       </tr>
     </thead>
     <tbody>
+      <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
+        <th scope="row"><%= index + 1 %></th>
         <td>
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/2560px-ASUS_Logo.svg.png"
-            style="width: 150px; height: 30px"
+            src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+            style="height: 30px"
           />
         </td>
-        <td>Ottodwda</td>
+        <td><%= item.name %></td>
         <td>
-          <a style="color: blue" href="#"
-            >https://nexworld.synnexmetrodata.com/</a
-          >
+          <a style="color: blue" href="#"><%= item.url %></a>
         </td>
         <td>
           <div>
@@ -225,6 +237,7 @@
               style="font-size: 10px"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal2"
+              onclick="updatePreview('<%= item.uid %>', '<%= item.name %>', '<%= item.url %>', '<%= process.env.FRONTEND_ADDRESS + item.imageurl %>')"
             >
               Edit
             </button>
@@ -232,73 +245,76 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
-              onclick="deleteStore()"
+              onclick="deleteStore('<%= item.uid %>')"
             >
               Delete
             </button>
           </div>
         </td>
       </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/2560px-ASUS_Logo.svg.png"
-            style="width: 150px; height: 30px"
-          />
-        </td>
-        <td>Ottodwda</td>
-        <td>
-          <a style="color: blue" href="#"
-            >https://nexworld.synnexmetrodata.com/</a
-          >
-        </td>
-        <td>
-          <div>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
+      <% }) %>
     </tbody>
   </table>
+  <div id="total-page" class="visually-hidden"><%= totalPage %></div>
 </div>
 
 <div class="d-flex justify-content-end mt-4">
   <nav>
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">2</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
+    <ul class="pagination"></ul>
   </nav>
 </div>
 <script>
+  let path;
+  let limitVal;
   $(document).ready(() => {
+    path = window.location.pathname;
     const urlParams = new URLSearchParams(window.location.search);
-    const schVal = urlParams.get("sch");
-    console.log(schVal);
+    const schVal = urlParams.get("search") ? urlParams.get("search") : "";
+    const pageVal = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+    limitVal = urlParams.get("perPage")
+      ? parseInt(urlParams.get("perPage"))
+      : 10;
+    const totalPage = parseInt($("#total-page").text());
+    console.log(pageVal, limitVal, totalPage);
+
+    if (pageVal > 1) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal - 1
+      }&perPage=${limitVal}">Previous</a>
+        </li>
+      `);
+    }
+
+    const ses = Math.floor(pageVal / 5);
+    let maxPage = ses + 5;
+    if (maxPage > totalPage) {
+      maxPage = totalPage;
+    }
+    for (let i = ses + 1; i <= maxPage; i++) {
+      if (pageVal == i) {
+        $(".pagination").append(`
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">${i}</span>
+        </li>
+      `);
+      } else {
+        $(".pagination").append(`
+        <li class="page-item"><a class="page-link" href="${path}?search=${schVal}&page=${i}&perPage=${limitVal}">${i}</a></li>
+      `);
+      }
+    }
+
+    if (pageVal < maxPage) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal + 1
+      }&perPage=${limitVal}">Next</a>
+        </li>
+      `);
+    }
 
     upimage.onchange = (evt) => {
       const [file] = upimage.files;
@@ -317,12 +333,24 @@
         preview.src = "/img/noimage.png";
       }
     };
-
-    console.log("<%= process.env.FRONTEND_ADDRESS %>");
   });
-  const goSch = () => {
-    console.log($("#sch").val());
+
+  let selectedStore = "";
+
+  const updatePreview = (id, name, url, urlImg) => {
+    $("#uppreview").attr("src", urlImg);
+    $("#upstore-name").val(name);
+    $("#upurl").val(url);
+    selectedStore = id;
   };
+
+  const goSch = () => {
+    const query = $("#sch").val();
+    window.location.replace(
+      `${path}?search=${query}&page=1&perPage=${limitVal}`
+    );
+  };
+
   const postNewStore = () => {
     if (!$("#image")[0].files[0]) {
       alert("Please add image");
@@ -334,6 +362,7 @@
       formData.append("image", $("#image")[0].files[0]);
 
       let requestHeaders = new Headers();
+      requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
       requestHeaders.delete("Content-Type");
 
       fetch("/api/stores/addStore", {
@@ -351,19 +380,21 @@
         });
     }
   };
+
   const updateStore = () => {
-    console.log("uploading...");
+    console.log("uploading...", selectedStore);
     let formData = new FormData();
     formData.append("name", $("#upstore-name").val());
     formData.append("url", $("#upurl").val());
-    if ($("#image")[0].files[0]) {
+    if ($("#upimage")[0].files[0]) {
       formData.append("image", $("#upimage")[0].files[0]);
     }
 
     let requestHeaders = new Headers();
+    requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
     requestHeaders.delete("Content-Type");
 
-    fetch("/api/stores/updateStore/7f7d4bcb-5179-4859-b50c-2fdcdba1a9ba", {
+    fetch(`/api/stores/updateStore/${selectedStore}`, {
       method: "PUT",
       headers: requestHeaders,
       body: formData,
@@ -378,8 +409,11 @@
       });
   };
   const deleteStore = (id) => {
-    fetch(`/api/stores/deleteStore/8d5ccb92-e1e3-4d2a-aad3-4a1b81e50240`, {
+    fetch(`/api/stores/deleteStore/${id}`, {
       method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
     })
       .then((res) => {
         if (res.ok) {
