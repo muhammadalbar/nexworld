@@ -5,18 +5,20 @@ const {
   getRobots,
   getRobot,
   addRobot,
+  addRobotContent,
   updateRobot,
+  updateRobotContent,
   deleteRobot,
-  search,
 } = require("./controller");
 
 router.get("/getRobots", getRobots);
-router.get("/", search);
 router.get("/getRobot/:id", getRobot);
 
 router.use(isAllow);
 router.post("/addRobot", addRobot);
+router.post("/addRobotContent", addRobotContent);
 router.put("/updateRobot/:id", updateRobot);
+router.put("/updateRobotContent/:id", updateRobotContent);
 router.delete("/deleteRobot/:id", deleteRobot);
 
 module.exports = router;
