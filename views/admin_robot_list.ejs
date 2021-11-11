@@ -21,10 +21,16 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="booth" class="form-label" style="font-weight: 700"
-            >Nama Booth</label
+          <label for="annBooth" class="form-label"
+            ><strong>Booth Name</strong></label
           >
-          <input type="text" class="form-control" id="booth" />
+          <select id="annBooth" name="boothid" class="form-select">
+            <% booths ? booths.forEach(function(booth){ %>
+            <option value="<%= booth.uid %>">
+              <%= booth.number %>. <%= booth.name %>
+            </option>
+            <% }) : '' %>
+          </select>
         </div>
         <div class="mb-3">
           <label for="title" class="form-label" style="font-weight: 700"
@@ -51,7 +57,7 @@
           type="button"
           class="btn btn-primary px-4"
           style="background-color: #0b2559"
-          onclick="addPartner()"
+          onclick="addRobot()"
         >
           Save
         </button>
@@ -236,28 +242,29 @@
   const goEdit = (id) => {
     window.location.replace(`/admin/editrobot?id=${id}`);
   };
-  const addPartner = () => {
-    fetch("/api/partners/addPartner", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: $("#pt").val(),
-        brand: $("#brand").val(),
-        divisi: $("#divisi").val(),
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert("Succes add Partner");
-          window.location.reload();
-        } else {
-          alert(`${res.status} - ${res.statusText}`);
-        }
-      })
-      .catch((err) => {
-        alert(`${err}`);
-      });
+  const addRobot = () => {
+    console.log($("#annBooth").val());
+    // fetch("/api/partners/addPartner", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     name: $("#pt").val(),
+    //     brand: $("#brand").val(),
+    //     divisi: $("#divisi").val(),
+    //   }),
+    // })
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       alert("Succes add Partner");
+    //       window.location.reload();
+    //     } else {
+    //       alert(`${res.status} - ${res.statusText}`);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     alert(`${err}`);
+    //   });
   };
 </script>
