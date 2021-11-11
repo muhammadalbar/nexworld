@@ -20,16 +20,16 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="upname" class="form-label" style="font-weight: 700"
+          <label for="uptitle" class="form-label" style="font-weight: 700"
             >Judul Konten</label
           >
-          <input type="text" class="form-control" id="upname" />
+          <input type="text" class="form-control" id="uptitle" />
         </div>
         <div class="mb-3">
-          <label for="upemail" class="form-label" style="font-weight: 700"
+          <label for="upurl" class="form-label" style="font-weight: 700"
             >Url</label
           >
-          <input type="text" class="form-control" id="upemail" />
+          <input type="text" class="form-control" id="upurl" />
         </div>
       </div>
       <div class="modal-footer">
@@ -75,16 +75,16 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="name" class="form-label" style="font-weight: 700"
+          <label for="title" class="form-label" style="font-weight: 700"
             >Judul Konten</label
           >
-          <input type="text" class="form-control" id="name" />
+          <input type="text" class="form-control" id="title" />
         </div>
         <div class="mb-3">
-          <label for="email" class="form-label" style="font-weight: 700"
+          <label for="url" class="form-label" style="font-weight: 700"
             >Url</label
           >
-          <input type="text" class="form-control" id="email" />
+          <input type="text" class="form-control" id="url" />
         </div>
       </div>
       <div class="modal-footer">
@@ -124,7 +124,7 @@
       type="button"
       class="btn btn-primary px-4"
       style="background-color: #0b2559"
-      onclick="updatePartner()"
+      onclick="updateRobot()"
     >
       Save
     </button>
@@ -133,36 +133,37 @@
 <div class="rounded shadow p-4 container">
   <div class="row">
     <div class="col">
-      <label for="partbrand" class="form-label" style="font-weight: 700"
+      <label for="robotbooth" class="form-label" style="font-weight: 700"
         >Nama Booth</label
       >
       <input
         type="text"
         class="form-control"
-        id="partbrand"
-        value="<%= brand %>"
+        id="robotbooth"
+        value="<%= name %>"
+        disabled
       />
     </div>
     <div class="col">
-      <label for="partname" class="form-label" style="font-weight: 700"
+      <label for="robottitle" class="form-label" style="font-weight: 700"
         >Title</label
       >
       <input
         type="text"
         class="form-control"
-        id="partname"
-        value="<%= name %>"
+        id="robottitle"
+        value="<%= title %>"
       />
     </div>
     <div class="col">
-      <label for="partdivisi" class="form-label" style="font-weight: 700"
+      <label for="robotdesc" class="form-label" style="font-weight: 700"
         >Description</label
       >
       <input
         type="text"
         class="form-control"
-        id="partdivisi"
-        value="<%= divisi %>"
+        id="robotdesc"
+        value="<%= description %>"
       />
     </div>
   </div>
@@ -203,7 +204,6 @@
       type="button"
       class="btn btn-primary mx-1"
       style="background-color: #0b2559"
-      onclick="goSch()"
     >
       <span data-feather="search"></span>
     </button>
@@ -230,10 +230,11 @@
       </tr>
     </thead>
     <tbody id="t-body">
+      <% contents.map((item, index)=>{ %>
       <tr>
-        <td>judull</td>
+        <td><%= item.title %></td>
         <td>
-          <div class="cut-text">url</div>
+          <div class="cut-text"><%= item.url %></div>
         </td>
         <td>
           <div>
@@ -243,6 +244,7 @@
               style="font-size: 10px"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal2"
+              onclick="editKonten('<%= item.uid %>', '<%= item.title %>', '<%= item.url %>')"
             >
               Edit
             </button>
@@ -250,12 +252,14 @@
               type="button"
               class="btn btn-light mx-1 border border-dark"
               style="font-size: 10px"
+              onclick="deleteKonten('<%= item.uid %>')"
             >
               Delete
             </button>
           </div>
         </td>
       </tr>
+      <% }) %>
     </tbody>
   </table>
 </div>
@@ -281,7 +285,7 @@
                 style="font-size: 10px"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal2"
-                onclick="editPIC('', '', '', '', '')"
+                onclick="editKonten('', '', '', '', '')"
               >
                 Edit
               </button>
@@ -289,7 +293,7 @@
                 type="button"
                 class="btn btn-light mx-1 border border-dark"
                 style="font-size: 10px"
-                onclick="deletePIC('')"
+                onclick="deleteKonten('')"
               >
                 Delete
               </button>
@@ -302,32 +306,28 @@
     window.location.replace("/admin/robotlist");
   };
 
-  let idSelectPIC = "";
-  const editPIC = (id, nama, email, hp, password) => {
-    idSelectPIC = id;
-    $("#upname").val(nama);
-    $("#upemail").val(email);
-    $("#uphp").val(hp);
+  let idSelectedKonten = "";
+  const editKonten = (id, title, url) => {
+    idSelectedKonten = id;
+    $("#uptitle").val(title);
+    $("#upurl").val(url);
   };
   const updateKonten = () => {
     let setData = {
-      name: $("#upname").val(),
-      email: $("#upemail").val(),
-      phone: $("#uphp").val(),
+      title: $("#uptitle").val(),
+      url: $("#upurl").val(),
     };
-    if ($("#uppassword").val()) {
-      setData = { ...setData, password: $("#uppassword").val() };
-    }
-    fetch(`/api/pics/updatePic/${idSelectPIC}`, {
+    fetch(`/api/robots/updateRobotContent/${idSelectedKonten}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify(setData),
     })
       .then((res) => {
         if (res.ok) {
-          alert("Succes update PIC");
+          alert("Succes update Konten");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
@@ -338,22 +338,21 @@
       });
   };
   const addKonten = () => {
-    fetch(`/api/pics/addPic`, {
+    fetch(`/api/robots/addRobotContent`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
-        partnerid: id,
-        name: $("#name").val(),
-        email: $("#email").val(),
-        phone: $("#hp").val(),
-        password: $("#password").val(),
+        robotid: id,
+        title: $("#title").val(),
+        url: $("#url").val(),
       }),
     })
       .then((res) => {
         if (res.ok) {
-          alert("Succes add PIC");
+          alert("Succes add Konten");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
@@ -363,13 +362,17 @@
         alert(`${err}`);
       });
   };
-  const deletePIC = (id) => {
-    fetch(`/api/pics/deletePic/${id}`, {
+  const deleteKonten = (idDelete) => {
+    console.log(idDelete);
+    fetch(`/api/robots/deleteRobotContent/${idDelete}`, {
       method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
     })
       .then((res) => {
         if (res.ok) {
-          alert("Succes delete PIC");
+          alert("Succes delete Konten");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
@@ -379,21 +382,21 @@
         alert(`${err}`);
       });
   };
-  const updatePartner = () => {
-    fetch(`/api/partners/updatePartner/${id}`, {
+  const updateRobot = () => {
+    fetch(`/api/robots/updateRobot/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
-        name: $("#partname").val(),
-        brand: $("#partbrand").val(),
-        divisi: $("#partdivisi").val(),
+        title: $("#robottitle").val(),
+        description: $("#robotdesc").val(),
       }),
     })
       .then((res) => {
         if (res.ok) {
-          alert("Succes update Partner");
+          alert("Succes update Robot");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);

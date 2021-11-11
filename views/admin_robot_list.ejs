@@ -82,21 +82,21 @@
         <li>
           <a
             class="dropdown-item"
-            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=10"
+            href="/admin/robotlist?search=<%= sch %>&page=1&perPage=10"
             >10</a
           >
         </li>
         <li>
           <a
             class="dropdown-item"
-            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=50"
+            href="/admin/robotlist?search=<%= sch %>&page=1&perPage=50"
             >50</a
           >
         </li>
         <li>
           <a
             class="dropdown-item"
-            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=100"
+            href="/admin/robotlist?search=<%= sch %>&page=1&perPage=100"
             >100</a
           >
         </li>
@@ -140,21 +140,23 @@
         <th scope="col">Nama Booth</th>
         <th scope="col">Title</th>
         <th scope="col">Description</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      <!-- <% data.map((item, index)=>{ %> -->
+      <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
-        <td>name</td>
-        <td>dadwadawwwwwadaefefe</td>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= item.name %></td>
+        <td><%= item.title %></td>
+        <td><%= item.description %></td>
         <td>
           <div>
             <button
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
-              onclick="goEdit()"
+              onclick="goEdit('<%= item.uid %>')"
             >
               Edit
             </button>
@@ -162,13 +164,14 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
+              onclick="deleteRobot('<%= item.uid %>')"
             >
               Delete
             </button>
           </div>
         </td>
       </tr>
-      <!-- <% }) %> -->
+      <% }) %>
     </tbody>
   </table>
   <div id="total-page" class="visually-hidden"><%= totalPage %></div>
@@ -243,28 +246,47 @@
     window.location.replace(`/admin/editrobot?id=${id}`);
   };
   const addRobot = () => {
-    console.log($("#annBooth").val());
-    // fetch("/api/partners/addPartner", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: $("#pt").val(),
-    //     brand: $("#brand").val(),
-    //     divisi: $("#divisi").val(),
-    //   }),
-    // })
-    //   .then((res) => {
-    //     if (res.ok) {
-    //       alert("Succes add Partner");
-    //       window.location.reload();
-    //     } else {
-    //       alert(`${res.status} - ${res.statusText}`);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     alert(`${err}`);
-    //   });
+    fetch("/api/robots/addRobot", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
+      },
+      body: JSON.stringify({
+        title: $("#title").val(),
+        description: $("#desc").val(),
+        boothid: $("#annBooth").val(),
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes add Robot");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const deleteRobot = (id) => {
+    fetch(`/api/robots/deleteRobot/${id}`, {
+      method: "DELETE",
+      headers: {
+        api_key: localStorage.getItem("synnex-userid"),
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes delete Robot");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
   };
 </script>

@@ -284,7 +284,7 @@ router.get("/robotlist", async (req, res) => {
     const allBooths = await pgdb.getBooths();
     const resp = await fetch(
       process.env.FRONTEND_ADDRESS +
-        `/api/guests/getGuests?page=${page ? page : 1}&perPage=${
+        `/api/robots/getRobots?page=${page ? page : 1}&perPage=${
           perPage ? perPage : 10
         }&search=${search ? search : ""}`
     );
@@ -307,21 +307,21 @@ router.get("/robotlist", async (req, res) => {
 
 router.get("/editrobot", async (req, res) => {
   const id = req.query.id ? req.query.id : "";
-  // console.log(id);
   try {
-    // const data = await fetch(
-    //   process.env.FRONTEND_ADDRESS + `/api/partners/getPartner/${id}`
-    // );
-    // const dataPartner = await data.json();
-    const { name, brand, divisi, pics } = {}; //dataPartner.data;
+    const data = await fetch(
+      process.env.FRONTEND_ADDRESS + `/api/robots/getRobot/${id}`
+    );
+    const dataRobot = await data.json();
+    const { boothid, name, title, description, contents } = dataRobot.data;
 
     res.render("admin_editrobot", {
       title: "Synnex Admin - Edit Robot",
       layout: "layouts/adminsidenav",
+      boothid: boothid ? boothid : "",
       name: name ? name : "",
-      brand: brand ? brand : "",
-      divisi: divisi ? divisi : "",
-      pics: pics ? pics : [],
+      title: title ? title : "",
+      description: description ? description : "",
+      contents: contents ? contents : [],
     });
   } catch (err) {
     res.send(err.toString());
