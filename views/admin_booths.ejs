@@ -16,6 +16,59 @@
 
 <div
   class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Update Booth
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="upname" class="form-label" style="font-weight: 700"
+            >Nama Booth</label
+          >
+          <input type="text" class="form-control" id="upname" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="updateBooth()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
   id="exampleModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -87,6 +140,15 @@
         >
           Delete
         </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2"
+          onclick="selectBooth('<%= booth.uid %>', '<%= booth.name %>', '<%= booth.number %>')"
+        >
+          Edit
+        </button>
       </td>
     </tr>
     <% }) : '' %>
@@ -94,6 +156,15 @@
 </table>
 <div id="total-booths" class="visually-hidden"><%= locals.booths.length %></div>
 <script>
+  let selectedBooth = "";
+  let numberBooth = "";
+
+  function selectBooth(id, name, number) {
+    selectedBooth = id;
+    numberBooth = number;
+    $("#upname").val(name);
+  }
+
   function deleteBooth(uid) {
     fetch("/booths/delete", {
       method: "DELETE",
@@ -140,6 +211,31 @@
       .then((res) => {
         if (res.ok) {
           alert("Succes add Booth");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+
+  const updateBooth = () => {
+    fetch(`/api/booths/updateBooth/${selectedBooth}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        api_key: localStorage.getItem("synnex-userid"),
+      },
+      body: JSON.stringify({
+        name: $("#upname").val(),
+        number: numberBooth,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes Update Booth");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
