@@ -364,15 +364,19 @@
       formData.append("url", $("#url").val());
       formData.append("image", $("#image")[0].files[0]);
 
-      let requestHeaders = new Headers();
-      requestHeaders.delete("Content-Type");
-      const apikey = localStorage.getItem("synnex-userid");
+      // let requestHeaders = new Headers();
+      // requestHeaders.delete("Content-Type");
 
-      fetch(`/api/banners/addBanner?apikey=${apikey}`, {
-        method: "POST",
-        headers: requestHeaders,
-        body: formData,
-      })
+      fetch(
+        `/api/banners/addBanner?apikey=${localStorage.getItem(
+          "synnex-userid"
+        )}`,
+        {
+          method: "POST",
+          // headers: requestHeaders,
+          body: formData,
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           alert(data.message);
