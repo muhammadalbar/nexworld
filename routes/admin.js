@@ -103,6 +103,8 @@ router.get("/annotations", async (req, res) => {
     let boothId = booth[0].uid;
     let boothName = booth[0].name;
 
+    // res.send({ annotations, booth, boothId, boothName });
+
     res.render("admin_annotations", {
       title: "Synnex Admin - Annotations",
       layout: "layouts/adminsidenav",

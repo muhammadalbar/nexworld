@@ -394,6 +394,8 @@
     requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
     requestHeaders.delete("Content-Type");
 
+    console.log("HEADER", requestHeaders.get("api_key"));
+
     fetch(`/api/stores/updateStore/${selectedStore}`, {
       method: "PUT",
       headers: requestHeaders,
