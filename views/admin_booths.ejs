@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between">
-  <div><h1>Booths List</h1></div>
+  <div><h2 style="font-weight: 600">Booths List</h2></div>
   <div>
     <button
       type="button"
@@ -119,41 +119,47 @@
 <div id="alert-card" class="alert alert-success" role="alert">
   <%= locals.message ? message : null %>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Number</th>
-      <th scope="col">Name</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% locals.booths ? booths.forEach(function(booth){ %>
-    <tr>
-      <th scope="row"><%= booth.number %></th>
-      <td><%= booth.name %></td>
-      <td>
-        <button
-          type="button"
-          class="btn btn-danger"
-          onClick="deleteBooth('<%= booth.uid %>')"
-        >
-          Delete
-        </button>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal2"
-          onclick="selectBooth('<%= booth.uid %>', '<%= booth.name %>', '<%= booth.number %>')"
-        >
-          Edit
-        </button>
-      </td>
-    </tr>
-    <% }) : '' %>
-  </tbody>
-</table>
+<div class="card shadow p-3 mb-5 mt-3 bg-white rounded" style="border: none">
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Number</th>
+          <th scope="col">Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locals.booths ? booths.forEach(function(booth){ %>
+        <tr>
+          <th scope="row"><%= booth.number %></th>
+          <td><%= booth.name %></td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onClick="deleteBooth('<%= booth.uid %>')"
+            >
+              Delete
+            </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              onclick="selectBooth('<%= booth.uid %>', '<%= booth.name %>', '<%= booth.number %>')"
+            >
+              Edit
+            </button>
+          </td>
+        </tr>
+        <% }) : '' %>
+      </tbody>
+    </table>
+  </div>
+</div>
 <div id="total-booths" class="visually-hidden"><%= locals.booths.length %></div>
 <script>
   let selectedBooth = "";

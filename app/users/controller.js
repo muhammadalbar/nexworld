@@ -26,7 +26,6 @@ module.exports = {
           [uid, email, role, props, register_date, login]
         );
         const user = {
-          userid: uid,
           email: email,
           devicetoken: uuidv4(),
           role: "user",
@@ -50,7 +49,6 @@ module.exports = {
         });
       } else {
         const user = {
-          userid,
           email: email,
           devicetoken: uuidv4(),
           role: "user",

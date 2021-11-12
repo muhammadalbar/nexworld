@@ -33,7 +33,6 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
           [uid, email, role, props, register_date, login]
         );
         const user = {
-          userid: uid,
           email: email,
           devicetoken: uuidv4(),
           role: "user",
@@ -56,7 +55,6 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
         });
       } else {
         const user = {
-          userid,
           email: email,
           devicetoken: uuidv4(),
           role: "user",
@@ -109,7 +107,6 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
         [uid, email, role, props, register_date, login]
       );
       const user = {
-        userid: uid,
         email: email,
         devicetoken: uuidv4(),
         role: "user",
@@ -133,7 +130,6 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       });
     } else {
       const user = {
-        userid,
         email: email,
         devicetoken: uuidv4(),
         role: "user",
