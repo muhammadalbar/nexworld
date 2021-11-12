@@ -203,17 +203,19 @@
   }
 
   const addBooth = () => {
-    fetch("/api/booths/addBooth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        number: parseInt($("#total-booths").text()) + 1,
-        name: $("#name").val(),
-      }),
-    })
+    fetch(
+      `/api/booths/addBooth?apikey=${localStorage.getItem("synnex-userid")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          number: parseInt($("#total-booths").text()) + 1,
+          name: $("#name").val(),
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes add Booth");
@@ -228,17 +230,21 @@
   };
 
   const updateBooth = () => {
-    fetch(`/api/booths/updateBooth/${selectedBooth}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        name: $("#upname").val(),
-        number: numberBooth,
-      }),
-    })
+    fetch(
+      `/api/booths/updateBooth/${selectedBooth}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $("#upname").val(),
+          number: numberBooth,
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes Update Booth");
