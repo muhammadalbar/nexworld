@@ -6,11 +6,10 @@ const defaultClient = SibApiV3Sdk.ApiClient.instance;
 
 //MIDDLEWARE//
 const authMw = require("../middleware/authToken");
-// const { isLogin } = require("../middleware/auth");
-// router.use(isLogin);
+const { isLogin } = require("../middleware/auth");
 
 //Routes
-router.get("/", async (req, res) => {
+router.get("/", isLogin, async (req, res) => {
   res.render("virtual", {
     title: "Synnex Virtual",
     layout: "layouts/bootstraplayout",

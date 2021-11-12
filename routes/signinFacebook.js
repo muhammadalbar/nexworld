@@ -25,12 +25,15 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       let login = "facebook";
       //
       let response = await pgdb.getUser(email);
+      let userid = response[0].uid;
+
       if (response.length == 0) {
         await db.query(
           `INSERT into users (uid, email, role, props, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
           [uid, email, role, props, register_date, login]
         );
         const user = {
+          userid: uid,
           email: email,
           devicetoken: uuidv4(),
           role: "user",
@@ -39,6 +42,10 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
         const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: "30d",
         });
+        req.session.user = {
+          user: email,
+          jwt: jwtToken,
+        };
         res.render("loginredirect", {
           layout: "layouts/bootstraplayout",
           userkey: "synnex",
@@ -49,6 +56,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
         });
       } else {
         const user = {
+          userid,
           email: email,
           devicetoken: uuidv4(),
           role: "user",
@@ -57,6 +65,10 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
         const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: "30d",
         });
+        req.session.user = {
+          user: email,
+          jwt: jwtToken,
+        };
         res.render("loginredirect", {
           layout: "layouts/bootstraplayout",
           userkey: "synnex",
@@ -79,6 +91,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
     let login = "facebook";
 
     let response = await pgdb.getUser(email);
+    let userid = response[0].uid;
 
     // res.send({
     //   email,
@@ -96,6 +109,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
         [uid, email, role, props, register_date, login]
       );
       const user = {
+        userid: uid,
         email: email,
         devicetoken: uuidv4(),
         role: "user",
@@ -104,6 +118,10 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "30d",
       });
+      req.session.user = {
+        user: email,
+        jwt: jwtToken,
+      };
       res.render("loginredirect", {
         layout: "layouts/bootstraplayout",
         userkey: "synnex",
@@ -115,6 +133,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       });
     } else {
       const user = {
+        userid,
         email: email,
         devicetoken: uuidv4(),
         role: "user",
@@ -123,6 +142,10 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "30d",
       });
+      req.session.user = {
+        user: email,
+        jwt: jwtToken,
+      };
       res.render("loginredirect", {
         layout: "layouts/bootstraplayout",
         userkey: "synnex",

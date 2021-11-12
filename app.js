@@ -72,11 +72,29 @@ app.set("layout extractScripts", true);
 
 //MIDDLEWARE//
 const authMw = require("./middleware/authToken");
+app.use(
+  session({
+    secret: "carbonara2021",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {},
+  })
+);
 
 //ROUTES//
 
 app.get("/", (req, res) => {
-  res.render("index", { layout: "layouts/bootstraplayout" });
+  const session = req.session.user;
+  if (session === null || session === undefined) {
+    res.render("index", { layout: "layouts/bootstraplayout" });
+  } else {
+    res.redirect("/virtual");
+  }
+});
+app.get("/logout", (req, res) => {
+  req.session.destroy(function (err) {
+    res.redirect("/");
+  });
 });
 
 app.get("/special-deal", async (req, res) => {
@@ -208,7 +226,8 @@ app.get("/adminlogin", (req, res) => {
 
 app.post("/adminlogin", async (req, res) => {
   try {
-    let response = await pgdb.getAdmin();
+    let email = req.body.email;
+    let response = await pgdb.getAdmin(email);
 
     let adminData = response[0];
     let match = await bcrypt.compare(req.body.password, adminData.password);
