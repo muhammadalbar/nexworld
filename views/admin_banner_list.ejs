@@ -371,11 +371,16 @@
       let requestHeaders = new Headers();
       requestHeaders.delete("Content-Type");
 
-      fetch(`/api/banners/addBanner`, {
-        method: "POST",
-        headers: requestHeaders,
-        body: formData,
-      })
+      fetch(
+        `/api/banners/addBanner?apikey=${localStorage.getItem(
+          "synnex-userid"
+        )}`,
+        {
+          method: "POST",
+          headers: requestHeaders,
+          body: formData,
+        }
+      )
         .then((response) => {
           console.log("RESPONNNN", response);
           return response.json();
@@ -405,11 +410,16 @@
     requestHeaders.delete("Content-Type");
     // const apikey = localStorage.getItem("synnex-userid");
 
-    fetch(`/api/banners/updateBanner/${selectedBanner}`, {
-      method: "PUT",
-      headers: requestHeaders,
-      body: formData,
-    })
+    fetch(
+      `/api/banners/updateBanner/${selectedBanner}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: requestHeaders,
+        body: formData,
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         alert(data.message);
