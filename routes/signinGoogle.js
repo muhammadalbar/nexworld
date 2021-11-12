@@ -22,7 +22,6 @@ router.get("/protected", isLoggedIn, async (req, res) => {
     let login = "google";
 
     let response = await pgdb.getUser(email);
-    let userid = response[0].uid;
 
     if (response.length == 0) {
       await db.query(
