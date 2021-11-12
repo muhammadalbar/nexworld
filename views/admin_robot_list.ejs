@@ -258,18 +258,20 @@
     window.location.replace(`/admin/editrobot?id=${id}`);
   };
   const addRobot = () => {
-    fetch("/api/robots/addRobot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        title: $("#title").val(),
-        description: $("#desc").val(),
-        boothid: $("#annBooth").val(),
-      }),
-    })
+    fetch(
+      `/api/robots/addRobot?apikey=${localStorage.getItem("synnex-userid")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: $("#title").val(),
+          description: $("#desc").val(),
+          boothid: $("#annBooth").val(),
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes add Robot");
@@ -283,12 +285,14 @@
       });
   };
   const deleteRobot = (id) => {
-    fetch(`/api/robots/deleteRobot/${id}`, {
-      method: "DELETE",
-      headers: {
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-    })
+    fetch(
+      `/api/robots/deleteRobot/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes delete Robot");

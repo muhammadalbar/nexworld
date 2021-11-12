@@ -362,14 +362,16 @@
       formData.append("image", $("#image")[0].files[0]);
 
       let requestHeaders = new Headers();
-      requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
       requestHeaders.delete("Content-Type");
 
-      fetch("/api/stores/addStore", {
-        method: "POST",
-        headers: requestHeaders,
-        body: formData,
-      })
+      fetch(
+        `/api/stores/addStore?apikey=${localStorage.getItem("synnex-userid")}`,
+        {
+          method: "POST",
+          headers: requestHeaders,
+          body: formData,
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           alert(data.message);
@@ -391,16 +393,18 @@
     }
 
     let requestHeaders = new Headers();
-    requestHeaders.append("api_key", localStorage.getItem("synnex-userid"));
     requestHeaders.delete("Content-Type");
 
-    console.log("HEADER", requestHeaders.get("api_key"));
-
-    fetch(`/api/stores/updateStore/${selectedStore}`, {
-      method: "PUT",
-      headers: requestHeaders,
-      body: formData,
-    })
+    fetch(
+      `/api/stores/updateStore/${selectedStore}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: requestHeaders,
+        body: formData,
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         alert(data.message);
@@ -411,12 +415,14 @@
       });
   };
   const deleteStore = (id) => {
-    fetch(`/api/stores/deleteStore/${id}`, {
-      method: "DELETE",
-      headers: {
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-    })
+    fetch(
+      `/api/stores/deleteStore/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes delete Store");

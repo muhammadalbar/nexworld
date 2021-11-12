@@ -225,17 +225,19 @@
     const name = $("#name").val();
     const email = $("#email").val();
     console.log("NAME", name, email);
-    fetch("/api/guests/addGuest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        name: $("#name").val(),
-        email: $("#email").val(),
-      }),
-    })
+    fetch(
+      `/api/guests/addGuest?apikey=${localStorage.getItem("synnex-userid")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $("#name").val(),
+          email: $("#email").val(),
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes add Guest");
@@ -249,12 +251,14 @@
       });
   };
   const deleteGuest = (id) => {
-    fetch(`/api/guests/deleteGuest/${id}`, {
-      method: "DELETE",
-      headers: {
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-    })
+    fetch(
+      `/api/guests/deleteGuest/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes delete PIC");

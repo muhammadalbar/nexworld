@@ -359,14 +359,18 @@
     if ($("#uppassword").val()) {
       setData = { ...setData, password: $("#uppassword").val() };
     }
-    fetch(`/api/pics/updatePic/${idSelectPIC}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify(setData),
-    })
+    fetch(
+      `/api/pics/updatePic/${idSelectPIC}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(setData),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes update PIC");
@@ -380,11 +384,10 @@
       });
   };
   const addPIC = () => {
-    fetch(`/api/pics/addPic`, {
+    fetch(`/api/pics/addPic?apikey=${localStorage.getItem("synnex-userid")}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
       },
       body: JSON.stringify({
         partnerid: id,
@@ -407,12 +410,14 @@
       });
   };
   const deletePIC = (id) => {
-    fetch(`/api/pics/deletePic/${id}`, {
-      method: "DELETE",
-      headers: {
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-    })
+    fetch(
+      `/api/pics/deletePic/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes delete PIC");
@@ -426,18 +431,22 @@
       });
   };
   const updatePartner = () => {
-    fetch(`/api/partners/updatePartner/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        name: $("#partname").val(),
-        brand: $("#partbrand").val(),
-        divisi: $("#partdivisi").val(),
-      }),
-    })
+    fetch(
+      `/api/partners/updatePartner/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $("#partname").val(),
+          brand: $("#partbrand").val(),
+          divisi: $("#partdivisi").val(),
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes update Partner");

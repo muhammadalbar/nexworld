@@ -317,14 +317,18 @@
       title: $("#uptitle").val(),
       url: $("#upurl").val(),
     };
-    fetch(`/api/robots/updateRobotContent/${idSelectedKonten}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify(setData),
-    })
+    fetch(
+      `/api/robots/updateRobotContent/${idSelectedKonten}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(setData),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes update Konten");
@@ -338,18 +342,22 @@
       });
   };
   const addKonten = () => {
-    fetch(`/api/robots/addRobotContent`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        robotid: id,
-        title: $("#title").val(),
-        url: $("#url").val(),
-      }),
-    })
+    fetch(
+      `/api/robots/addRobotContent?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          robotid: id,
+          title: $("#title").val(),
+          url: $("#url").val(),
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes add Konten");
@@ -364,12 +372,14 @@
   };
   const deleteKonten = (idDelete) => {
     console.log(idDelete);
-    fetch(`/api/robots/deleteRobotContent/${idDelete}`, {
-      method: "DELETE",
-      headers: {
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-    })
+    fetch(
+      `/api/robots/deleteRobotContent/${idDelete}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes delete Konten");
@@ -383,17 +393,21 @@
       });
   };
   const updateRobot = () => {
-    fetch(`/api/robots/updateRobot/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        api_key: localStorage.getItem("synnex-userid"),
-      },
-      body: JSON.stringify({
-        title: $("#robottitle").val(),
-        description: $("#robotdesc").val(),
-      }),
-    })
+    fetch(
+      `/api/robots/updateRobot/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: $("#robottitle").val(),
+          description: $("#robotdesc").val(),
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           alert("Succes update Robot");
