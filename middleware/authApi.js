@@ -8,10 +8,10 @@ module.exports = {
       `SELECT * FROM users WHERE uid = $1 AND role = $2`,
       [api_key, user]
     );
-    if (admin.rowCount > 0) {
-      next();
+    if (admin.rowCount == 0) {
+      res.send({ api_key, user, admin, message: `user can't access api` });
     } else {
-      res.send({ message: `user can't access api` });
+      next();
     }
   },
 };
