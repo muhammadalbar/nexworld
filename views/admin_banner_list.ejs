@@ -377,7 +377,10 @@
         )}`,
         {
           method: "POST",
-          // headers: requestHeaders,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
           body: formData,
         }
       )
