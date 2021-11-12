@@ -368,8 +368,8 @@
         console.log(pair[0] + ", " + pair[1]);
       }
 
-      let requestHeaders = new Headers();
-      requestHeaders.delete("Content-Type");
+      // let requestHeaders = new Headers();
+      // requestHeaders.delete("Content-Type");
 
       fetch(
         `/api/banners/addBanner?apikey=${localStorage.getItem(
@@ -377,7 +377,7 @@
         )}`,
         {
           method: "POST",
-          headers: requestHeaders,
+          // headers: requestHeaders,
           body: formData,
         }
       )
