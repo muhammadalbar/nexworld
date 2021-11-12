@@ -368,22 +368,14 @@
         console.log(pair[0] + ", " + pair[1]);
       }
 
-      // let requestHeaders = new Headers();
-      // requestHeaders.delete("Content-Type");
+      let requestHeaders = new Headers();
+      requestHeaders.delete("Content-Type");
 
-      fetch(
-        `/api/banners/addBanner?apikey=${localStorage.getItem(
-          "synnex-userid"
-        )}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: formData,
-        }
-      )
+      fetch(`/api/banners/addBanner`, {
+        method: "POST",
+        headers: requestHeaders,
+        body: formData,
+      })
         .then((response) => {
           console.log("RESPONNNN", response);
           return response.json();
