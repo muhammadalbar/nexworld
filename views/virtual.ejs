@@ -1,4 +1,5 @@
 <iframe
+  id="virtual3dFrame"
   src="./3d/index.htm"
   frameborder="0"
   style="width: 100vw; height: 100vh; position: absolute"
@@ -130,6 +131,7 @@
             style="cursor: pointer"
             src="./img/landing/acer.png"
             alt=""
+            onclick="navigateFrame(2)"
           />
         </div>
         <div class="col-6">
@@ -138,6 +140,7 @@
             style="cursor: pointer"
             src="./img/landing/acer.png"
             alt=""
+            onclick="navigateFrame(3)"
           />
         </div>
       </div>
@@ -292,6 +295,10 @@
 </div>
 
 <script>
+  function navigateFrame(media) {
+    $("#virtual3dFrame").attr("src", `3d/index.htm?media=${media}`);
+  }
+
   $("#expo-list").hide();
   function autoPlayYouTubeModal() {
     var triggerOpen = $("body").find("[data-tagVideo]");
@@ -426,7 +433,7 @@
                   <div class="col-4 text-center"><strong>${
                     i + 1
                   }.</strong></div>
-                  <div class="col-4 text-center"><h5><strong>${
+                  <div class="col-4 text-center overflow-auto"><h5><strong>${
                     e.ign
                   }</strong></h5></div>
                   <div class="col-4 text-center"><strong>${
@@ -438,7 +445,7 @@
       data.data.slice(0, 5).map((e) => {
         $("#lead-list").append(`
               <li>
-                <div>
+                <div class="overflow-auto">
                   <p>${e.ign}</p>
                   <span>${e.point}</span>
                 </div>
