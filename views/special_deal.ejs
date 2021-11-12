@@ -11,6 +11,8 @@
           src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
           class="d-block w-100"
           alt="<%= item.name %>"
+          onclick="goToUrl('<%= item.url %>')"
+          style="cursor: pointer"
         />
       </div>
       <% } else{ %>
@@ -19,6 +21,8 @@
           src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
           class="d-block w-100"
           alt="<%= item.name %>"
+          onclick="goToUrl('<%= item.url %>')"
+          style="cursor: pointer"
         />
       </div>
       <% } %> <% }) %>
@@ -47,7 +51,8 @@
     <div class="col-6 text-center p-2">
       <div
         class="logo p-4 p-md-5 m-0 m-md-2 rounded"
-        style="background: rgba(255, 255, 255, 0.8)"
+        style="background: rgba(255, 255, 255, 0.8); cursor: pointer"
+        onclick="goToUrl('<%= item.url %>')"
       >
         <img
           class="img-fluid"
@@ -64,8 +69,9 @@
   </div>
 
   <script>
-    const banner = "<%= banner %>";
-    console.log(banner);
+    const goToUrl = (url) => {
+      window.open(url);
+    };
   </script>
 
   <style>

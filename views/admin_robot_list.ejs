@@ -149,7 +149,11 @@
         <th scope="row"><%= index + 1 %></th>
         <td><%= item.name %></td>
         <td><%= item.title %></td>
-        <td><%= item.description %></td>
+        <td>
+          <div class="cut-text" style="color: black">
+            <%= item.description %>
+          </div>
+        </td>
         <td>
           <div>
             <button
@@ -167,6 +171,14 @@
               onclick="deleteRobot('<%= item.uid %>')"
             >
               Delete
+            </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onclick="previewRobot('<%= item.uid %>')"
+            >
+              Preview
             </button>
           </div>
         </td>
@@ -288,5 +300,8 @@
       .catch((err) => {
         alert(`${err}`);
       });
+  };
+  const previewRobot = (id) => {
+    window.open(`/virtual/robot-konten?id=${id}`);
   };
 </script>
