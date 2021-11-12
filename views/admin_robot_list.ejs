@@ -149,7 +149,11 @@
         <th scope="row"><%= index + 1 %></th>
         <td><%= item.name %></td>
         <td><%= item.title %></td>
-        <td><%= item.description %></td>
+        <td>
+          <div class="cut-text" style="color: black">
+            <%= item.description %>
+          </div>
+        </td>
         <td>
           <div>
             <button
