@@ -49,7 +49,7 @@ app.use(`${URL}/booths`, booth);
 app.use(`${URL}/pics`, pic);
 app.use(`${URL}/partners`, partner);
 app.use(`${URL}/stores`, store);
-app.use(`${URL}/banner`, banner);
+app.use(`${URL}/banners`, banner);
 app.use(`${URL}/annotations`, annotation);
 app.use(`${URL}/guests`, guest);
 app.use(`${URL}/robots`, robot);
