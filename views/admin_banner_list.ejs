@@ -377,7 +377,10 @@
           body: formData,
         }
       )
-        .then((response) => response.json())
+        .then((response) => {
+          console.log("RESPONNNN", response);
+          return response.json();
+        })
         .then((data) => {
           alert(data.message);
           window.location.reload();
