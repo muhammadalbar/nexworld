@@ -11,8 +11,7 @@ module.exports = {
     if (admin.rowCount === 0) {
       res.send({ api_key, user, admin, message: `user can't access api` });
     } else {
-      res.send({ api_key, user, admin, message: `success access api` });
-      // next();
+      next();
     }
   },
 };
