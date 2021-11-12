@@ -16,7 +16,7 @@ router.get("/", search);
 router.get("/getBanners", getBanners);
 router.get("/getBanner/:id", getBanner);
 
-// router.use(isAllow);
+router.use(isAllow);
 router.post(
   "/addBanner",
   multer({ dest: os.tmpdir() }).single("image"),
