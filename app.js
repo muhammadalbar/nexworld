@@ -104,6 +104,38 @@ app.get("/special-deal", async (req, res) => {
         `/api/banners/getBanners?page=1&perPage=10000`
     );
     const dataBanner = await banner.json();
+    res.render("special_deal", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+app.get("/partner-smi", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+    res.render("partner_smi", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+app.get("/official-store", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
 
     const store = await fetch(
       process.env.FRONTEND_ADDRESS +
@@ -111,7 +143,7 @@ app.get("/special-deal", async (req, res) => {
     );
     const dataStore = await store.json();
 
-    res.render("special_deal", {
+    res.render("official_store", {
       layout: "layouts/bootstraplayout",
       banner: dataBanner.data,
       store: dataStore.data,

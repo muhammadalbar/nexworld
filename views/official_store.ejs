@@ -47,18 +47,24 @@
     </button>
   </div>
   <div class="row my-5">
-    <div class="col-12 col-md-6 text-center mt-1" style="cursor: pointer">
-      <div class="title-glow py-3 py-md-5 modal-black" style="height: 100%">
-        <p class="title-br">Partner SMI</p>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 text-center mt-1" style="cursor: pointer">
-      <a href="/official-store">
-        <div class="title-glow py-3 py-md-5 modal-black" style="height: 100%">
-          <p class="title-br">Brand Official Store</p>
-        </div></a
+    <% store.map((item, index)=>{ %>
+    <div class="col-6 col-sm-4 col-md-3 text-center p-2">
+      <div
+        class="logo p-4 p-md-5 m-0 m-md-2 rounded"
+        style="background: rgba(255, 255, 255, 0.8); cursor: pointer"
+        onclick="goToUrl('<%= item.url %>')"
       >
+        <img
+          class="img-fluid"
+          src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+          alt=""
+        />
+      </div>
+      <h5 style="color: white; font-weight: 500" class="pt-2">
+        <%= item.name %>
+      </h5>
     </div>
+    <% }) %>
   </div>
 
   <script>
@@ -70,32 +76,16 @@
   <style>
     .container-fluid {
       background-image: url("./img/background-2.png");
-      height: 100vh;
+      height: 100%;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
     }
-    .modal-black {
-      background: rgba(0, 0, 0, 0.8);
-      border: 6px solid #c65a85;
+    .logo {
+      border: 3px solid #c65a85;
       box-sizing: border-box;
       box-shadow: 0px 0px 5px #d55085;
       border-radius: 20px;
-    }
-    .title-glow {
-      -webkit-text-stroke: 2px #ff6db8;
-      text-shadow: 0px 0px 10px #b7025f, 0px 0px 10px #b7025f,
-        0px 0px 10px #b7025f;
-      text-transform: uppercase;
-      color: black;
-    }
-    .title-br {
-      font-size: smaller;
-    }
-    @media (min-width: 576px) {
-      .title-br {
-        font-size: x-large;
-      }
     }
   </style>
 </div>
