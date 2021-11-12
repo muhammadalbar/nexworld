@@ -5,13 +5,14 @@ module.exports = {
     const api_key = req.headers.api_key;
     const user = "admin";
     const admin = await db.query(
-      `SELECT * FROM users WHERE uid = $1 AND role = $2`,
-      [api_key, user]
+      `SELECT * FROM users WHERE uid = $1 AND role = 'admin'`,
+      [api_key]
     );
-    if (admin.rowCount == 0) {
+    if (admin.rowCount === 0) {
       res.send({ api_key, user, admin, message: `user can't access api` });
     } else {
-      next();
+      res.send({ api_key, user, admin, message: `success access api` });
+      // next();
     }
   },
 };
