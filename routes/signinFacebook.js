@@ -25,7 +25,6 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       let login = "facebook";
       //
       let response = await pgdb.getUser(email);
-      let userid = response[0].uid;
 
       if (response.length == 0) {
         await db.query(
@@ -89,7 +88,6 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
     let login = "facebook";
 
     let response = await pgdb.getUser(email);
-    let userid = response[0].uid;
 
     // res.send({
     //   email,

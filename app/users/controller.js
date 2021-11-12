@@ -18,7 +18,6 @@ module.exports = {
       let login = "synnex";
 
       let response = await pgdb.getUser(email);
-      let userid = response[0].uid;
 
       if (response.length == 0) {
         await db.query(
