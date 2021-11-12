@@ -245,6 +245,7 @@ app.post("/adminlogin", async (req, res) => {
       res.render("loginform", {
         userkey: "synnex-admin",
         user: adminData.email,
+        uid: adminData.uid,
         userid: "admin",
         jwt: jwtToken,
         redirecturl: "/admin/dashboard",

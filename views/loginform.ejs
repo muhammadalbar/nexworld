@@ -9,9 +9,11 @@
       const userkey = "<%= userkey %>";
       const userEmail = "<%= user %>";
       const jwt = "<%= jwt %>";
+      const uidUser = "<%= uid %>";
       const redirecturl = "<%= redirecturl %>";
       localStorage.setItem(userkey + "-user", userEmail);
       localStorage.setItem(userkey + "-jwt", jwt);
+      localStorage.setItem("synnex-userid", uidUser);
 
       setInterval(function () {
         window.location.replace(redirecturl);
