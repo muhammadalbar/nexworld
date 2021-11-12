@@ -1,52 +1,27 @@
 <div class="container-fluid p-5">
-  <h4><strong>WELCOME TO MY BOOTH</strong></h4>
-  <p class="mt-4 mb-4" style="font-size: smaller">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec lorem
-    a tellus luctus accumsan. Mauris mollis metus sit amet nisl rutrum semper.
-    In gravida turpis lacus, a ultrices nunc hendrerit in.
-  </p>
+  <h4><strong><%= title %></strong></h4>
+  <p class="mt-4 mb-4" style="font-size: smaller"><%= description %></p>
+  <% contents.map((item, index)=>{ %>
   <div class="mb-1">
     <div class="d-flex justify-content-between align-items-center">
       <div>
-        <p class="my-1" style="font-size: medium">1.Konten List Pertama</p>
+        <p class="my-1" style="font-size: medium">
+          <strong><%= index + '. ' %></strong>
+          <%= item.title %>
+        </p>
       </div>
       <div>
-        <span
-          data-feather="arrow-right"
-          style="color: #01cdf2; cursor: pointer"
-        ></span>
+        <a href="<%= item.url %>">
+          <span
+            data-feather="arrow-right"
+            style="color: #01cdf2; cursor: pointer"
+          ></span
+        ></a>
       </div>
     </div>
     <hr style="border-top: 2px solid #d55085" />
   </div>
-  <div class="mb-1">
-    <div class="d-flex justify-content-between align-items-center">
-      <div>
-        <p class="my-1" style="font-size: medium">1.Konten List Pertama</p>
-      </div>
-      <div>
-        <span
-          data-feather="arrow-right"
-          style="color: #01cdf2; cursor: pointer"
-        ></span>
-      </div>
-    </div>
-    <hr style="border-top: 2px solid #d55085" />
-  </div>
-  <div class="mb-1">
-    <div class="d-flex justify-content-between align-items-center">
-      <div>
-        <p class="my-1" style="font-size: medium">1.Konten List Pertama</p>
-      </div>
-      <div>
-        <span
-          data-feather="arrow-right"
-          style="color: #01cdf2; cursor: pointer"
-        ></span>
-      </div>
-    </div>
-    <hr style="border-top: 2px solid #d55085" />
-  </div>
+  <% }) %>
 </div>
 
 <style>

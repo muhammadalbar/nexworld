@@ -168,6 +168,14 @@
             >
               Delete
             </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onclick="previewRobot('<%= item.uid %>')"
+            >
+              Preview
+            </button>
           </div>
         </td>
       </tr>
@@ -288,5 +296,8 @@
       .catch((err) => {
         alert(`${err}`);
       });
+  };
+  const previewRobot = (id) => {
+    window.open(`/virtual/robot-konten?id=${id}`);
   };
 </script>
