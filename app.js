@@ -97,6 +97,16 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.get("/event-info", async (req, res) => {
+  try {
+    res.render("event_info", {
+      layout: "layouts/bootstraplayout",
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
 app.get("/special-deal", async (req, res) => {
   try {
     const banner = await fetch(
