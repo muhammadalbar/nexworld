@@ -1,13 +1,30 @@
-<div class="container-fluid p-5">
-  <h4 class="mb-4">
+<div class="container-fluid">
+  <h5 class="p-5">
     <strong
       >"Halo! Selamat Datang di Build Your Gaming Empire. Kerajaan gaming ini
       sedikit lagi selesai didirikan. Kamu dapat hadir untuk melihatnya pada 19
       November 2021. Stay tune!"</strong
     >
-  </h4>
+  </h5>
+  <p class="p-5">
+    <strong
+      >"Halo! Selamat Datang di Build Your Gaming Empire. Kerajaan gaming ini
+      sedikit lagi selesai didirikan. Kamu dapat hadir untuk melihatnya pada 19
+      November 2021. Stay tune!"</strong
+    >
+  </p>
   <img class="img-fluid" src="./img/landing/SCHDULE_BYGE.png" />
 </div>
+
+<script>
+  $(document).ready(function () {
+    if ($(window).width() <= 731) {
+      $("h5").hide();
+    } else {
+      $("p").hide();
+    }
+  });
+</script>
 
 <style>
   .container-fluid {
