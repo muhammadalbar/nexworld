@@ -1,0 +1,300 @@
+<h3 style="font-weight: 600">Partner List</h3>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
+          Add New Partner
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="brand" class="form-label" style="font-weight: 700"
+            >Nama Brand</label
+          >
+          <input type="text" class="form-control" id="brand" />
+        </div>
+        <div class="mb-3">
+          <label for="pt" class="form-label" style="font-weight: 700"
+            >Nama PT</label
+          >
+          <input type="text" class="form-control" id="pt" />
+        </div>
+        <div class="mb-3">
+          <label for="divisi" class="form-label" style="font-weight: 700"
+            >Divisi</label
+          >
+          <input type="text" class="form-control" id="divisi" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="addPartner()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-3 mb-3 p-1 d-flex justify-content-between">
+  <div class="d-flex">
+    <div class="my-2">Show</div>
+    <div class="btn-group">
+      <button
+        type="button"
+        class="btn btn-light dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <%= perPage %>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=10"
+            >10</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=50"
+            >50</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=100"
+            >100</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="my-2">Entires</div>
+  </div>
+  <div class="d-flex">
+    <input
+      id="sch"
+      type="text"
+      class="form-control"
+      placeholder="Search here"
+      value="<%= sch %>"
+    />
+    <button
+      type="button"
+      class="btn btn-primary mx-1"
+      style="background-color: #0b2559"
+      onclick="goSch()"
+    >
+      <span data-feather="search"></span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      style="background-color: #0b2559; width: 200px; font-size: 12px"
+    >
+      <span data-feather="plus"></span>
+      Add partner
+    </button>
+  </div>
+</div>
+<div class="shadow p-2 rounded">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">NO</th>
+        <th scope="col">Dealer Name</th>
+        <th scope="col">Code</th>
+        <th scope="col">Cust Name</th>
+        <th scope="col">Url</th>
+        <th scope="col">Region</th>
+        <th scope="col">Team</th>
+        <th scope="col">Dropship</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.map((item, index)=>{ %>
+      <tr>
+        <th scope="row">1</th>
+        <td><%= item.dealer_name %></small></td>
+        <td><%= item.code %></td>
+        <td><%= item.cust_name %></td>
+        <td><div class="cut-text" style="width: 150px;"><%= item.url %></div></td>
+        <td><%= item.region %></td>
+        <td><%= item.team %></td>
+        <td><%= item.dropship %></td>
+        <td>
+          <div>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onclick="goEdit('<%= item.uid %>')"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onclick="deletePartner('<%= item.uid %>')"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <div id="total-page" class="visually-hidden"><%= totalPage %></div>
+</div>
+
+<div class="d-flex justify-content-end mt-4">
+  <nav>
+    <ul class="pagination"></ul>
+  </nav>
+</div>
+<script>
+  let path;
+  let limitVal;
+  $(document).ready(() => {
+    path = window.location.pathname;
+    const urlParams = new URLSearchParams(window.location.search);
+    const schVal = urlParams.get("search") ? urlParams.get("search") : "";
+    const pageVal = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+    limitVal = urlParams.get("perPage")
+      ? parseInt(urlParams.get("perPage"))
+      : 10;
+    const totalPage = parseInt($("#total-page").text());
+    console.log(pageVal, limitVal, totalPage);
+
+    if (pageVal > 1) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal - 1
+      }&perPage=${limitVal}">Previous</a>
+        </li>
+      `);
+    }
+
+    const ses = Math.floor(pageVal / 5);
+    let maxPage = ses + 5;
+    if (maxPage > totalPage) {
+      maxPage = totalPage;
+    }
+    for (let i = ses + 1; i <= maxPage; i++) {
+      if (pageVal == i) {
+        $(".pagination").append(`
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">${i}</span>
+        </li>
+      `);
+      } else {
+        $(".pagination").append(`
+        <li class="page-item"><a class="page-link" href="${path}?search=${schVal}&page=${i}&perPage=${limitVal}">${i}</a></li>
+      `);
+      }
+    }
+
+    if (pageVal < maxPage) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal + 1
+      }&perPage=${limitVal}">Next</a>
+        </li>
+      `);
+    }
+  });
+
+  const goSch = () => {
+    const query = $("#sch").val();
+    window.location.replace(
+      `${path}?search=${query}&page=1&perPage=${limitVal}`
+    );
+  };
+  const goEdit = (id) => {
+    window.location.replace(`/admin/editpartner?id=${id}`);
+  };
+  const addPartner = () => {
+    fetch(
+      `/api/partners/addPartner?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $("#pt").val(),
+          brand: $("#brand").val(),
+          divisi: $("#divisi").val(),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes add Partner");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const deletePartner = (id) => {
+    fetch(
+      `/api/partners/deletePartner/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes delete Partner");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+</script>

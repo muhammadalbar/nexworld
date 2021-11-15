@@ -355,38 +355,52 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input type="text" class="form-control" id="name" />
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            aria-describedby="emailHelp"
-          />
-          <div id="emailHelp" class="form-text">
-            We'll never share your email with anyone else.
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label"
+              >Name <span style="color: red">*</span></label
+            >
+            <input type="text" class="form-control" id="name" required />
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="message" class="form-label"
-            >Write your message here</label
+          <div class="mb-3">
+            <label for="email" class="form-label"
+              >Email address <span style="color: red">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div id="emailHelp" class="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">phone address</label>
+            <input type="number" class="form-control" id="phone" />
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label"
+              >Write your message here <span style="color: red">*</span></label
+            >
+            <textarea
+              class="form-control"
+              id="message"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+          <button
+            class="btn btn-warning"
+            style="width: 100%"
+            id="submit-email"
+            type="submit"
           >
-          <textarea class="form-control" id="message" rows="3"></textarea>
-        </div>
-        <button
-          class="btn btn-warning"
-          style="width: 100%"
-          onclick="sendChatForm()"
-        >
-          <div class="spinner-border text-light" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <div class="submit-text">Submit</div>
-        </button>
+            Submit
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -507,7 +521,6 @@
   function navigateFrame(media) {
     $("#virtual3dFrame").attr("src", `3d/index.htm?media=${media}`);
   }
-
   $("#expo-list").hide();
   function autoPlayYouTubeModal() {
     var triggerOpen = $("body").find("[data-tagVideo]");
@@ -524,6 +537,10 @@
   function openNewWindow() {
     window.open("/special-deal");
   }
+  $("#submit-email").click(function (e) {
+    // e.preventDefault();
+    console.log("SEND EMAIL");
+  });
 
   // $("#expo").click(function () {
   //   $("#expo-list").fadeIn(500);
@@ -538,7 +555,6 @@
     autoPlayYouTubeModal();
     $("#left-card").hide();
     $("#right-card").hide();
-    $(".spinner-border").hide();
     $("#demo").modal("show");
 
     if ($(window).width() <= 731) {
@@ -594,11 +610,6 @@
         waitForEl(selector, callback);
       }, 100);
     }
-  };
-
-  const sendChatForm = () => {
-    $(".spinner-border").show();
-    $(".submit-text").hide();
   };
 
   // (function (d, t) {
@@ -718,14 +729,14 @@
     position: absolute;
   }
   .bubble-chat {
-    background: rgba(0, 0, 0, 0.8);
+    background: black;
     border: 3px solid #ca2164;
     box-sizing: border-box;
     box-shadow: 0px 0px 5px #cf296c;
     border-radius: 1px 14px 14px 14px;
     color: #01cdf2;
-    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
-      0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+    text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 16px #fff, 0 0 37px #0fa,
+      0 0 77px #0fa, 0 0 87px #0fa, 0 0 97px #0fa, 0 0 146px #0fa;
   }
   .bubble-chat:hover {
     font-weight: 700;
