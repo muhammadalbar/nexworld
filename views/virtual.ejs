@@ -683,6 +683,8 @@
     .catch((err) => console.log(err));
 </script>
 <script>
+  $("#name").val(localStorage.getItem("synnex-username"));
+  $("#email").val(localStorage.getItem("synnex-user"));
   function logout() {
     localStorage.removeItem("synnex-user");
     localStorage.removeItem("synnex-username");
