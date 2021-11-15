@@ -148,7 +148,7 @@ module.exports = {
     try {
       const region = req.query.region;
       const data = await db.query(
-        `SELECT * FROM partner_smi WHERE concat(region) ILIKE '%'|| $1 ||'%'`,
+        `SELECT REPLACE(REPLACE(dealer_name, 'PT. ', ''),'CV. ', '') dealer_name, cust_name, url, dropship, region,team FROM partner_smi WHERE concat(region) ILIKE '%'|| $1 ||'%' ORDER BY dealer_name ASC`,
         [region]
       );
       res.status(200).json({ data: data.rows });
