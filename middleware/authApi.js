@@ -9,7 +9,7 @@ module.exports = {
       [api_key]
     );
     if (admin.rowCount === 0) {
-      res.send({ api_key, user, admin, message: `user can't access api` });
+      res.send({ message: `user can't access api` });
     } else {
       next();
     }
