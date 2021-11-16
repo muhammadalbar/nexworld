@@ -31,6 +31,18 @@
           >
           <input type="text" class="form-control" id="upurl" />
         </div>
+        <div class="mb-3">
+          <label for="sort_number" class="form-label" style="font-weight: 700"
+            >Tentukan No Urut Konten</label
+          >
+          <select name="up_sort_number" id="up_sort_number" class="form-select">
+            <option disabled selected>Tentukan Urutan</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button
@@ -85,6 +97,18 @@
             >Url</label
           >
           <input type="text" class="form-control" id="url" />
+        </div>
+        <div class="mb-3">
+          <label for="sort_number" class="form-label" style="font-weight: 700"
+            >Tentukan No Urut Konten</label
+          >
+          <select name="sort_number" id="sort_number" class="form-select">
+            <option disabled selected>Tentukan Urutan</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
         </div>
       </div>
       <div class="modal-footer">
@@ -226,6 +250,7 @@
       <tr>
         <th scope="col">Judul Konten</th>
         <th scope="col">Url</th>
+        <th scope="col">No. Urut</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -235,6 +260,9 @@
         <td><%= item.title %></td>
         <td>
           <div class="cut-text"><%= item.url %></div>
+        </td>
+        <td>
+          <div class="cut-text"><%= item.sort_number %></div>
         </td>
         <td>
           <div>
@@ -316,6 +344,7 @@
     let setData = {
       title: $("#uptitle").val(),
       url: $("#upurl").val(),
+      sort_number: $("#up_sort_number").val(),
     };
     fetch(
       `/api/robots/updateRobotContent/${idSelectedKonten}?apikey=${localStorage.getItem(
@@ -355,6 +384,7 @@
           robotid: id,
           title: $("#title").val(),
           url: $("#url").val(),
+          sort_number: $("#sort_number").val(),
         }),
       }
     )
