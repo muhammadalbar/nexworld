@@ -81,7 +81,7 @@ module.exports = {
         [id]
       );
       const robotContents = await db.query(
-        "SELECT uid,title,url FROM robot_contents WHERE robotid = $1",
+        "SELECT uid,title,url,sort_number FROM robot_contents WHERE robotid = $1 ORDER BY sort_number ASC",
         [id]
       );
       const obj1 = robot.rows[0];
@@ -118,7 +118,7 @@ module.exports = {
   },
   addRobotContent: async (req, res) => {
     try {
-      const { title, url, robotid } = req.body;
+      const { title, url, robotid, sort_number } = req.body;
       const uid = uuidv4();
       const created_at = new Date();
 
@@ -133,8 +133,8 @@ module.exports = {
         });
       } else {
         await db.query(
-          `INSERT into robot_contents (uid,title,url,robotid,created_at) values ($1, $2,$3,$4,$5)`,
-          [uid, title, url, robotid, created_at]
+          `INSERT into robot_contents (uid,title,url,robotid,created_at, sort_number) values ($1, $2,$3,$4,$5,$6)`,
+          [uid, title, url, robotid, created_at, sort_number]
         );
         res.status(200).json({
           status: "Success",
@@ -169,11 +169,11 @@ module.exports = {
   updateRobotContent: async (req, res) => {
     try {
       const { id } = req.params;
-      const { title, url } = req.body;
+      const { title, url, sort_number } = req.body;
 
       await db.query(
-        `UPDATE robot_contents SET (title, url) = ($2, $3) where uid = $1`,
-        [id, title, url]
+        `UPDATE robot_contents SET (title, url, sort_number) = ($2, $3, $4) where uid = $1`,
+        [id, title, url, sort_number]
       );
       res
         .status(200)
