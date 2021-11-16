@@ -135,9 +135,9 @@ module.exports = {
 `,
         params: { email, name, phone, message },
       });
-      res.send(200).json({ message: `Email sent successfully` });
+      res.status(200).json({ message: `Email sent successfully` });
     } catch (err) {
-      res.send(500).json({ message: `Internal Serve Error` });
+      res.status(500).json({ message: `Internal Serve Error` });
     }
   },
 };
