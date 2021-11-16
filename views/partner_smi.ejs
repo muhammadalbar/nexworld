@@ -63,13 +63,22 @@
     >
       <!-- <li><a class="dropdown-item active" href="#">Jakarta</a></li> -->
       <!-- <li><a class="dropdown-item" href="#">Jakarta</a></li> -->
-      <% regions.map((item)=>{ %>
+      <% regions.map((item)=>{ %> <% if(selectedRegion ==
+      item.region.toUpperCase()){ %>
+      <li>
+        <a
+          class="dropdown-item active"
+          href="/partner-smi?region=<%= item.region %>"
+          ><%= item.region %></a
+        >
+      </li>
+      <% } else{ %>
       <li>
         <a class="dropdown-item" href="/partner-smi?region=<%= item.region %>"
           ><%= item.region %></a
         >
       </li>
-      <% }) %>
+      <% } %> <% }) %>
     </ul>
   </div>
   <div class="row my-2">
