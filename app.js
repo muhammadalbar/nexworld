@@ -118,7 +118,7 @@ app.get("/special-deal", async (req, res) => {
     const dataBanner = await banner.json();
     res.render("special_deal", {
       layout: "layouts/bootstraplayout",
-      banner: dataBanner.data,
+      banner: dataBanner.data ? dataBanner.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -126,15 +126,32 @@ app.get("/special-deal", async (req, res) => {
 });
 
 app.get("/partner-smi", async (req, res) => {
+  const { region } = req.query;
+
   try {
     const banner = await fetch(
       process.env.FRONTEND_ADDRESS +
         `/api/banners/getBanners?page=1&perPage=10000`
     );
     const dataBanner = await banner.json();
+
+    const regionList = await fetch(
+      process.env.FRONTEND_ADDRESS + `/api/partner-smi/getRegion`
+    );
+    const dataregion = await regionList.json();
+
+    const partnerList = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/partner-smi/getPartners?search=${region ? region : ""}`
+    );
+    const dataPartner = await partnerList.json();
+
     res.render("partner_smi", {
       layout: "layouts/bootstraplayout",
-      banner: dataBanner.data,
+      banner: dataBanner.data ? dataBanner.data : [],
+      regions: dataregion.data ? dataregion.data : [],
+      selectedRegion: region ? region : "",
+      partners: dataPartner.data ? dataPartner.data : [],
     });
   } catch (err) {
     res.send(err.toString());

@@ -54,24 +54,30 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Lokasi : Jakarta
+      Lokasi : <%= selectedRegion %>
     </button>
     <ul
       class="dropdown-menu dropdown-menu-dark overflow-auto"
       style="max-height: 300px"
       aria-labelledby="dropdownMenuButton2"
     >
-      <li><a class="dropdown-item active" href="#">Jakarta</a></li>
-      <li><a class="dropdown-item" href="#">Jakarta</a></li>
-      <li><a class="dropdown-item" href="#">Jakarta</a></li>
-      <li><a class="dropdown-item" href="#">Jakarta</a></li>
-      <li><a class="dropdown-item" href="#">Jakarta</a></li>
+      <!-- <li><a class="dropdown-item active" href="#">Jakarta</a></li> -->
+      <!-- <li><a class="dropdown-item" href="#">Jakarta</a></li> -->
+      <% regions.map((item)=>{ %>
+      <li>
+        <a class="dropdown-item" href="/partner-smi?region=<%= item.region %>"
+          ><%= item.region %></a
+        >
+      </li>
+      <% }) %>
     </ul>
   </div>
   <div class="row my-2">
+    <% partners.map((item)=>{ %>
     <div
       class="col-6 col-sm-4 col-md-3 text-center mt-4"
       style="cursor: pointer"
+      onclick="goToUrl('<%= item.url %>')"
     >
       <div class="pb-3 pt-4 modal-black" style="height: 100%">
         <img
@@ -79,74 +85,10 @@
           style="width: 30%"
           class="mb-2"
         />
-        <p class="title-br">Partner SMI Nama</p>
+        <p class="title-br"><%= item.dealer_name %></p>
       </div>
     </div>
-    <div
-      class="col-6 col-sm-4 col-md-3 text-center mt-4"
-      style="cursor: pointer"
-    >
-      <div class="pb-3 pt-4 modal-black" style="height: 100%">
-        <img
-          src="./img/landing/tokotpedia.png"
-          style="width: 30%"
-          class="mb-2"
-        />
-        <p class="title-br">Partner SMI Nama</p>
-      </div>
-    </div>
-    <div
-      class="col-6 col-sm-4 col-md-3 text-center mt-4"
-      style="cursor: pointer"
-    >
-      <div class="pb-3 pt-4 modal-black" style="height: 100%">
-        <img
-          src="./img/landing/tokotpedia.png"
-          style="width: 30%"
-          class="mb-2"
-        />
-        <p class="title-br">Partner SMI Nama</p>
-      </div>
-    </div>
-    <div
-      class="col-6 col-sm-4 col-md-3 text-center mt-4"
-      style="cursor: pointer"
-    >
-      <div class="pb-3 pt-4 modal-black" style="height: 100%">
-        <img
-          src="./img/landing/tokotpedia.png"
-          style="width: 30%"
-          class="mb-2"
-        />
-        <p class="title-br">Partner SMI Nama</p>
-      </div>
-    </div>
-    <div
-      class="col-6 col-sm-4 col-md-3 text-center mt-4"
-      style="cursor: pointer"
-    >
-      <div class="pb-3 pt-4 modal-black" style="height: 100%">
-        <img
-          src="./img/landing/tokotpedia.png"
-          style="width: 30%"
-          class="mb-2"
-        />
-        <p class="title-br">Partner SMI Nama</p>
-      </div>
-    </div>
-    <div
-      class="col-6 col-sm-4 col-md-3 text-center mt-4"
-      style="cursor: pointer"
-    >
-      <div class="pb-3 pt-4 modal-black" style="height: 100%">
-        <img
-          src="./img/landing/tokotpedia.png"
-          style="width: 30%"
-          class="mb-2"
-        />
-        <p class="title-br">Partner SMI Nama</p>
-      </div>
-    </div>
+    <% }) %>
   </div>
 </div>
 
