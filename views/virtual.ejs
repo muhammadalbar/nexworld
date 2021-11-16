@@ -239,9 +239,23 @@
         Nulla facilisi. Etiam bibendum, nisl sed aliquam fermentum, nulla purus
         sagittis risus, et placerat sem arcu sit amet elit. Suspendisse potenti.
       </div>
-      <button class="view-btn mx-5">
-        <h6 class="mt-1"><strong>DOWNLOAD NEVV WORLD APPS</strong></h6>
-      </button>
+      <div class="text-center" style="color: #01cdf2"><h6>donwload on</h6></div>
+      <div class="d-flex justify-content-center">
+        <button
+          class="view-btn px-3 pt-1 pb-2"
+          style="width: fit-content; height: fit-content; margin-right: 0px"
+        >
+          <img src="./img/landing/apple.png" style="height: 20px" />
+          <small style="font-size: 10px">ios</small>
+        </button>
+        <button
+          class="view-btn px-3 pt-1 pb-2"
+          style="width: fit-content; height: fit-content; margin-left: 5px"
+        >
+          <img src="./img/landing/android.png" style="height: 20px" />
+          <small style="font-size: 10px">android</small>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -312,7 +326,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content p-4 modal-black">
+    <div class="modal-content px-4 pt-4 pb-2 modal-black">
       <div class="leaderboard text-center">
         <h1>Leaderboard</h1>
         <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
@@ -330,6 +344,15 @@
           </div>
         </div>
       </div>
+      <p
+        class="text-center winprize-link"
+        data-bs-toggle="modal"
+        data-tagVideo="https://www.youtube.com/embed/PH_jNHt4jVY"
+        data-bs-target="#videoModal"
+        data-bs-dismiss="modal"
+      >
+        win prize here!
+      </p>
     </div>
   </div>
 </div>
@@ -562,6 +585,7 @@
       $("#right-card-show").hide();
       $("#leftmenu").click(function () {
         $("#left-card").fadeOut(500);
+        $(".welcome-text").fadeIn(500);
         $("#right-card-show").show();
       });
       $("#rightmenu").click(function () {
@@ -570,6 +594,7 @@
       });
       $("#left-card-show").click(function () {
         $("#left-card").fadeIn(500);
+        $(".welcome-text").fadeOut(500);
         $("#right-card-show").hide();
         $("#left-card-show").hide();
       });
@@ -581,6 +606,7 @@
     } else {
       $("#leftmenu").click(function () {
         $("#left-card").fadeOut(500);
+        $(".welcome-text").fadeIn(500);
         $("#left-card-show").show();
       });
       $("#rightmenu").click(function () {
@@ -589,6 +615,7 @@
       });
       $("#left-card-show").click(function () {
         $("#left-card-show").hide();
+        $(".welcome-text").fadeOut(500);
         $("#left-card").fadeIn(500);
       });
       $("#right-card-show").click(function () {
@@ -596,6 +623,11 @@
         $("#right-card").fadeIn(500);
       });
     }
+    $(".container-fluid").append(`
+    <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2">
+      Welcome, ${localStorage.getItem("synnex-username")} !
+    </div>
+    `);
   });
 </script>
 
@@ -695,6 +727,26 @@
 </script>
 
 <style>
+  .welcome-text {
+    background: black;
+    border: 3px solid #ca2164;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #01cdf2;
+    animation: welcomemove 3s infinite;
+    text-shadow: 0 0 2px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 70px #0fa;
+  }
+  @keyframes welcomemove {
+    50% {
+      box-shadow: -1px -1px 10px 10px #0ff;
+    }
+  }
+  .winprize-link {
+    color: #01cdf2;
+    cursor: pointer;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
+      0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+  }
   .container-fluid {
     background-position: center;
     background-repeat: no-repeat;
@@ -737,8 +789,7 @@
     box-shadow: 0px 0px 5px #cf296c;
     border-radius: 1px 14px 14px 14px;
     color: #01cdf2;
-    text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 16px #fff, 0 0 37px #0fa,
-      0 0 77px #0fa, 0 0 87px #0fa, 0 0 97px #0fa, 0 0 146px #0fa;
+    text-shadow: 0 0 2px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 70px #0fa;
   }
   .bubble-chat:hover {
     font-weight: 700;
