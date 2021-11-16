@@ -8,10 +8,10 @@ module.exports = {
       const { email, name, phone, message } = req.body;
 
       await new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail({
-        subject: "CONTACT FORM : {{params.name}}",
+        subject: "BYGE CONTACT FORM : {{params.name}}",
         sender: { email: "nexworld@metrodata.co.id", name: "Nexworld 360" },
         replyTo: { email: email, name: name },
-        to: [{ name: "syarif", email: "syarif.cibatu@gmail.com" }],
+        to: [{ name: "Nexworld 360", email: "nexworld360@gmail.com" }],
         htmlContent: `
 <!doctype html>
 <html lang="en-US">
