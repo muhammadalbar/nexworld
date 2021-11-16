@@ -54,7 +54,7 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Lokasi : <%= selectedRegion %>
+      Lokasi : <%= selectedRegion ? selectedRegion : 'All' %>
     </button>
     <ul
       class="dropdown-menu dropdown-menu-dark overflow-auto"
