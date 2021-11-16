@@ -1,16 +1,16 @@
 <h3 style="font-weight: 600">Partner List</h3>
 <div
   class="modal fade"
-  id="exampleModal"
+  id="modalUpdate"
   tabindex="-1"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="modalUpdateLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
-          Add New Partner
+        <h5 class="modal-title" id="modalUpdateLabel" style="font-weight: 600">
+          Edit Partner SMI
         </h5>
         <button
           type="button"
@@ -21,22 +21,140 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="brand" class="form-label" style="font-weight: 700"
-            >Nama Brand</label
+          <label for="updealer_name" class="form-label" style="font-weight: 700"
+            >Dealer Name</label
           >
-          <input type="text" class="form-control" id="brand" />
+          <input type="text" class="form-control" id="updealer_name" />
         </div>
         <div class="mb-3">
-          <label for="pt" class="form-label" style="font-weight: 700"
-            >Nama PT</label
+          <label for="upcode" class="form-label" style="font-weight: 700"
+            >Code</label
           >
-          <input type="text" class="form-control" id="pt" />
+          <input type="number" class="form-control" id="upcode" />
         </div>
         <div class="mb-3">
-          <label for="divisi" class="form-label" style="font-weight: 700"
-            >Divisi</label
+          <label for="upcust_name" class="form-label" style="font-weight: 700"
+            >Cust Name</label
           >
-          <input type="text" class="form-control" id="divisi" />
+          <input type="text" class="form-control" id="upcust_name" />
+        </div>
+        <div class="mb-3">
+          <label for="upurl" class="form-label" style="font-weight: 700"
+            >Url</label
+          >
+          <input type="text" class="form-control" id="upurl" />
+        </div>
+        <div class="mb-3">
+          <label for="upregion" class="form-label" style="font-weight: 700"
+            >Region</label
+          >
+          <input type="text" class="form-control" id="upregion" />
+        </div>
+        <div class="mb-3">
+          <label for="upteam" class="form-label" style="font-weight: 700"
+            >Team</label
+          >
+          <input type="text" class="form-control" id="upteam" />
+        </div>
+        <div class="mb-3">
+          <input type="radio" value="Dropship" name="updropship" id="upyes" />
+          <label for="upyes" class="form-label me-3" style="font-weight: 700"
+            >Dropship</label
+          >
+          
+          <input type="radio" value="Non Dropship" name="updropship" id="upno" />
+          <label for="upno" class="form-label" style="font-weight: 700"
+            >Non Dropship</label
+          >
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="updatePartner()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
+          Add New Partner SMI
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="dealer_name" class="form-label" style="font-weight: 700"
+            >Dealer Name</label
+          >
+          <input type="text" class="form-control" id="dealer_name" />
+        </div>
+        <div class="mb-3">
+          <label for="code" class="form-label" style="font-weight: 700"
+            >Code</label
+          >
+          <input type="number" class="form-control" id="code" />
+        </div>
+        <div class="mb-3">
+          <label for="cust_name" class="form-label" style="font-weight: 700"
+            >Cust Name</label
+          >
+          <input type="text" class="form-control" id="cust_name" />
+        </div>
+        <div class="mb-3">
+          <label for="url" class="form-label" style="font-weight: 700"
+            >Url</label
+          >
+          <input type="text" class="form-control" id="url" />
+        </div>
+        <div class="mb-3">
+          <label for="region" class="form-label" style="font-weight: 700"
+            >Region</label
+          >
+          <input type="text" class="form-control" id="region" />
+        </div>
+        <div class="mb-3">
+          <label for="team" class="form-label" style="font-weight: 700"
+            >Team</label
+          >
+          <input type="text" class="form-control" id="team" />
+        </div>
+        <div class="mb-3">
+          <input type="radio" value="Dropship" name="dropship" id="yes" />
+          <label for="yes" class="form-label me-3" style="font-weight: 700"
+            >Dropship</label
+          >
+          
+          <input type="radio" value="Non Dropship" name="dropship" id="no" />
+          <label for="no" class="form-label" style="font-weight: 700"
+            >Non Dropship</label
+          >
         </div>
       </div>
       <div class="modal-footer">
@@ -76,21 +194,21 @@
         <li>
           <a
             class="dropdown-item"
-            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=10"
+            href="/admin/partnersmilist?search=<%= sch %>&page=1&perPage=10"
             >10</a
           >
         </li>
         <li>
           <a
             class="dropdown-item"
-            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=50"
+            href="/admin/partnersmilist?search=<%= sch %>&page=1&perPage=50"
             >50</a
           >
         </li>
         <li>
           <a
             class="dropdown-item"
-            href="/admin/partnerlist?search=<%= sch %>&page=1&perPage=100"
+            href="/admin/partnersmilist?search=<%= sch %>&page=1&perPage=100"
             >100</a
           >
         </li>
@@ -122,7 +240,7 @@
       style="background-color: #0b2559; width: 200px; font-size: 12px"
     >
       <span data-feather="plus"></span>
-      Add partner
+      Add partner SMI
     </button>
   </div>
 </div>
@@ -144,7 +262,7 @@
     <tbody>
       <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
+        <th scope="row"><%= index + 1 %></th>
         <td><%= item.dealer_name %></small></td>
         <td><%= item.code %></td>
         <td><%= item.cust_name %></td>
@@ -159,6 +277,8 @@
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
               onclick="goEdit('<%= item.uid %>')"
+              data-bs-toggle="modal"
+              data-bs-target="#modalUpdate"
             >
               Edit
             </button>
@@ -187,6 +307,7 @@
 <script>
   let path;
   let limitVal;
+  let selectedId;
   $(document).ready(() => {
     path = window.location.pathname;
     const urlParams = new URLSearchParams(window.location.search);
@@ -244,12 +365,32 @@
       `${path}?search=${query}&page=1&perPage=${limitVal}`
     );
   };
+
   const goEdit = (id) => {
-    window.location.replace(`/admin/editpartner?id=${id}`);
+    selectedId = id
+    $('#modalUpdate :input').prop("disabled", true)
+    fetch(`/api/partner-smi/getPartner/${id}`, {method: "GET"}).then((resp)=> resp.json()).then((data)=>{
+      const {dealer_name, code, cust_name, url, region, team, dropship} = data.data
+      $("#updealer_name").val(dealer_name);
+      $("#upcode").val(parseInt(code))
+      $("#upcust_name").val(cust_name)
+      $("#upurl").val(url)
+      $("#upregion").val(region)
+      $("#upteam").val(team)
+      if (dropship == 'Dropship') {
+        $('#upyes').attr('checked', 'checked');
+      } else {
+        $('#upno').attr('checked', 'checked');
+      }
+      $('#modalUpdate :input').prop("disabled", false)
+    }).catch((err)=> {
+      console.log(err)
+    })
   };
+
   const addPartner = () => {
     fetch(
-      `/api/partners/addPartner?apikey=${localStorage.getItem(
+      `/api/partner-smi/addPartner?apikey=${localStorage.getItem(
         "synnex-userid"
       )}`,
       {
@@ -258,15 +399,19 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: $("#pt").val(),
-          brand: $("#brand").val(),
-          divisi: $("#divisi").val(),
+          dealer_name: $("#dealer_name").val(),
+          code: $("#code").val(),
+          cust_name: $("#cust_name").val(),
+          url: $("#url").val(),
+          region: $("#region").val(),
+          team: $("#team").val(),
+          dropship: $('input[name="dropship"]:checked').val(),
         }),
       }
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Partner");
+          alert("Succes add Partner SMI");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
@@ -276,9 +421,44 @@
         alert(`${err}`);
       });
   };
+
+  const updatePartner = () => {
+    fetch(
+      `/api/partner-smi/updatePartner/${selectedId}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dealer_name: $("#updealer_name").val(),
+          code: $("#upcode").val(),
+          cust_name: $("#upcust_name").val(),
+          url: $("#upurl").val(),
+          region: $("#upregion").val(),
+          team: $("#upteam").val(),
+          dropship: $('input[name="updropship"]:checked').val(),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          alert("Succes update Partner SMI");
+          window.location.reload();
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+
   const deletePartner = (id) => {
     fetch(
-      `/api/partners/deletePartner/${id}?apikey=${localStorage.getItem(
+      `/api/partner-smi/deletePartner/${id}?apikey=${localStorage.getItem(
         "synnex-userid"
       )}`,
       {
@@ -287,7 +467,7 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes delete Partner");
+          alert("Succes delete Partner SMI");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
