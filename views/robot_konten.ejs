@@ -11,18 +11,23 @@
         </p>
       </div>
       <div>
-        <a href="<%= item.url %>">
-          <span
-            data-feather="arrow-right"
-            style="color: #01cdf2; cursor: pointer"
-          ></span
-        ></a>
+        <span
+          onclick="openUrl('<%= item.url %>')"
+          data-feather="arrow-right"
+          style="color: #01cdf2; cursor: pointer"
+        ></span>
       </div>
     </div>
     <hr style="border-top: 2px solid #d55085" />
   </div>
   <% }) %>
 </div>
+
+<script>
+  const openUrl = (url) => {
+    window.open(url);
+  };
+</script>
 
 <style>
   .container-fluid {
