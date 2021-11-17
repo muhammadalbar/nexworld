@@ -144,7 +144,9 @@ app.get("/partner-smi", async (req, res) => {
 
     const partnerList = await fetch(
       process.env.FRONTEND_ADDRESS +
-        `/api/partner-smi/getPartners?search=${region ? region : ""}`
+        `/api/partner-smi/getPartners?search=${
+          region ? region : ""
+        }&perPage=1000`
     );
     const dataPartner = await partnerList.json();
 
