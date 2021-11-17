@@ -186,8 +186,14 @@
         data-bs-dismiss="modal"
         aria-label="Close"
       ></button>
+      <div class="text-center">
+        <h4><strong>BYGE MAP</strong></h4>
+        <p style="color: rgb(255, 217, 0); font-size: 10px; margin-top: -10px">
+          <i>*click text to visit</i>
+        </p>
+      </div>
       <div class="overflow-auto">
-        <div class="position-relative">
+        <div class="position-relative mb-3">
           <div class="click-map"></div>
           <img src="./img/landing/map.png" alt="map-BYGE" />
         </div>
@@ -679,7 +685,7 @@
 
 <script>
   fetch(
-    "https://api.nevvorld.cn/api/token/app/findRegistRankList?eventToken=C68H8U8V",
+    "https://api.nevvorld.com/api/token/app/findRegistRankList?eventToken=UY9WOEUV",
     {
       method: "GET",
     }
@@ -689,13 +695,13 @@
       data.data.map((e, i) => {
         $("#modal-leaderboard").append(`
                 <div class="row">
-                  <div class="col-4 text-center"><strong>${
+                  <div class="col-4 text-center text-nowrap overflow-auto"><strong>${
                     i + 1
                   }.</strong></div>
-                  <div class="col-4 text-center overflow-auto"><h5><strong>${
+                  <div class="col-4 text-center text-nowrap overflow-auto"><h5><strong>${
                     e.ign
                   }</strong></h5></div>
-                  <div class="col-4 text-center"><strong>${
+                  <div class="col-4 text-center text-nowrap overflow-auto"><strong>${
                     e.point
                   }</strong></div>
                 </div>
@@ -704,8 +710,8 @@
       data.data.slice(0, 5).map((e) => {
         $("#lead-list").append(`
               <li>
-                <div class="overflow-auto">
-                  <p>${e.ign}</p>
+                <div>
+                  <p class="overflow-auto text-nowrap me-2">${e.ign}</p>
                   <span>${e.point}</span>
                 </div>
               </li>
