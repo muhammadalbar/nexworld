@@ -186,16 +186,33 @@
         data-bs-dismiss="modal"
         aria-label="Close"
       ></button>
-      <div class="text-center">
+      <div class="text-center mt-1">
         <h4><strong>BYGE MAP</strong></h4>
-        <p style="color: rgb(255, 217, 0); font-size: 10px; margin-top: -10px">
+        <p style="color: rgb(255, 217, 0); font-size: 10px">
           <i>*click text to visit</i>
         </p>
       </div>
-      <div class="overflow-auto">
-        <div class="position-relative mb-3">
-          <div class="click-map"></div>
-          <img src="./img/landing/map.png" alt="map-BYGE" />
+      <div class="overflow-auto" style="margin-top: -60px">
+        <div class="position-relative">
+          <div
+            class="click-map-room lobby"
+            style="margin-top: 190px; margin-left: 90px"
+          ></div>
+          <div
+            class="click-map-room information"
+            style="margin-top: 190px; margin-left: 280px"
+          ></div>
+          <div
+            class="click-map-room entrance"
+            style="margin-top: 190px; margin-left: 430px"
+          ></div>
+          <!-- <div class="click-map-npc" style="margin-top: 200px"></div> -->
+
+          <img
+            src="./img/landing/map.png"
+            alt="map-BYGE"
+            style="height: 400px"
+          />
         </div>
       </div>
     </div>
@@ -864,10 +881,19 @@
     position: relative;
     width: 350px;
   }
-  .click-map {
+  .click-map-room {
     background-color: rgba(145, 41, 41, 0.8);
-    width: 45px;
+    width: 50px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+  }
+  .click-map-npc {
+    background-color: rgba(145, 41, 41, 0.8);
+    width: 20px;
     height: 20px;
+    border-radius: 10px;
+    cursor: pointer;
     position: absolute;
   }
   .bubble-chat {
