@@ -618,15 +618,8 @@
     window.open("/special-deal");
   }
   $("#submit-email").click(function (e) {
-    // e.preventDefault();
-
-    console.log(
-      "SEND EMAIL",
-      $("#email").val(),
-      $("#phone").val(),
-      $("#name").val(),
-      $("#message").val()
-    );
+    e.preventDefault();
+    $("#submit-email").text("Sending...");
     fetch(`/api/contact`, {
       method: "POST",
       headers: {
@@ -640,7 +633,19 @@
       }),
     })
       .then((res) => {
-        console.log(res);
+        if (res.ok) {
+          $("#submit-email").text("Succes");
+          setTimeout(() => {
+            $("#submit-email").text("Submit");
+            $("#chatform").modal("toggle");
+          }, 2000);
+        } else {
+          $("#submit-email").text("Falied");
+          $("#submit-email").css("background-color", "#c94d44");
+          setTimeout(() => {
+            $("#submit-email").text("Submit");
+          }, 2000);
+        }
       })
       .catch((err) => {
         alert(`${err}`);
@@ -706,10 +711,10 @@
       });
     }
     $(".container-fluid").append(`
-    <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2">
-      Welcome, ${localStorage.getItem("synnex-username")} !
-    </div>
-    `);
+      <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2">
+        Welcome, ${localStorage.getItem("synnex-username")} !
+      </div>
+      `);
   });
 </script>
 
