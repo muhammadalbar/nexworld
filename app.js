@@ -184,6 +184,23 @@ app.get("/official-store", async (req, res) => {
   }
 });
 
+app.get("/byge-store", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+
+    res.render("byge_store", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
 //Auth
 app.post("/auth", authMw.authToken, (req, res) => {
   if (req.user.email != req.body.user) {
