@@ -619,7 +619,32 @@
   }
   $("#submit-email").click(function (e) {
     // e.preventDefault();
-    console.log("SEND EMAIL");
+
+    console.log(
+      "SEND EMAIL",
+      $("#email").val(),
+      $("#phone").val(),
+      $("#name").val(),
+      $("#message").val()
+    );
+    fetch(`/api/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: $("#name").val(),
+        email: $("#email").val(),
+        phone: $("#phone").val(),
+        message: $("#message").val(),
+      }),
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
   });
 
   // $("#expo").click(function () {
