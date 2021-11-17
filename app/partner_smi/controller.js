@@ -17,7 +17,7 @@ module.exports = {
         );
         totalData = data.rowCount;
         const partner = await db.query(
-          `SELECT * FROM partner_smi WHERE concat(dealer_name, cust_name, region, team, dropship) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          `SELECT REPLACE(REPLACE(dealer_name, 'PT. ', ''),'CV. ', '') dealer_name, cust_name, url, dropship, region,team FROM partner_smi WHERE concat(dealer_name, cust_name, region, team, dropship) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3 ORDER BY dealer_name ASC`,
           [search, perPage, page]
         );
         if (!Array.isArray(data.rows) || !data.rows.length) {
@@ -35,7 +35,7 @@ module.exports = {
         totalData = data.rowCount;
 
         const partners = await db.query(
-          `SELECT * FROM partner_smi LIMIT $1 OFFSET $2`,
+          `SELECT REPLACE(REPLACE(dealer_name, 'PT. ', ''),'CV. ', '') dealer_name, cust_name, url, dropship, region,team FROM partner_smi LIMIT $1 OFFSET $2 ORDER BY dealer_name ASC`,
           [perPage, page]
         );
         res.status(200).json({
