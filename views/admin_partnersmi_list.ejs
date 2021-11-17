@@ -286,7 +286,9 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
-              onclick="deletePartner('<%= item.uid %>')"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectedPartner('<%= item.uid %>')"
             >
               Delete
             </button>
@@ -299,12 +301,69 @@
   <div id="total-page" class="visually-hidden"><%= totalPage %></div>
 </div>
 
+<!-- Modal Delete -->
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Partner SMI
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-partner" />
+          <p>Do you want to remove this partner?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deletePartner()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end Modal Delete -->
+
 <div class="d-flex justify-content-end mt-4">
   <nav>
     <ul class="pagination"></ul>
   </nav>
 </div>
 <script>
+  function selectedPartner(id) {
+    $("#uid-partner").val(id);
+  }
   let path;
   let limitVal;
   let selectedId;
@@ -457,6 +516,7 @@
   };
 
   const deletePartner = (id) => {
+    id= $('#uid-partner').val()
     fetch(
       `/api/partner-smi/deletePartner/${id}?apikey=${localStorage.getItem(
         "synnex-userid"
@@ -467,7 +527,7 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes delete Partner SMI");
+          // alert("Succes delete Partner SMI");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);

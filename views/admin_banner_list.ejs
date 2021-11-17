@@ -248,7 +248,9 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
-              onclick="deleteBanner('<%= item.uid %>')"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectBanner('<%= item.uid %>')"
             >
               Delete
             </button>
@@ -261,12 +263,69 @@
   <div id="total-page" class="visually-hidden"><%= totalPage %></div>
 </div>
 
+<!-- Modal Delete -->
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Banner
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-banner" />
+          <p>Do you want to remove this banner?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deleteBanner()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end Modal Delete -->
+
 <div class="d-flex justify-content-end mt-4">
   <nav>
     <ul class="pagination"></ul>
   </nav>
 </div>
 <script>
+  function selectBanner(id) {
+    $("#uid-banner").val(id);
+  }
   let path;
   let limitVal;
   $(document).ready(() => {
@@ -431,6 +490,7 @@
       });
   };
   const deleteBanner = (id) => {
+    id = $("#uid-banner").val();
     fetch(
       `/api/banners/deleteBanner/${id}?apikey=${localStorage.getItem(
         "synnex-userid"
@@ -441,7 +501,7 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes delete Banner");
+          // alert("Succes delete Banner");
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);

@@ -272,7 +272,7 @@
               style="font-size: 10px"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal2"
-              onclick="editKonten('<%= item.uid %>', '<%= item.title %>', '<%= item.url %>')"
+              onclick="editKonten('<%= item.uid %>', '<%= item.title %>', '<%= item.url %>', '<%= item.sort_number %>')"
             >
               Edit
             </button>
@@ -280,7 +280,9 @@
               type="button"
               class="btn btn-light mx-1 border border-dark"
               style="font-size: 10px"
-              onclick="deleteKonten('<%= item.uid %>')"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectRobotContent('<%= item.uid %>')"
             >
               Delete
             </button>
@@ -291,8 +293,64 @@
     </tbody>
   </table>
 </div>
+<!-- Modal Delete -->
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Robot Content
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-robot" />
+          <p>Do you want to remove this robot?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deleteKonten()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end Modal Delete -->
 
 <script>
+  function selectRobotContent(id) {
+    $("#uid-robot").val(id);
+  }
   let id = "";
   $(document).ready(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -335,10 +393,11 @@
   };
 
   let idSelectedKonten = "";
-  const editKonten = (id, title, url) => {
+  const editKonten = (id, title, url, sort_number) => {
     idSelectedKonten = id;
     $("#uptitle").val(title);
     $("#upurl").val(url);
+    $("#up_sort_number").val(sort_number);
   };
   const updateKonten = () => {
     let setData = {
@@ -393,7 +452,8 @@
           alert("Succes add Konten");
           window.location.reload();
         } else {
-          alert(`${res.status} - ${res.statusText}`);
+          // alert(`${res.status} - ${res.statusText}`);
+          alert(`Content Robot is Maximum!`);
         }
       })
       .catch((err) => {
@@ -401,6 +461,7 @@
       });
   };
   const deleteKonten = (idDelete) => {
+    idDelete = $("#uid-robot").val();
     console.log(idDelete);
     fetch(
       `/api/robots/deleteRobotContent/${idDelete}?apikey=${localStorage.getItem(
@@ -412,7 +473,7 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes delete Konten");
+          // alert("Succes delete Konten");s
           window.location.reload();
         } else {
           alert(`${res.status} - ${res.statusText}`);
