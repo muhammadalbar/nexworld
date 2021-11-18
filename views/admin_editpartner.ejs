@@ -373,8 +373,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes update PIC");
-          window.location.reload();
+          $.notify("update PIC success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -399,8 +401,10 @@
     })
       .then((res) => {
         if (res.ok) {
-          alert("Succes add PIC");
-          window.location.reload();
+          $.notify("add PIC success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -420,8 +424,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes delete PIC");
-          window.location.reload();
+          $.notify("delete PIC success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -449,8 +455,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes update Partner");
-          window.location.reload();
+          $.notify("update partner success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }

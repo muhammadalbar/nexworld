@@ -445,8 +445,10 @@
           return response.json();
         })
         .then((data) => {
-          alert(data.message);
-          window.location.reload();
+          $.notify(data.message, "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         })
         .catch((error) => {
           alert(`${error}`);
@@ -481,8 +483,10 @@
     )
       .then((response) => response.json())
       .then((data) => {
-        alert(data.message);
-        window.location.reload();
+        $.notify(data.message, "success");
+        setTimeout(function () {
+          window.location.reload();
+        }, 700);
       })
       .catch((error) => {
         alert(`${error}`);
@@ -501,8 +505,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          // alert("Succes delete Banner");
-          window.location.reload();
+          $.notify(data.message, "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }

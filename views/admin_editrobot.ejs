@@ -419,8 +419,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes update Konten");
-          window.location.reload();
+          $.notify("update robot content success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -449,11 +451,14 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Konten");
-          window.location.reload();
+          $.notify("add robot content success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           // alert(`${res.status} - ${res.statusText}`);
-          alert(`Content Robot is Maximum!`);
+          // alert(`Content Robot is Maximum!`);
+          $.notify("content robot is maximum!", "error");
         }
       })
       .catch((err) => {
@@ -473,8 +478,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          // alert("Succes delete Konten");s
-          window.location.reload();
+          $.notify("delete robot content success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -501,8 +508,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes update Robot");
-          window.location.reload();
+          $.notify("update robot success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }

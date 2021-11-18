@@ -470,8 +470,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Partner SMI");
-          window.location.reload();
+           $.notify("add partner SMI success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -504,8 +506,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes update Partner SMI");
-          window.location.reload();
+           $.notify("update partner SMI success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -527,8 +531,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          // alert("Succes delete Partner SMI");
-          window.location.reload();
+           $.notify("delete partner SMI success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }

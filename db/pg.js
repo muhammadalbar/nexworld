@@ -102,6 +102,18 @@ async function getUser(email) {
     return { error: true, message: err.toString() };
   }
 }
+async function getGuest(email) {
+  try {
+    let { rows } = await db.query(
+      "select * from guests where email = $1 AND role = 'user'",
+      [email]
+    );
+
+    return rows;
+  } catch (err) {
+    return { error: true, message: err.toString() };
+  }
+}
 
 async function getAdmin(email) {
   try {
@@ -322,6 +334,7 @@ module.exports = {
   editBooth,
   registerUser,
   getUser,
+  getGuest,
   getUsersData,
   getAdmin,
   updateUser,
