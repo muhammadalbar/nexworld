@@ -333,8 +333,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Robot");
-          window.location.reload();
+          $.notify("add robot success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -355,8 +357,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          // alert("Succes delete Robot");
-          window.location.reload();
+          $.notify("delete robot success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }

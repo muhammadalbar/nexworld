@@ -315,8 +315,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Partner");
-          window.location.reload();
+          $.notify("add partner success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -337,8 +339,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          // alert("Succes delete Partner");
-          window.location.reload();
+          $.notify("delete partner success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }

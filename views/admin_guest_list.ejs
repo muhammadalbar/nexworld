@@ -297,8 +297,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Guest");
-          window.location.reload();
+          $.notify("add guest success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -319,8 +321,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          // alert("Succes delete PIC");
-          window.location.reload();
+          $.notify("delete guest success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
