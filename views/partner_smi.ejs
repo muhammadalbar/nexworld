@@ -46,38 +46,53 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  <div class="dropdown mt-5">
-    <button
-      class="btn btn-dark dropdown-toggle"
-      type="button"
-      id="dropdownMenuButton2"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      Lokasi : <%= selectedRegion ? selectedRegion : 'All' %>
-    </button>
-    <ul
-      class="dropdown-menu dropdown-menu-dark overflow-auto"
-      style="max-height: 300px"
-      aria-labelledby="dropdownMenuButton2"
-    >
-      <% regions.map((item)=>{ %> <% if(selectedRegion ==
-      item.region.toUpperCase()){ %>
-      <li>
-        <a
-          class="dropdown-item active"
-          href="/partner-smi?region=<%= item.region %>"
-          ><%= item.region %></a
-        >
-      </li>
-      <% } else{ %>
-      <li>
-        <a class="dropdown-item" href="/partner-smi?region=<%= item.region %>"
-          ><%= item.region %></a
-        >
-      </li>
-      <% } %> <% }) %>
-    </ul>
+  <div class="d-flex justify-content-between mt-5">
+    <a href="/special-deal">
+      <button
+        class="btn btn-primary title-glow py-1 px-4"
+        style="background-color: transparent; font-size: small"
+      >
+        <span
+          style="color: #01cdf2; width: 30px; height: 30px"
+          class="me-1"
+          data-feather="arrow-left"
+        ></span>
+        Kembali
+      </button>
+    </a>
+    <div class="dropdown">
+      <button
+        class="btn btn-dark dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton2"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Lokasi : <%= selectedRegion ? selectedRegion : 'All' %>
+      </button>
+      <ul
+        class="dropdown-menu dropdown-menu-dark overflow-auto"
+        style="max-height: 300px"
+        aria-labelledby="dropdownMenuButton2"
+      >
+        <% regions.map((item)=>{ %> <% if(selectedRegion ==
+        item.region.toUpperCase()){ %>
+        <li>
+          <a
+            class="dropdown-item active"
+            href="/partner-smi?region=<%= item.region %>"
+            ><%= item.region %></a
+          >
+        </li>
+        <% } else{ %>
+        <li>
+          <a class="dropdown-item" href="/partner-smi?region=<%= item.region %>"
+            ><%= item.region %></a
+          >
+        </li>
+        <% } %> <% }) %>
+      </ul>
+    </div>
   </div>
   <div class="row my-2">
     <% partners.map((item)=>{ %>
@@ -120,6 +135,17 @@
     box-shadow: 0px 0px 5px #d55085;
     border-radius: 20px;
     color: white;
+  }
+  .title-glow {
+    -webkit-text-stroke: 2px #ff6db8;
+    text-shadow: 0px 0px 10px #b7025f, 0px 0px 10px #b7025f,
+      0px 0px 10px #b7025f;
+    text-transform: uppercase;
+    color: black;
+  }
+  .title-glow:hover {
+    text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 16px #fff, 0 0 37px #0fa,
+      0 0 77px #0fa, 0 0 87px #0fa, 0 0 97px #0fa, 0 0 146px #0fa;
   }
   @media (max-width: 575.98px) {
     .title-br {
