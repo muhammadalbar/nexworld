@@ -21,7 +21,7 @@ router.get("/protected", isLoggedIn, async (req, res) => {
     let userkey = "synnex";
     let login = "google";
 
-    let response = await pgdb.getUser(email);
+    let response = await pgdb.getGuest(email);
 
     if (response.length == 0) {
       await db.query(

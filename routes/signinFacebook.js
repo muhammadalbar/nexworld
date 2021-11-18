@@ -24,7 +24,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
       let userkey = "synnex";
       let login = "facebook";
       //
-      let response = await pgdb.getUser(email);
+      let response = await pgdb.getGuest(email);
 
       if (response.length == 0) {
         await db.query(
@@ -87,7 +87,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
     let userkey = "synnex";
     let login = "facebook";
 
-    let response = await pgdb.getUser(email);
+    let response = await pgdb.getGuest(email);
 
     // res.send({
     //   email,
