@@ -1,3 +1,7 @@
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css"
+/>
 <div class="d-flex justify-content-between">
   <div><h2 style="font-weight: 600">Booths List</h2></div>
   <div>
@@ -172,7 +176,7 @@
 </div>
 <div class="card shadow p-3 mb-5 mt-3 bg-white rounded" style="border: none">
   <div class="card-body">
-    <table class="table">
+    <table class="table" id="table">
       <thead>
         <tr>
           <th scope="col">Number</th>
@@ -214,7 +218,10 @@
   </div>
 </div>
 <div id="total-booths" class="visually-hidden"><%= locals.booths.length %></div>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script>
+  $("#table").DataTable();
   let selectedBooth = "";
   let numberBooth = "";
 
@@ -238,7 +245,10 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        window.location.replace("/admin/booths" + "?message=1");
+        $.notify("delete booth success !", "success");
+        setTimeout(function () {
+          window.location.reload();
+        }, 700);
       })
       .catch((error) => {
         localStorage.removeItem("synnex-admin-user");
@@ -272,8 +282,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes add Booth");
-          window.location.reload();
+          $.notify("add booth success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
@@ -301,8 +313,10 @@
     )
       .then((res) => {
         if (res.ok) {
-          alert("Succes Update Booth");
-          window.location.reload();
+          $.notify("update booth success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
         } else {
           alert(`${res.status} - ${res.statusText}`);
         }
