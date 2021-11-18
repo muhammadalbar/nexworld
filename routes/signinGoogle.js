@@ -14,7 +14,7 @@ router.get("/protected", isLoggedIn, async (req, res) => {
     //EMAIL VALIDATION
     let email = req.user.email;
     let name = req.user.displayName;
-    let props = { name: req.user.displayName };
+    // let props = { name: req.user.displayName };
     let uid = uuidv4();
     let register_date = new Date();
     let role = "user";
@@ -25,8 +25,8 @@ router.get("/protected", isLoggedIn, async (req, res) => {
 
     if (response.length == 0) {
       await db.query(
-        `INSERT into users (uid, email, role, props, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
-        [uid, email, role, props, register_date, login]
+        `INSERT into guests (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
+        [uid, email, role, name, register_date, login]
       );
       const user = {
         email: email,

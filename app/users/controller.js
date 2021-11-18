@@ -10,19 +10,18 @@ module.exports = {
     try {
       const email = req.body.email;
       const name = req.body.name;
-      let props = { name: req.body.name };
       let uid = uuidv4();
       let register_date = new Date();
       let role = "user";
       let userkey = "synnex";
       let login = "synnex";
 
-      let response = await pgdb.getUser(email);
+      let response = await pgdb.getGuest(email);
 
       if (response.length == 0) {
         await db.query(
-          `INSERT into users (uid, email, role, props, register_date, login) values ($1, $2, $3, $4, $5,$6)`,
-          [uid, email, role, props, register_date, login]
+          `INSERT into guests (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5,$6)`,
+          [uid, email, role, name, register_date, login]
         );
         const user = {
           email: email,

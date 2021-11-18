@@ -70,24 +70,25 @@ module.exports = {
   addGuest: async (req, res) => {
     try {
       const { email, password, name } = req.body;
-
+      const role = "user";
+      const login = "synnex";
       const uid = uuidv4();
-      const created_at = new Date();
+      const register_date = new Date();
       if (email) {
         if (!validator.isEmail(email)) {
           res.status(500).json({ message: `Format email tidak sesuai` });
         } else {
           if (!password) {
             await db.query(
-              `INSERT into guests (uid, email, name, created_at) values ($1, $2, $3, $4)`,
-              [uid, email, name, created_at]
+              `INSERT into guests (uid, email, name, register_date, role, login) values ($1, $2, $3, $4, $5, $6)`,
+              [uid, email, name, register_date, role, login]
             );
           } else {
             let salt = await bcrypt.genSalt(saltRounds);
             const hash = await bcrypt.hash(password, salt);
             await db.query(
-              `INSERT into guests (uid, email, password, name, created_at) values ($1, $2, $3, $4, $5)`,
-              [uid, email, hash, name, created_at]
+              `INSERT into guests (uid, email, password, name, register_date, role, login) values ($1, $2, $3, $4, $5, $6, $7)`,
+              [uid, email, hash, name, register_date, role, login]
             );
           }
           res
