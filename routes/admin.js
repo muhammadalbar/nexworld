@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const pgdb = require("../db/pg");
+const fetch = require("cross-fetch");
 
 const bcrypt = require("bcrypt");
 
@@ -102,6 +103,8 @@ router.get("/annotations", async (req, res) => {
     let boothId = booth[0].uid;
     let boothName = booth[0].name;
 
+    // res.send({ annotations, booth, boothId, boothName });
+
     res.render("admin_annotations", {
       title: "Synnex Admin - Annotations",
       layout: "layouts/adminsidenav",
@@ -157,11 +160,49 @@ router.post("/getData", async (req, res) => {
 });
 
 router.get("/partnerlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/partners/getPartners?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
+
     res.render("admin_partner_list", {
       title: "Synnex Admin - Partner List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+router.get("/partnersmilist", async (req, res) => {
+  const { page, perPage, search } = req.query;
+  try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/partner-smi/getPartners?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
+
+    res.render("admin_partnersmi_list", {
+      title: "Synnex Admin - Partner SMI List",
+      layout: "layouts/adminsidenav",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -172,10 +213,19 @@ router.get("/editpartner", async (req, res) => {
   const id = req.query.id ? req.query.id : "";
   // console.log(id);
   try {
+    const data = await fetch(
+      process.env.FRONTEND_ADDRESS + `/api/partners/getPartner/${id}`
+    );
+    const dataPartner = await data.json();
+    const { name, brand, divisi, pics } = dataPartner.data;
+
     res.render("admin_editpartner", {
       title: "Synnex Admin - Edit Partner",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      name: name ? name : "",
+      brand: brand ? brand : "",
+      divisi: divisi ? divisi : "",
+      pics: pics ? pics : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -183,11 +233,24 @@ router.get("/editpartner", async (req, res) => {
 });
 
 router.get("/guestlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/guests/getGuests?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
+
     res.render("admin_guest_list", {
       title: "Synnex Admin - Guest List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -195,11 +258,23 @@ router.get("/guestlist", async (req, res) => {
 });
 
 router.get("/storelist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/stores/getStores?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
     res.render("admin_store_list", {
       title: "Synnex Admin - Store List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
     });
   } catch (err) {
     res.send(err.toString());
@@ -207,11 +282,73 @@ router.get("/storelist", async (req, res) => {
 });
 
 router.get("/bannerlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
   try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
     res.render("admin_banner_list", {
       title: "Synnex Admin - Banner List",
       layout: "layouts/adminsidenav",
-      sch: req.query.sch ? req.query.sch : "",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+router.get("/robotlist", async (req, res) => {
+  const { page, perPage, search } = req.query;
+  try {
+    const allBooths = await pgdb.getBooths();
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/robots/getRobots?page=${page ? page : 1}&perPage=${
+          perPage ? perPage : 10
+        }&search=${search ? search : ""}`
+    );
+    const data = await resp.json();
+
+    res.render("admin_robot_list", {
+      title: "Synnex Admin - Robot List",
+      layout: "layouts/adminsidenav",
+      page: page ? page : 1,
+      perPage: perPage ? perPage : 10,
+      totalPage: Math.ceil(data.totalData / (perPage ? perPage : 10)),
+      sch: search ? search : "",
+      data: data.data ? data.data : [],
+      booths: allBooths,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+router.get("/editrobot", async (req, res) => {
+  const id = req.query.id ? req.query.id : "";
+  try {
+    const data = await fetch(
+      process.env.FRONTEND_ADDRESS + `/api/robots/getRobot/${id}`
+    );
+    const dataRobot = await data.json();
+    const { boothid, name, title, description, contents } = dataRobot.data;
+
+    res.render("admin_editrobot", {
+      title: "Synnex Admin - Edit Robot",
+      layout: "layouts/adminsidenav",
+      boothid: boothid ? boothid : "",
+      name: name ? name : "",
+      title: title ? title : "",
+      description: description ? description : "",
+      contents: contents ? contents : [],
     });
   } catch (err) {
     res.send(err.toString());

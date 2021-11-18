@@ -1,58 +1,328 @@
-<h1>Booths List</h1>
-<div id="alert-card" class="alert alert-success" role="alert">
-    <%= locals.message ? message : null %>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css"
+/>
+<div class="d-flex justify-content-between">
+  <div><h2 style="font-weight: 600">Booths List</h2></div>
+  <div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      style="background-color: #0b2559; width: 200px; font-size: 12px"
+    >
+      <span data-feather="plus"></span>
+      Add Booth
+    </button>
+  </div>
 </div>
-<table class="table">
-    <thead>
+
+<div
+  class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Update Booth
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="upname" class="form-label" style="font-weight: 700"
+            >Nama Booth</label
+          >
+          <input type="text" class="form-control" id="upname" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="updateBooth()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Booth
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-booth" />
+          <p>Do you want to remove this booth?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deleteBooth()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
+          Add New Booth
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="name" class="form-label" style="font-weight: 700"
+            >Nama Booth</label
+          >
+          <input type="text" class="form-control" id="name" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="addBooth()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="alert-card" class="alert alert-success" role="alert">
+  <%= locals.message ? message : null %>
+</div>
+<div class="card shadow p-3 mb-5 mt-3 bg-white rounded" style="border: none">
+  <div class="card-body">
+    <table class="table" id="table">
+      <thead>
         <tr>
-            <th scope="col">Number</th>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
+          <th scope="col">Number</th>
+          <th scope="col">Name</th>
+          <th scope="col">Action</th>
         </tr>
-    </thead>
-    <tbody>
-        <% locals.booths ? booths.forEach(function(booth){  %>
+      </thead>
+      <tbody>
+        <% locals.booths ? booths.forEach(function(booth){ %>
         <tr>
-            <th scope="row">
-                <%= booth.number %>
-            </th>
-            <td>
-                <%= booth.name %>
-            </td>
-            <td><button type="button" class="btn btn-danger" onClick="deleteBooth('<%= booth.uid %>')">Delete</button></td>
+          <th scope="row"><%= booth.number %></th>
+          <td><%= booth.name %></td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectBooth('<%= booth.uid %>')"
+            >
+              Delete
+            </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              onclick="selectBooth('<%= booth.uid %>', '<%= booth.name %>', '<%= booth.number %>')"
+            >
+              Edit
+            </button>
+          </td>
         </tr>
         <% }) : '' %>
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="total-booths" class="visually-hidden"><%= locals.booths.length %></div>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script>
-function deleteBooth(uid) {
-    fetch('/booths/delete', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('synnex-admin-jwt')
-            },
-            body: JSON.stringify({
-                uid
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.location.replace("/admin/booths" + '?message=1');
-        })
-        .catch(error => {
-            localStorage.removeItem("synnex-admin-user");
-            localStorage.removeItem("synnex-admin-jwt");
-            window.location.replace('/adminlogin?message=2')
-        })
-}
+  $("#table").DataTable();
+  let selectedBooth = "";
+  let numberBooth = "";
 
-const urlParams = new URLSearchParams(window.location.search);
-const message = urlParams.get('message');
+  function selectBooth(id, name, number) {
+    selectedBooth = id;
+    numberBooth = number;
+    $("#upname").val(name);
+    $("#uid-booth").val(id);
+  }
 
-if (message) {
-    $('#alert-card').show()
-} else {
-    $('#alert-card').hide()
-}
+  function deleteBooth() {
+    fetch("/booths/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("synnex-admin-jwt"),
+      },
+      body: JSON.stringify({
+        uid: $("#uid-booth").val(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        $.notify("delete booth success !", "success");
+        setTimeout(function () {
+          window.location.reload();
+        }, 700);
+      })
+      .catch((error) => {
+        localStorage.removeItem("synnex-admin-user");
+        localStorage.removeItem("synnex-admin-jwt");
+        window.location.replace("/adminlogin?message=2");
+      });
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const message = urlParams.get("message");
+
+  if (message) {
+    $("#alert-card").show();
+  } else {
+    $("#alert-card").hide();
+  }
+
+  const addBooth = () => {
+    fetch(
+      `/api/booths/addBooth?apikey=${localStorage.getItem("synnex-userid")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          number: parseInt($("#total-booths").text()) + 1,
+          name: $("#name").val(),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify("add booth success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+
+  const updateBooth = () => {
+    fetch(
+      `/api/booths/updateBooth/${selectedBooth}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $("#upname").val(),
+          number: numberBooth,
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify("update booth success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
 </script>

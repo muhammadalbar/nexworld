@@ -2,18 +2,40 @@ const express = require("express");
 const router = express.Router();
 const pgdb = require("../db/pg");
 const SibApiV3Sdk = require("sib-api-v3-sdk");
+const fetch = require("cross-fetch");
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
 
 //MIDDLEWARE//
 const authMw = require("../middleware/authToken");
+const { isLogin } = require("../middleware/auth");
 
 //Routes
-router.get("/", async (req, res) => {
+router.get("/", isLogin, async (req, res) => {
   res.render("virtual", {
     title: "Synnex Virtual",
-    layout: "layouts/virtuallayout",
-    fileAddr: "3d/index.html",
+    layout: "layouts/bootstraplayout",
+    // fileAddr: "3d/index.html",
   });
+});
+
+router.get("/robot-konten", async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    const resp = await fetch(
+      process.env.FRONTEND_ADDRESS + `/api/robots/getRobot/${id}`
+    );
+    const data = await resp.json();
+    const { title, description, contents } = data.data;
+
+    res.render("robot_konten", {
+      title: "Robot Konten",
+      layout: "layouts/bootstraplayout",
+      title: title ? title : "",
+      description: description ? description : "",
+      contents: contents ? contents : [],
+    });
+  } catch (error) {}
 });
 
 router.post("/getbriefcase", authMw.authToken(), async (req, res) => {

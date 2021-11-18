@@ -2,6 +2,7 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const path = require("path");
+const fetch = require("cross-fetch");
 
 const pgdb = require("./db/pg");
 const dotenv = require("dotenv");
@@ -10,8 +11,12 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const hostname = "localhost";
+const hostname = "0.0.0.0";
 const port = process.env.APP_PORT;
+
+const passport = require("passport");
+require("./middleware/authGoogle");
+require("./middleware/authFacebook");
 
 const pg = require("pg"),
   session = require("express-session"),
@@ -24,16 +29,34 @@ app.use(
     extended: true,
   })
 );
+//Serving Static File
+app.use("/public", express.static(path.resolve("./public")));
 
 // ROUTES API
-const getBooths = require("./app/booth/router");
-const getPics = require("./app/pic/router");
+const booth = require("./app/booth/router");
+const pic = require("./app/pic/router");
+const partner = require("./app/partner/router");
+const partnersmi = require("./app/partner_smi/router");
+const store = require("./app/store/router");
+const banner = require("./app/banner/router");
+const annotation = require("./app/annotation/router");
+const guest = require("./app/guest/router");
+const robot = require("./app/robot/router");
+const contact = require("./app/contact/router");
 
 // URL API
-const api = `/api/v1`;
+const URL = `/api`;
 // API
-app.use(`${URL}/booths`, getBooths);
-app.use(`${URL}/pics`, getPics);
+app.use(`${URL}/booths`, booth);
+app.use(`${URL}/pics`, pic);
+app.use(`${URL}/partners`, partner);
+app.use(`${URL}/partner-smi`, partnersmi);
+app.use(`${URL}/stores`, store);
+app.use(`${URL}/banners`, banner);
+app.use(`${URL}/annotations`, annotation);
+app.use(`${URL}/guests`, guest);
+app.use(`${URL}/robots`, robot);
+app.use(`${URL}/contact`, contact);
 
 /*
 const cors = require('cors')
@@ -53,11 +76,131 @@ app.set("layout extractScripts", true);
 
 //MIDDLEWARE//
 const authMw = require("./middleware/authToken");
+app.use(
+  session({
+    secret: "carbonara2021",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {},
+  })
+);
 
 //ROUTES//
 
-app.get("/", function (req, res) {
-  res.render("index");
+app.get("/", (req, res) => {
+  const session = req.session.user;
+  if (session === null || session === undefined) {
+    res.render("index", { layout: "layouts/bootstraplayout" });
+  } else {
+    res.redirect("/virtual");
+  }
+});
+app.get("/logout", (req, res) => {
+  req.session.destroy(function (err) {
+    res.redirect("/");
+  });
+});
+
+app.get("/event-info", async (req, res) => {
+  try {
+    res.render("event_info", {
+      layout: "layouts/bootstraplayout",
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+app.get("/special-deal", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+    res.render("special_deal", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data ? dataBanner.data : [],
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+app.get("/partner-smi", async (req, res) => {
+  const { region } = req.query;
+
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+
+    const regionList = await fetch(
+      process.env.FRONTEND_ADDRESS + `/api/partner-smi/getRegion`
+    );
+    const dataregion = await regionList.json();
+
+    const partnerList = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/partner-smi/getPartners?search=${
+          region ? region : ""
+        }&perPage=1000`
+    );
+    const dataPartner = await partnerList.json();
+
+    res.render("partner_smi", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data ? dataBanner.data : [],
+      regions: dataregion.data ? dataregion.data : [],
+      selectedRegion: region ? region : "",
+      partners: dataPartner.data ? dataPartner.data : [],
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+app.get("/official-store", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+
+    const store = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/stores/getStores?page=1&perPage=10000`
+    );
+    const dataStore = await store.json();
+
+    res.render("official_store", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data,
+      store: dataStore.data,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
+app.get("/byge-store", async (req, res) => {
+  try {
+    const banner = await fetch(
+      process.env.FRONTEND_ADDRESS +
+        `/api/banners/getBanners?page=1&perPage=10000`
+    );
+    const dataBanner = await banner.json();
+
+    res.render("byge_store", {
+      layout: "layouts/bootstraplayout",
+      banner: dataBanner.data,
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
 });
 
 //Auth
@@ -73,10 +216,51 @@ app.post("/auth", authMw.authToken, (req, res) => {
 });
 //
 
-//Login function
-const login = require("./routes/login");
+// GOOGLE & FACEBOOK LOGIN
 
-app.use("/login", login);
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: "email" })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/protected",
+    failureRedirect: "/",
+  })
+);
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/dashfacebook",
+    failureRedirect: "/",
+  })
+);
+const loginGoogle = require("./routes/signinGoogle");
+const loginFacebook = require("./routes/signinFacebook");
+
+app.get("/protected", loginGoogle);
+app.get("/dashFacebook", loginFacebook);
+
+// END LOGIN GOOGLE & FACEBOOK
+
+// USER LOGIN
+const usersRouter = require("./app/users/router");
+app.use("/", usersRouter);
+// END USER LOGIN
+
+//Login function SEBELUMNYA
+// const login = require("./routes/login");
+
+// app.use("/login", login);
 
 app.post("/logout", async (req, res) => {
   res.send("Logout");
@@ -124,7 +308,8 @@ app.get("/adminlogin", (req, res) => {
 
 app.post("/adminlogin", async (req, res) => {
   try {
-    let response = await pgdb.getAdmin();
+    let email = req.body.email;
+    let response = await pgdb.getAdmin(email);
 
     let adminData = response[0];
     let match = await bcrypt.compare(req.body.password, adminData.password);
@@ -142,6 +327,8 @@ app.post("/adminlogin", async (req, res) => {
       res.render("loginform", {
         userkey: "synnex-admin",
         user: adminData.email,
+        uid: adminData.uid,
+        userid: "admin",
         jwt: jwtToken,
         redirecturl: "/admin/dashboard",
         layout: "layouts/emptylayout",

@@ -1,0 +1,375 @@
+<h3 style="font-weight: 600">Robot Konten List</h3>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600">
+          Add New Robot
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="annBooth" class="form-label"
+            ><strong>Booth Name</strong></label
+          >
+          <select id="annBooth" name="boothid" class="form-select">
+            <% booths ? booths.forEach(function(booth){ %>
+            <option value="<%= booth.uid %>">
+              <%= booth.number %>. <%= booth.name %>
+            </option>
+            <% }) : '' %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="title" class="form-label" style="font-weight: 700"
+            >Title</label
+          >
+          <input type="text" class="form-control" id="title" />
+        </div>
+        <div class="mb-3">
+          <label for="desc" class="form-label" style="font-weight: 700"
+            >Description</label
+          >
+          <input type="text" class="form-control" id="desc" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="addRobot()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-3 mb-3 p-1 d-flex justify-content-between">
+  <div class="d-flex">
+    <div class="my-2">Show</div>
+    <div class="btn-group">
+      <button
+        type="button"
+        class="btn btn-light dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <%= perPage %>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/robotlist?search=<%= sch %>&page=1&perPage=10"
+            >10</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/robotlist?search=<%= sch %>&page=1&perPage=50"
+            >50</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/robotlist?search=<%= sch %>&page=1&perPage=100"
+            >100</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="my-2">Entires</div>
+  </div>
+  <div class="d-flex">
+    <input
+      id="sch"
+      type="text"
+      class="form-control"
+      placeholder="Search here"
+      value="<%= sch %>"
+    />
+    <button
+      type="button"
+      class="btn btn-primary mx-1"
+      style="background-color: #0b2559"
+      onclick="goSch()"
+    >
+      <span data-feather="search"></span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      style="background-color: #0b2559; width: 200px; font-size: 12px"
+    >
+      <span data-feather="plus"></span>
+      Add Robot
+    </button>
+  </div>
+</div>
+<div class="shadow p-2 rounded">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">NO</th>
+        <th scope="col">Nama Booth</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.map((item, index)=>{ %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= item.name %></td>
+        <td><%= item.title %></td>
+        <td>
+          <div class="cut-text" style="color: black">
+            <%= item.description %>
+          </div>
+        </td>
+        <td>
+          <div>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onclick="goEdit('<%= item.uid %>')"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectRobot('<%= item.uid %>')"
+            >
+              Delete
+            </button>
+            <button
+              type="button"
+              class="btn btn-light px-3 border border-dark"
+              style="font-size: 10px"
+              onclick="previewRobot('<%= item.uid %>')"
+            >
+              Preview
+            </button>
+          </div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <div id="total-page" class="visually-hidden"><%= totalPage %></div>
+</div>
+
+<!-- Modal Delete -->
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Robot
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-robot" />
+          <p>Do you want to remove this robot?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deleteRobot()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end Modal Delete -->
+
+<div class="d-flex justify-content-end mt-4">
+  <nav>
+    <ul class="pagination"></ul>
+  </nav>
+</div>
+<script>
+  function selectRobot(id) {
+    $("#uid-robot").val(id);
+  }
+  let path;
+  let limitVal;
+  $(document).ready(() => {
+    path = window.location.pathname;
+    const urlParams = new URLSearchParams(window.location.search);
+    const schVal = urlParams.get("search") ? urlParams.get("search") : "";
+    const pageVal = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+    limitVal = urlParams.get("perPage")
+      ? parseInt(urlParams.get("perPage"))
+      : 10;
+    const totalPage = parseInt($("#total-page").text());
+    console.log(pageVal, limitVal, totalPage);
+
+    if (pageVal > 1) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal - 1
+      }&perPage=${limitVal}">Previous</a>
+        </li>
+      `);
+    }
+
+    const ses = Math.floor(pageVal / 5);
+    let maxPage = ses + 5;
+    if (maxPage > totalPage) {
+      maxPage = totalPage;
+    }
+    for (let i = ses + 1; i <= maxPage; i++) {
+      if (pageVal == i) {
+        $(".pagination").append(`
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">${i}</span>
+        </li>
+      `);
+      } else {
+        $(".pagination").append(`
+        <li class="page-item"><a class="page-link" href="${path}?search=${schVal}&page=${i}&perPage=${limitVal}">${i}</a></li>
+      `);
+      }
+    }
+
+    if (pageVal < maxPage) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal + 1
+      }&perPage=${limitVal}">Next</a>
+        </li>
+      `);
+    }
+  });
+
+  const goSch = () => {
+    const query = $("#sch").val();
+    window.location.replace(
+      `${path}?search=${query}&page=1&perPage=${limitVal}`
+    );
+  };
+  const goEdit = (id) => {
+    window.location.replace(`/admin/editrobot?id=${id}`);
+  };
+  const addRobot = () => {
+    fetch(
+      `/api/robots/addRobot?apikey=${localStorage.getItem("synnex-userid")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: $("#title").val(),
+          description: $("#desc").val(),
+          boothid: $("#annBooth").val(),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify("add robot success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const deleteRobot = (id) => {
+    id = $("#uid-robot").val();
+    fetch(
+      `/api/robots/deleteRobot/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify("delete robot success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const previewRobot = (id) => {
+    window.open(`/virtual/robot-konten?id=${id}`);
+  };
+</script>

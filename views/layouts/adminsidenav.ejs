@@ -58,6 +58,10 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../css/all.css" />
     <!---->
     <title>nexworld°</title>
@@ -224,8 +228,18 @@
                   href="/admin/partnerlist"
                   style="color: white"
                 >
-                  <span data-feather="alert-circle"></span>
+                  <span data-feather="user"></span>
                   Partner List
+                </a>
+              </li>
+              <li class="nav-item" id="partnersmilist">
+                <a
+                  class="nav-link"
+                  href="/admin/partnersmilist"
+                  style="color: white"
+                >
+                  <span data-feather="users"></span>
+                  Partner SMI List
                 </a>
               </li>
               <li class="nav-item" id="guestlist">
@@ -234,7 +248,7 @@
                   href="/admin/guestlist"
                   style="color: white"
                 >
-                  <span data-feather="alert-circle"></span>
+                  <span data-feather="user"></span>
                   Guest List
                 </a>
               </li>
@@ -277,9 +291,9 @@
                 >ROBOT KONTEN MANAGEMENT</span
               >
             </h6>
-            <li class="nav-item">
-              <a class="nav-link" href="#" style="color: white">
-                <span data-feather="alert-circle"></span>
+            <li class="nav-item" id="robotlist">
+              <a class="nav-link" href="/admin/robotlist" style="color: white">
+                <span data-feather="aperture"></span>
                 Robot Konten List
               </a>
             </li>
@@ -300,13 +314,13 @@
             </h6>
             <li class="nav-item" id="storelist">
               <a class="nav-link" href="/admin/storelist" style="color: white">
-                <span data-feather="alert-circle"></span>
+                <span data-feather="image"></span>
                 Store List
               </a>
             </li>
             <li class="nav-item" id="bannerlist">
               <a class="nav-link" href="/admin/bannerlist" style="color: white">
-                <span data-feather="alert-circle"></span>
+                <span data-feather="image"></span>
                 Banner List
               </a>
             </li>
@@ -328,8 +342,12 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script src="../js/dashboard.js"></script>
     <script src="../js/globaladmin.js"></script>
+    <script src="../js/notify.js"></script>
+
     <script>
       function logout() {
         localStorage.removeItem("synnex-admin-user");

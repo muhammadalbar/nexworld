@@ -1,0 +1,92 @@
+<div class="container-fluid p-5">
+  <div
+    id="carouselExampleControls"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <% banner.map((item, index)=>{ %> <% if(index == 1){ %>
+      <div class="carousel-item active">
+        <img
+          src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+          class="d-block w-100"
+          alt="<%= item.name %>"
+          onclick="goToUrl('<%= item.url %>')"
+          style="cursor: pointer"
+        />
+      </div>
+      <% } else{ %>
+      <div class="carousel-item">
+        <img
+          src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+          class="d-block w-100"
+          alt="<%= item.name %>"
+          onclick="goToUrl('<%= item.url %>')"
+          style="cursor: pointer"
+        />
+      </div>
+      <% } %> <% }) %>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="row my-5">
+    <% store.map((item, index)=>{ %>
+    <div class="col-6 col-sm-4 col-md-3 text-center p-2">
+      <div
+        class="logo p-4 p-md-5 m-0 m-md-2 rounded"
+        style="background: rgba(255, 255, 255, 0.8); cursor: pointer"
+        onclick="goToUrl('<%= item.url %>')"
+      >
+        <img
+          class="img-fluid"
+          src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+          style="height: 30px"
+          alt=""
+        />
+      </div>
+      <h5 style="color: white; font-weight: 500" class="pt-2">
+        <%= item.name %>
+      </h5>
+    </div>
+    <% }) %>
+  </div>
+
+  <script>
+    const goToUrl = (url) => {
+      window.open(url);
+    };
+  </script>
+
+  <style>
+    .container-fluid {
+      background-image: url("./img/background-2.png");
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .logo {
+      border: 3px solid #c65a85;
+      box-sizing: border-box;
+      box-shadow: 0px 0px 5px #d55085;
+      border-radius: 20px;
+    }
+  </style>
+</div>

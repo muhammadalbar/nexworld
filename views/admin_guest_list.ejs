@@ -65,12 +65,30 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        10
+        <%= perPage %>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">10</a></li>
-        <li><a class="dropdown-item" href="#">50</a></li>
-        <li><a class="dropdown-item" href="#">100</a></li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/guestlist?search=<%= sch %>&page=1&perPage=10"
+            >10</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/guestlist?search=<%= sch %>&page=1&perPage=50"
+            >50</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/guestlist?search=<%= sch %>&page=1&perPage=100"
+            >100</a
+          >
+        </li>
       </ul>
     </div>
     <div class="my-2">Entires</div>
@@ -114,72 +132,205 @@
       </tr>
     </thead>
     <tbody>
+      <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Ottodwda</td>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= item.name %></td>
+        <td><%= item.email %></td>
         <td>
           <div>
             <button
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectedGuest('<%= item.uid %>')"
             >
               Delete
             </button>
           </div>
         </td>
       </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Ottodwda</td>
-        <td>
-          <div>
-            <button
-              type="button"
-              class="btn btn-light px-3 border border-dark"
-              style="font-size: 10px"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
+      <% }) %>
     </tbody>
   </table>
+  <div id="total-page" class="visually-hidden"><%= totalPage %></div>
+</div>
+<!-- Modal Delete -->
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Guest
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-guest" />
+          <p>Do you want to remove this guest?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deleteGuest()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- end Modal Delete -->
 <div class="d-flex justify-content-end mt-4">
   <nav>
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">2</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
+    <ul class="pagination"></ul>
   </nav>
 </div>
 <script>
+  function selectedGuest(id) {
+    $("#uid-guest").val(id);
+  }
+  let path;
+  let limitVal;
   $(document).ready(() => {
+    path = window.location.pathname;
     const urlParams = new URLSearchParams(window.location.search);
-    const schVal = urlParams.get("sch");
-    console.log(schVal);
+    const schVal = urlParams.get("search") ? urlParams.get("search") : "";
+    const pageVal = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+    limitVal = urlParams.get("perPage")
+      ? parseInt(urlParams.get("perPage"))
+      : 10;
+    const totalPage = parseInt($("#total-page").text());
+    console.log(pageVal, limitVal, totalPage);
+
+    if (pageVal > 1) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal - 1
+      }&perPage=${limitVal}">Previous</a>
+        </li>
+      `);
+    }
+
+    const ses = Math.floor(pageVal / 5);
+    let maxPage = ses + 5;
+    if (maxPage > totalPage) {
+      maxPage = totalPage;
+    }
+    for (let i = ses + 1; i <= maxPage; i++) {
+      if (pageVal == i) {
+        $(".pagination").append(`
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">${i}</span>
+        </li>
+      `);
+      } else {
+        $(".pagination").append(`
+        <li class="page-item"><a class="page-link" href="${path}?search=${schVal}&page=${i}&perPage=${limitVal}">${i}</a></li>
+      `);
+      }
+    }
+
+    if (pageVal < maxPage) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal + 1
+      }&perPage=${limitVal}">Next</a>
+        </li>
+      `);
+    }
   });
+
   const goSch = () => {
-    console.log($("#sch").val());
+    const query = $("#sch").val();
+    window.location.replace(
+      `${path}?search=${query}&page=1&perPage=${limitVal}`
+    );
   };
   const postNewGuest = () => {
     const name = $("#name").val();
     const email = $("#email").val();
     console.log("NAME", name, email);
+    fetch(
+      `/api/guests/addGuest?apikey=${localStorage.getItem("synnex-userid")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $("#name").val(),
+          email: $("#email").val(),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify("add guest success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
+  };
+  const deleteGuest = (id) => {
+    id = $("#uid-guest").val();
+    fetch(
+      `/api/guests/deleteGuest/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify("delete guest success !", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
   };
 </script>

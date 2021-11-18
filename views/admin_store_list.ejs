@@ -2,6 +2,77 @@
 
 <div
   class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Update Store
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <img
+          id="uppreview"
+          src="/img/noimage.png"
+          alt="uppreview"
+          class="img-thumbnail rounded mx-auto d-block"
+        />
+        <div class="mb-3">
+          <label for="upimage" class="form-label" style="font-weight: 700"
+            >Image</label
+          >
+          <input class="form-control" type="file" id="upimage" />
+        </div>
+        <div class="mb-3">
+          <label for="upstore-name" class="form-label" style="font-weight: 700"
+            >Store Name</label
+          >
+          <input type="text" class="form-control" id="upstore-name" />
+        </div>
+        <div class="mb-3">
+          <label for="upurl" class="form-label" style="font-weight: 700"
+            >Url</label
+          >
+          <input type="text" class="form-control" id="upurl" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="updateStore()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
   id="exampleModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -21,6 +92,12 @@
         ></button>
       </div>
       <div class="modal-body">
+        <img
+          id="preview"
+          src="/img/noimage.png"
+          alt="preview"
+          class="img-thumbnail rounded mx-auto d-block"
+        />
         <div class="mb-3">
           <label for="image" class="form-label" style="font-weight: 700"
             >Image</label
@@ -71,12 +148,30 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        10
+        <%= perPage %>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">10</a></li>
-        <li><a class="dropdown-item" href="#">50</a></li>
-        <li><a class="dropdown-item" href="#">100</a></li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/storelist?search=<%= sch %>&page=1&perPage=10"
+            >10</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/storelist?search=<%= sch %>&page=1&perPage=50"
+            >50</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            href="/admin/storelist?search=<%= sch %>&page=1&perPage=100"
+            >100</a
+          >
+        </li>
       </ul>
     </div>
     <div class="my-2">Entires</div>
@@ -121,19 +216,18 @@
       </tr>
     </thead>
     <tbody>
+      <% data.map((item, index)=>{ %>
       <tr>
-        <th scope="row">1</th>
+        <th scope="row"><%= index + 1 %></th>
         <td>
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/2560px-ASUS_Logo.svg.png"
-            style="width: 150px; height: 30px"
+            src="<%= process.env.FRONTEND_ADDRESS + item.imageurl %>"
+            style="height: 30px"
           />
         </td>
-        <td>Ottodwda</td>
+        <td><%= item.name %></td>
         <td>
-          <a style="color: blue" href="#"
-            >https://nexworld.synnexmetrodata.com/</a
-          >
+          <a style="color: blue" href="<%= item.url %>"><%= item.url %></a>
         </td>
         <td>
           <div>
@@ -141,74 +235,269 @@
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              onclick="updatePreview('<%= item.uid %>', '<%= item.name %>', '<%= item.url %>', '<%= process.env.FRONTEND_ADDRESS + item.imageurl %>')"
             >
-              Delete
+              Edit
             </button>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/2560px-ASUS_Logo.svg.png"
-            style="width: 150px; height: 30px"
-          />
-        </td>
-        <td>Ottodwda</td>
-        <td>
-          <a style="color: blue" href="#"
-            >https://nexworld.synnexmetrodata.com/</a
-          >
-        </td>
-        <td>
-          <div>
             <button
               type="button"
               class="btn btn-light px-3 border border-dark"
               style="font-size: 10px"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+              onclick="selectedStoreDelete('<%= item.uid %>')"
             >
               Delete
             </button>
           </div>
         </td>
       </tr>
+      <% }) %>
     </tbody>
   </table>
+  <div id="total-page" class="visually-hidden"><%= totalPage %></div>
 </div>
+<!-- Modal Delete -->
+<div
+  class="modal fade"
+  id="modal-delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel2"
+          style="font-weight: 600"
+        >
+          Delete Store
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="hidden" id="uid-store" />
+          <p>Do you want to remove this store?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light px-4 border border-primary border-2"
+          data-bs-dismiss="modal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary px-4"
+          style="background-color: #0b2559"
+          onclick="deleteStore()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end Modal Delete -->
 
 <div class="d-flex justify-content-end mt-4">
   <nav>
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">2</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
+    <ul class="pagination"></ul>
   </nav>
 </div>
 <script>
+  function selectedStoreDelete(id) {
+    $("#uid-store").val(id);
+  }
+  let path;
+  let limitVal;
   $(document).ready(() => {
+    path = window.location.pathname;
     const urlParams = new URLSearchParams(window.location.search);
-    const schVal = urlParams.get("sch");
-    console.log(schVal);
+    const schVal = urlParams.get("search") ? urlParams.get("search") : "";
+    const pageVal = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+    limitVal = urlParams.get("perPage")
+      ? parseInt(urlParams.get("perPage"))
+      : 10;
+    const totalPage = parseInt($("#total-page").text());
+    console.log(pageVal, limitVal, totalPage);
+
+    if (pageVal > 1) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal - 1
+      }&perPage=${limitVal}">Previous</a>
+        </li>
+      `);
+    }
+
+    const ses = Math.floor(pageVal / 5);
+    let maxPage = ses + 5;
+    if (maxPage > totalPage) {
+      maxPage = totalPage;
+    }
+    for (let i = ses + 1; i <= maxPage; i++) {
+      if (pageVal == i) {
+        $(".pagination").append(`
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">${i}</span>
+        </li>
+      `);
+      } else {
+        $(".pagination").append(`
+        <li class="page-item"><a class="page-link" href="${path}?search=${schVal}&page=${i}&perPage=${limitVal}">${i}</a></li>
+      `);
+      }
+    }
+
+    if (pageVal < maxPage) {
+      $(".pagination").append(`
+        <li class="page-item">
+          <a class="page-link" href="${path}?search=${schVal}&page=${
+        pageVal + 1
+      }&perPage=${limitVal}">Next</a>
+        </li>
+      `);
+    }
+
+    upimage.onchange = (evt) => {
+      const [file] = upimage.files;
+      if (file) {
+        uppreview.src = URL.createObjectURL(file);
+      } else {
+        uppreview.src = "/img/noimage.png";
+      }
+    };
+
+    image.onchange = (evt) => {
+      const [file] = image.files;
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+      } else {
+        preview.src = "/img/noimage.png";
+      }
+    };
   });
-  const goSch = () => {
-    console.log($("#sch").val());
+
+  let selectedStore = "";
+
+  const updatePreview = (id, name, url, urlImg) => {
+    $("#uppreview").attr("src", urlImg);
+    $("#upstore-name").val(name);
+    $("#upurl").val(url);
+    selectedStore = id;
   };
+
+  const goSch = () => {
+    const query = $("#sch").val();
+    window.location.replace(
+      `${path}?search=${query}&page=1&perPage=${limitVal}`
+    );
+  };
+
   const postNewStore = () => {
-    const image = $("#image")[0].files[0];
-    const store = $("#store-name").val();
-    const url = $("#url").val();
+    if (!$("#image")[0].files[0]) {
+      alert("Please add image");
+    } else {
+      console.log("uploading...");
+      let formData = new FormData();
+      formData.append("name", $("#store-name").val());
+      formData.append("url", $("#url").val());
+      formData.append("image", $("#image")[0].files[0]);
+
+      let requestHeaders = new Headers();
+      requestHeaders.delete("Content-Type");
+
+      fetch(
+        `/api/stores/addStore?apikey=${localStorage.getItem("synnex-userid")}`,
+        {
+          method: "POST",
+          headers: requestHeaders,
+          body: formData,
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          $.notify(data.message, "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        })
+        .catch((error) => {
+          alert(`${error}`);
+        });
+    }
+  };
+
+  const updateStore = () => {
+    console.log("uploading...", selectedStore);
     let formData = new FormData();
-    console.log("NAME", image, url, store);
+    formData.append("name", $("#upstore-name").val());
+    formData.append("url", $("#upurl").val());
+    if ($("#upimage")[0].files[0]) {
+      formData.append("image", $("#upimage")[0].files[0]);
+    }
+
+    let requestHeaders = new Headers();
+    requestHeaders.delete("Content-Type");
+
+    fetch(
+      `/api/stores/updateStore/${selectedStore}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "PUT",
+        headers: requestHeaders,
+        body: formData,
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        $.notify(data.message, "success");
+        setTimeout(function () {
+          window.location.reload();
+        }, 700);
+      })
+      .catch((error) => {
+        alert(`${error}`);
+      });
+  };
+  const deleteStore = (id) => {
+    id = $("#uid-store").val();
+    fetch(
+      `/api/stores/deleteStore/${id}?apikey=${localStorage.getItem(
+        "synnex-userid"
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          $.notify(data.message, "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          alert(`${res.status} - ${res.statusText}`);
+        }
+      })
+      .catch((err) => {
+        alert(`${err}`);
+      });
   };
 </script>
