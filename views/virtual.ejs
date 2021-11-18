@@ -734,7 +734,7 @@
   }
   $("#submit-email").click(function (e) {
     e.preventDefault();
-    $("#submit-email").text("Sending...");
+    $("#submit-email").text("Sending Email...");
     fetch(`/api/contact`, {
       method: "POST",
       headers: {
