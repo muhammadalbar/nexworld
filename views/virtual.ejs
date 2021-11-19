@@ -20,7 +20,7 @@
     alt=""
   />
   <div class="position-fixed top-50 start-0 translate-middle-y" id="left-card">
-    <div class="card p-2">
+    <div class="card p-1">
       <a id="leftmenu" class="left-arrow" href="#">
         <img src="./img/landing/left-arrow.png" alt="" />
       </a>
@@ -29,7 +29,7 @@
         <img class="logo" src="./img/Logo.png" style="width: 160px" />
         <div class="card-header">
           <div
-            class="menu px-5 py-2"
+            class="menu px-5 py-1"
             id="expo"
             data-bs-toggle="modal"
             data-bs-target="#map"
@@ -39,20 +39,20 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="h6">BYGE MAP</p>
+            <p style="font-size: smaller">BYGE MAP</p>
           </div>
-          <div class="menu px-5 py-2">
+          <div class="menu px-5 py-1" onclick="navigateFrame(31, 90)">
             <img
               src="./img/landing/stadium.png"
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="h6">BYGE ARENA</p>
+            <p style="font-size: smaller">BYGE ARENA</p>
           </div>
           <div
-            class="menu px-5 py-2"
+            class="menu px-5 py-1"
             data-bs-toggle="modal"
-            data-tagVideo="https://www.youtube.com/embed/PH_jNHt4jVY"
+            data-tagVideo="https://www.youtube.com/embed/2SmpA3H_Xxs"
             data-bs-target="#videoModal"
           >
             <img
@@ -60,10 +60,10 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="h6">WIN PRIZES</p>
+            <p style="font-size: smaller">WIN PRIZES</p>
           </div>
           <div
-            class="menu px-5 py-2"
+            class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
           >
@@ -72,18 +72,18 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="h6">EVENT INFO</p>
+            <p style="font-size: smaller">EVENT INFO</p>
           </div>
-          <div class="menu px-5 py-2" onclick="openNewWindow()">
+          <div class="menu px-5 py-1" onclick="openNewWindow()">
             <img
               src="./img/landing/hot-sale.png"
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="h6">SPECIAL DEAL</p>
+            <p style="font-size: smaller">SPECIAL DEAL</p>
           </div>
           <div
-            class="menu px-5 py-2"
+            class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-bs-target="#modalLogout"
           >
@@ -92,7 +92,7 @@
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p class="h6">LOG OUT</p>
+            <p style="font-size: smaller">LOG OUT</p>
           </div>
         </div>
       </div>
@@ -195,87 +195,108 @@
       <div class="overflow-auto" style="margin-top: -60px">
         <div class="position-relative">
           <div
+            onclick="navigateFrame(1)"
             class="click-map-room lobby"
             style="margin-top: 190px; margin-left: 90px"
           ></div>
           <div
+            onclick="navigateFrame(2)"
             class="click-map-room information"
             style="margin-top: 190px; margin-left: 280px"
           ></div>
           <div
+            onclick="navigateFrame(3)"
             class="click-map-room entrance"
             style="margin-top: 190px; margin-left: 430px"
           ></div>
           <div
+            onclick="navigateFrame(6, 90)"
             class="click-map-room MSI"
             style="margin-top: 73px; margin-left: 572px"
           ></div>
           <div
+            onclick="navigateFrame(5, 90)"
             class="click-map-room AOC"
             style="margin-top: 160px; margin-left: 572px"
           ></div>
           <div
+            onclick="navigateFrame(9, 90)"
             class="click-map-room ALIENWARE"
             style="margin-top: 220px; margin-left: 572px"
           ></div>
           <div
+            onclick="navigateFrame(10, 90)"
             class="click-map-room APC"
             style="margin-top: 300px; margin-left: 572px"
           ></div>
           <div
+            onclick="navigateFrame(7, 90)"
             class="click-map-room ROG"
             style="margin-top: 80px; margin-left: 690px"
           ></div>
           <div
+            onclick="navigateFrame(11, 90)"
             class="click-map-room ASUS OPBG"
             style="margin-top: 300px; margin-left: 690px"
           ></div>
           <div
+            onclick="navigateFrame(12, 90)"
             class="click-map-room HP"
             style="margin-top: 190px; margin-left: 760px"
           ></div>
           <div
+            onclick="navigateFrame(18, 90)"
             class="click-map-room LOGITECH"
             style="margin-top: 165px; margin-left: 880px"
           ></div>
           <div
+            onclick="navigateFrame(19, 90)"
             class="click-map-room INFINIX"
             style="margin-top: 165px; margin-left: 985px"
           ></div>
           <div
+            onclick="navigateFrame(24, 90)"
             class="click-map-room RAZER"
             style="margin-top: 215px; margin-left: 880px"
           ></div>
           <div
+            onclick="navigateFrame(25, 90)"
             class="click-map-room RAZERGOLD"
             style="margin-top: 215px; margin-left: 985px"
           ></div>
           <div
+            onclick="navigateFrame(20, 90)"
             class="click-map-room INNO3D"
             style="margin-top: 90px; margin-left: 820px"
           ></div>
           <div
+            onclick="navigateFrame(21, 90)"
             class="click-map-room VIEWSONIC"
             style="margin-top: 90px; margin-left: 910px"
           ></div>
           <div
+            onclick="navigateFrame(22, 90)"
             class="click-map-room ACER"
             style="margin-top: 90px; margin-left: 990px"
           ></div>
           <div
+            onclick="navigateFrame(26, 90)"
             class="click-map-room KINGSTON"
             style="margin-top: 290px; margin-left: 830px"
           ></div>
           <div
+            onclick="navigateFrame(27, 90)"
             class="click-map-room TFORCE"
             style="margin-top: 290px; margin-left: 920px"
           ></div>
           <div
+            onclick="navigateFrame(28, 90)"
             class="click-map-room MSI"
             style="margin-top: 290px; margin-left: 990px"
           ></div>
           <div
             class="click-map-room BYGEARENA"
+            onclick="navigateFrame(31, 90)"
             style="margin-top: 150px; margin-left: 1090px; height: 100px"
           ></div>
           <div
@@ -361,7 +382,10 @@
             Tournament. Total prizes is 200 Million IDR only for you, our BYGE
             Member.
           </p>
-          <p>This event will be held on 20 Nov - 11 Dec 2021</p>
+          <p>
+            this event will be held on 20 Nov - 12 Dec 2021 You can collect BYGE
+            Points from 20 Nov - 11 Dec 2021
+          </p>
           <p>List Treasure Hunt prizes:</p>
           <ul style="list-style-type: circle">
             <li>Rank 1: ASUS FA506IC-R735B6T-O</li>
@@ -452,7 +476,9 @@
         ></button>
       </div>
       <div class="modal-body">
-        <img class="img-fluid" src="./img/landing/SCHDULE_BYGE.png" />
+        <a href="https://bit.ly/BYGEVALORANT">
+          <img class="img-fluid" src="./img/landing/SCHDULE_BYGE.png"
+        /></a>
       </div>
     </div>
   </div>
@@ -519,7 +545,7 @@
         class="view-btn my-4 py-1"
         style="font-size: small"
         data-bs-toggle="modal"
-        data-tagVideo="https://www.youtube.com/embed/PH_jNHt4jVY"
+        data-tagVideo="https://www.youtube.com/embed/2SmpA3H_Xxs"
         data-bs-target="#videoModal"
         data-bs-dismiss="modal"
       >
@@ -713,8 +739,15 @@
 </div>
 
 <script>
-  function navigateFrame(media) {
-    $("#virtual3dFrame").attr("src", `3d/index.htm?media=${media}`);
+  function navigateFrame(media, yaw) {
+    if (yaw) {
+      $("#virtual3dFrame").attr(
+        "src",
+        `3d/index.htm?media=${media}&yaw=${yaw}`
+      );
+    } else {
+      $("#virtual3dFrame").attr("src", `3d/index.htm?media=${media}`);
+    }
   }
   $("#expo-list").hide();
   function autoPlayYouTubeModal() {
@@ -734,7 +767,7 @@
   }
   $("#submit-email").click(function (e) {
     e.preventDefault();
-    $("#submit-email").text("Sending...");
+    $("#submit-email").text("Sending Email...");
     fetch(`/api/contact`, {
       method: "POST",
       headers: {
@@ -980,14 +1013,14 @@
     width: 350px;
   }
   .click-map-room {
-    background-color: rgba(145, 41, 41, 0.8);
+    /* background-color: rgba(145, 41, 41, 0.8); */
     width: 50px;
     height: 30px;
     cursor: pointer;
     position: absolute;
   }
   .click-map-npc {
-    background-color: rgba(145, 41, 41, 0.8);
+    /* background-color: rgba(145, 41, 41, 0.8); */
     width: 20px;
     height: 20px;
     border-radius: 10px;
