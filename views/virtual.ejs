@@ -210,7 +210,7 @@
             style="margin-top: 190px; margin-left: 430px"
           ></div>
           <div
-            onclick="navigateFrame(6)"
+            onclick="navigateFrame(6, 90)"
             class="click-map-room MSI"
             style="margin-top: 73px; margin-left: 572px"
           ></div>
@@ -229,12 +229,10 @@
           ></div>
           <div
             class="click-map-room ROG"
-            onclick="navigateFrame(7)"
             style="margin-top: 80px; margin-left: 690px"
           ></div>
           <div
             class="click-map-room ASUS OPBG"
-            onclick="navigateFrame(8)"
             style="margin-top: 300px; margin-left: 690px"
           ></div>
           <div
@@ -725,8 +723,15 @@
 </div>
 
 <script>
-  function navigateFrame(media) {
-    $("#virtual3dFrame").attr("src", `3d/index.htm?media=${media}`);
+  function navigateFrame(media, yaw) {
+    if (yaw) {
+      $("#virtual3dFrame").attr(
+        "src",
+        `3d/index.htm?media=${media}&yaw=${yaw}`
+      );
+    } else {
+      $("#virtual3dFrame").attr("src", `3d/index.htm?media=${media}`);
+    }
   }
   $("#expo-list").hide();
   function autoPlayYouTubeModal() {
