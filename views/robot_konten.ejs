@@ -12,10 +12,13 @@
       </div>
       <div>
         <span
-          onclick="openUrl('<%= item.url %>')"
+          onclick="openUrl('<%= index + 1 %>')"
           data-feather="arrow-right"
           style="color: #01cdf2; cursor: pointer"
         ></span>
+        <span class="visually-hidden" id="<%= index + 1 %>"
+          ><%= item.url %></span
+        >
       </div>
     </div>
     <hr style="border-top: 2px solid #d55085" />
@@ -24,8 +27,9 @@
 </div>
 
 <script>
-  const openUrl = (url) => {
-    window.open(url);
+  const openUrl = (id) => {
+    console.log(id, $(`#${id}`).text());
+    window.open($(`#${id}`).text());
   };
 </script>
 
