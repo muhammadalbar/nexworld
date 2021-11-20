@@ -797,6 +797,10 @@
         $("#map").modal("toggle");
       }, 1000);
     }
+    if ($(window).width() <= 731) {
+      $("#left-card").fadeOut(500);
+      $("#right-card-show").show();
+    }
   }
 
   function autoPlayYouTubeModal() {
