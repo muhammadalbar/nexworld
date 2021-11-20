@@ -46,7 +46,7 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  <div class="d-flex justify-content-between mt-5">
+  <div class="d-flex flex-column flex-sm-row justify-content-sm-between mt-5">
     <a href="/special-deal">
       <button
         class="btn btn-primary title-glow py-1 px-4"
@@ -97,17 +97,17 @@
   <div class="row my-2">
     <% partners.map((item)=>{ %>
     <div
-      class="col-6 col-sm-4 col-md-3 text-center mt-4"
+      class="col-12 col-sm-4 col-md-3 text-center mt-4"
       style="cursor: pointer"
       onclick="goToUrl('<%= item.url %>')"
     >
-      <div class="pb-3 pt-4 modal-black" style="height: 100%">
-        <img
+      <div class="p-3 modal-black" style="height: 100%">
+        <!-- <img
           src="./img/landing/tokotpedia.png"
           style="width: 30%"
           class="mb-2"
-        />
-        <p class="title-br"><%= item.dealer_name %></p>
+        /> -->
+        <p class="title-glow mt-1"><%= item.dealer_name.toUpperCase() %></p>
       </div>
     </div>
     <% }) %>
@@ -146,16 +146,6 @@
   .title-glow:hover {
     text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 16px #fff, 0 0 37px #0fa,
       0 0 77px #0fa, 0 0 87px #0fa, 0 0 97px #0fa, 0 0 146px #0fa;
-  }
-  @media (max-width: 575.98px) {
-    .title-br {
-      font-size: 8px;
-    }
-  }
-  @media (min-width: 576px) {
-    .title-br {
-      font-size: 10px;
-    }
   }
   ::-webkit-scrollbar {
     width: 5px !important;
