@@ -1,31 +1,29 @@
-<div class="container-fluid">
-  <div class="overflow-auto p-5" style="height: 100%">
-    <h4><strong><%= title %></strong></h4>
-    <p class="mt-4 mb-4" style="font-size: smaller"><%= description %></p>
-    <% contents.map((item, index)=>{ %>
-    <div class="mb-1">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <p class="my-1" style="font-size: medium">
-            <strong><%= index + 1 %></strong>
-            <%= '. ' + item.title %>
-          </p>
-        </div>
-        <div>
-          <span
-            onclick="openUrl('<%= index + 1 %>')"
-            data-feather="arrow-right"
-            style="color: #01cdf2; cursor: pointer"
-          ></span>
-          <span class="visually-hidden" id="<%= index + 1 %>"
-            ><%= item.url %></span
-          >
-        </div>
+<div class="container-fluid p-3 p-sm-5">
+  <h4><strong><%= title %></strong></h4>
+  <p class="mt-4 mb-4" style="font-size: smaller"><%= description %></p>
+  <% contents.map((item, index)=>{ %>
+  <div class="mb-1">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <p class="my-1" style="font-size: medium">
+          <strong><%= index + 1 %></strong>
+          <%= '. ' + item.title %>
+        </p>
       </div>
-      <hr style="border-top: 2px solid #d55085" />
+      <div>
+        <span
+          onclick="openUrl('<%= index + 1 %>')"
+          data-feather="arrow-right"
+          style="color: #01cdf2; cursor: pointer"
+        ></span>
+        <span class="visually-hidden" id="<%= index + 1 %>"
+          ><%= item.url %></span
+        >
+      </div>
     </div>
-    <% }) %>
+    <hr style="border-top: 2px solid #d55085" />
   </div>
+  <% }) %>
 </div>
 
 <script>
@@ -38,11 +36,6 @@
 <style>
   .container-fluid {
     height: 110vh;
-    background: rgba(0, 0, 0, 0.8);
-    border: 6px solid #c65a85;
-    box-sizing: border-box;
-    box-shadow: 0px 0px 5px #d55085;
-    border-radius: 20px;
     color: white;
   }
   ::-webkit-scrollbar {

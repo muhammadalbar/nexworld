@@ -30,12 +30,14 @@ router.get("/robot-konten", async (req, res) => {
 
     res.render("robot_konten", {
       title: "Robot Konten",
-      layout: "layouts/bootstraplayout",
+      layout: "layouts/robotlayout",
       title: title ? title : "",
       description: description ? description : "",
       contents: contents ? contents : [],
     });
-  } catch (error) {}
+  } catch (error) {
+    res.send({ error: true, message: err.toString() });
+  }
 });
 
 router.post("/getbriefcase", authMw.authToken(), async (req, res) => {
