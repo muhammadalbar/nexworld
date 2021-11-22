@@ -902,8 +902,6 @@
     $(".container-fluid").append(`
       <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2" style="cursor: pointer">
         Welcome, ${localStorage.getItem("synnex-username")} !
-        <div id="showFs" onclick="openFullscreen()"><small><i>*click here to fullscreen</i></small></div>
-        <div id="exitFs" onclick="closeFullscreen()"><small><i>*click to exit fullscreen</i></small></div>
       </div>
       `);
     $("#exitFs").hide();
