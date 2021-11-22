@@ -31,6 +31,7 @@
           <div
             class="menu px-5 py-1"
             id="expo"
+            onclick="closeSideNav(true, false)"
             data-bs-toggle="modal"
             data-bs-target="#map"
           >
@@ -41,7 +42,10 @@
             />
             <p style="font-size: smaller">BYGE MAP</p>
           </div>
-          <div class="menu px-5 py-1" onclick="navigateFrame(31, 90, true)">
+          <div
+            class="menu px-5 py-1"
+            onclick="navigateFrame(31, 90, true); closeSideNav(true, false)"
+          >
             <img
               src="./img/landing/stadium.png"
               alt="stadium-icon"
@@ -50,6 +54,7 @@
             <p style="font-size: smaller">BYGE ARENA</p>
           </div>
           <div
+            onclick="closeSideNav(true, false)"
             class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-tagVideo="https://www.youtube.com/embed/2SmpA3H_Xxs"
@@ -63,6 +68,7 @@
             <p style="font-size: smaller">WIN PRIZES</p>
           </div>
           <div
+            onclick="closeSideNav(true, false)"
             class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
@@ -74,7 +80,10 @@
             />
             <p style="font-size: smaller">EVENT INFO</p>
           </div>
-          <div class="menu px-5 py-1" onclick="openNewWindow()">
+          <div
+            class="menu px-5 py-1"
+            onclick="openNewWindow(); closeSideNav(true, false);"
+          >
             <img
               src="./img/landing/hot-sale.png"
               alt="stadium-icon"
@@ -83,6 +92,7 @@
             <p style="font-size: smaller">SPECIAL DEAL</p>
           </div>
           <div
+            onclick="closeSideNav(true, false)"
             class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-bs-target="#modalLogout"
@@ -110,6 +120,7 @@
       </div>
       <button
         class="view-btn"
+        onclick="closeSideNav(false, true)"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal1"
       >
@@ -126,40 +137,6 @@
     Contact us!
   </button>
 </div>
-
-<!-- <div class="position-fixed top-50 start-0 translate-middle-y" id="expo-list">
-  <div class="card p-3">
-    <p style="cursor: pointer" id="expo-close">
-      <span
-        data-feather="arrow-left"
-        style="color: #01cdf2; margin-bottom: 2px; margin-right: 5px"
-      ></span
-      ><strong style="color: white">Back</strong>
-    </p>
-    <div class="container mt-3 overflow-auto" style="height: 350px">
-      <div class="row">
-        <div class="col-6">
-          <img
-            class="img-fluid mb-4"
-            style="cursor: pointer"
-            src="./img/landing/acer.png"
-            alt=""
-            onclick="navigateFrame(2)"
-          />
-        </div>
-        <div class="col-6">
-          <img
-            class="img-fluid mb-4"
-            style="cursor: pointer"
-            src="./img/landing/acer.png"
-            alt=""
-            onclick="navigateFrame(3)"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div
   class="modal fade"
@@ -797,10 +774,6 @@
         $("#map").modal("toggle");
       }, 1000);
     }
-    if ($(window).width() <= 731) {
-      $("#left-card").fadeOut(500);
-      $("#right-card-show").show();
-    }
   }
 
   function autoPlayYouTubeModal() {
@@ -815,9 +788,11 @@
       });
     });
   }
+
   function openNewWindow() {
     window.open("/special-deal");
   }
+
   $("#submit-email").click(function (e) {
     e.preventDefault();
     $("#submit-email").text("Sending Email...");
@@ -852,6 +827,18 @@
         alert(`${err}`);
       });
   });
+
+  function closeSideNav(left, right) {
+    if ($(window).width() <= 731) {
+      if (left) {
+        $("#left-card").fadeOut(500);
+        $("#left-card-show").show();
+      } else {
+        $("#right-card").fadeOut(500);
+        $("#right-card-show").show();
+      }
+    }
+  }
 
   // $("#expo-list").hide();
   // $("#expo").click(function () {
