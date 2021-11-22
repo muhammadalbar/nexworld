@@ -908,16 +908,52 @@
       });
     }
     $(".container-fluid").append(`
-      <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2">
+      <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2" style="cursor: pointer">
         Welcome, ${localStorage.getItem("synnex-username")} !
+        <div id="showFs" onclick="openFullscreen()"><small><i>*click here to fullscreen</i></small></div>
+        <div id="exitFs" onclick="closeFullscreen()"><small><i>*click to exit fullscreen</i></small></div>
       </div>
       `);
+    $("#exitFs").hide();
   });
 </script>
 
 <script>
   $("#profile-email").text(localStorage.getItem("synnex-user"));
   $("#profile-name").text(localStorage.getItem("synnex-username"));
+
+  var elem = document.documentElement;
+
+  /* View in fullscreen */
+  function openFullscreen() {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      /* IE11 */
+      elem.msRequestFullscreen();
+    }
+    $("#exitFs").show();
+    $("#showFs").hide();
+  }
+
+  /* Close fullscreen */
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      /* IE11 */
+      document.msExitFullscreen();
+    }
+    $("#exitFs").hide();
+    $("#showFs").show();
+  }
+
   var waitForEl = function (selector, callback) {
     if (jQuery(selector).length) {
       callback();
