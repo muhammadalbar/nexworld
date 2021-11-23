@@ -1,4 +1,4 @@
-<div class="container-fluid p-5">
+<div class="container-fluid px-2 py-5">
   <div
     id="carouselExampleControls"
     class="carousel slide"
@@ -49,8 +49,15 @@
   <div class="d-flex flex-column flex-sm-row justify-content-sm-between mt-5">
     <a href="/special-deal">
       <button
-        class="btn btn-primary title-glow py-1 px-4"
-        style="background-color: transparent; font-size: small"
+        class="
+          btn btn-primary
+          title-glow title-br
+          py-1
+          px-4
+          mb-2 mb-md-0
+          ms-3 ms-md-0
+        "
+        style="background-color: transparent"
       >
         <span
           style="color: #01cdf2; width: 30px; height: 30px"
@@ -60,7 +67,7 @@
         Kembali
       </button>
     </a>
-    <div class="dropdown">
+    <div class="dropdown ms-3 ms-md-0">
       <button
         class="btn btn-dark dropdown-toggle"
         type="button"
@@ -101,13 +108,10 @@
       style="cursor: pointer"
       onclick="goToUrl('<%= item.url %>')"
     >
-      <div class="p-3 modal-black" style="height: 100%">
-        <!-- <img
-          src="./img/landing/tokotpedia.png"
-          style="width: 30%"
-          class="mb-2"
-        /> -->
-        <p class="title-glow mt-1"><%= item.dealer_name.toUpperCase() %></p>
+      <div class="p-3 modal-black mx-3 mx-md-0" style="height: 100%">
+        <p class="title-glow title-br mt-1">
+          <%= item.dealer_name.toUpperCase() %>
+        </p>
       </div>
     </div>
     <% }) %>
@@ -146,6 +150,16 @@
   .title-glow:hover {
     text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 16px #fff, 0 0 37px #0fa,
       0 0 77px #0fa, 0 0 87px #0fa, 0 0 97px #0fa, 0 0 146px #0fa;
+  }
+  .title-br {
+    font-size: x-small;
+    letter-spacing: 3px;
+  }
+  @media (min-width: 576px) {
+    .title-br {
+      font-size: smaller;
+      letter-spacing: 2px;
+    }
   }
   ::-webkit-scrollbar {
     width: 5px !important;
