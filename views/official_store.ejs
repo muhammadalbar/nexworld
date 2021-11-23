@@ -1,4 +1,4 @@
-<div class="container-fluid p-5">
+<div class="container-fluid px-2 py-5">
   <div
     id="carouselExampleControls"
     class="carousel slide"
@@ -48,8 +48,8 @@
   </div>
   <a href="/special-deal">
     <button
-      class="btn btn-primary mt-5 title-glow py-1 px-4"
-      style="background-color: transparent; font-size: small"
+      class="btn btn-primary mt-5 title-glow title-br py-1 px-4 ms-3"
+      style="background-color: transparent"
     >
       <span
         style="color: #01cdf2; width: 30px; height: 30px"
@@ -59,7 +59,7 @@
       Kembali
     </button>
   </a>
-  <div class="row mb-5 mt-4">
+  <div class="row mb-5 mt-4 mx-2 mx-md-0">
     <% store.map((item, index)=>{ %>
     <div class="col-6 col-sm-4 col-md-3 text-center p-2">
       <div
@@ -115,6 +115,14 @@
     .title-glow:hover {
       text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 16px #fff, 0 0 37px #0fa,
         0 0 77px #0fa, 0 0 87px #0fa, 0 0 97px #0fa, 0 0 146px #0fa;
+    }
+    .title-br {
+      font-size: x-small;
+    }
+    @media (min-width: 576px) {
+      .title-br {
+        font-size: smaller;
+      }
     }
   </style>
 </div>
