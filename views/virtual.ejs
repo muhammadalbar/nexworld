@@ -901,9 +901,7 @@
   });
   const muteAudio = () => {
     console.log("MUTED");
-    virtual3dFrame;
-    myVid = document.getElementById("virtual3dFrame");
-    myVid.muted = true;
+    $("#virtual3dFrame").prop("muted", true); //mute
   };
 </script>
 
