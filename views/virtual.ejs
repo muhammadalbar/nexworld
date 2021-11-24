@@ -5,6 +5,17 @@
   style="width: 100vw; height: 100vh; position: absolute"
 ></iframe>
 <div class="container-fluid">
+  <button
+    type="button"
+    class="btn btn-light shadow position-absolute top-0 end-0 mt-3 me-2"
+  >
+    <div id="showFs" onclick="openFullscreen()">
+      <span style="color: black; width: 16px" data-feather="maximize"></span>
+    </div>
+    <div id="exitFs" onclick="closeFullscreen()">
+      <span style="color: black; width: 16px" data-feather="minimize"></span>
+    </div>
+  </button>
   <img
     class="position-absolute top-50 start-0 translate-middle"
     style="width: 60px; cursor: pointer; margin-left: 25px"
