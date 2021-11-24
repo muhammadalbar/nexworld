@@ -41,7 +41,7 @@ module.exports = {
           totalData = robot.rowCount;
 
           const robots = await db.query(
-            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid LIMIT $1 OFFSET $2",
+            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid ORDER BY name ASC LIMIT $1 OFFSET $2",
             [perPage, page]
           );
           res.status(200).json({
