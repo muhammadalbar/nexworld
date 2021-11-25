@@ -5,6 +5,27 @@
   style="width: 100vw; height: 100vh; position: absolute"
 ></iframe>
 <div class="container-fluid">
+  <button
+    type="button"
+    class="
+      btn btn-danger
+      shadow
+      position-absolute
+      top-0
+      end-0
+      mt-3
+      me-2
+      rounded-circle
+    "
+    style="background-color: #b7025f"
+  >
+    <div id="showFs" onclick="openFullscreen()">
+      <span style="width: 16px" data-feather="maximize"></span>
+    </div>
+    <div id="exitFs" onclick="closeFullscreen()">
+      <span style="width: 16px" data-feather="minimize"></span>
+    </div>
+  </button>
   <img
     class="position-absolute top-50 start-0 translate-middle"
     style="width: 60px; cursor: pointer; margin-left: 25px"
@@ -31,6 +52,7 @@
           <div
             class="menu px-5 py-1"
             id="expo"
+            onclick="closeSideNav(true, false)"
             data-bs-toggle="modal"
             data-bs-target="#map"
           >
@@ -41,7 +63,10 @@
             />
             <p style="font-size: smaller">BYGE MAP</p>
           </div>
-          <div class="menu px-5 py-1" onclick="navigateFrame(31, 90, true)">
+          <div
+            class="menu px-5 py-1"
+            onclick="navigateFrame(31, 90, true); closeSideNav(true, false)"
+          >
             <img
               src="./img/landing/stadium.png"
               alt="stadium-icon"
@@ -50,9 +75,10 @@
             <p style="font-size: smaller">BYGE ARENA</p>
           </div>
           <div
+            onclick="closeSideNav(true, false)"
             class="menu px-5 py-1"
             data-bs-toggle="modal"
-            data-tagVideo="https://www.youtube.com/embed/2SmpA3H_Xxs"
+            data-tagVideo="https://www.youtube.com/embed/lBCuSWiysn0"
             data-bs-target="#videoModal"
           >
             <img
@@ -63,6 +89,7 @@
             <p style="font-size: smaller">WIN PRIZES</p>
           </div>
           <div
+            onclick="closeSideNav(true, false)"
             class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
@@ -74,7 +101,10 @@
             />
             <p style="font-size: smaller">EVENT INFO</p>
           </div>
-          <div class="menu px-5 py-1" onclick="openNewWindow()">
+          <div
+            class="menu px-5 py-1"
+            onclick="openNewWindow(); closeSideNav(true, false);"
+          >
             <img
               src="./img/landing/hot-sale.png"
               alt="stadium-icon"
@@ -83,6 +113,7 @@
             <p style="font-size: smaller">SPECIAL DEAL</p>
           </div>
           <div
+            onclick="closeSideNav(true, false)"
             class="menu px-5 py-1"
             data-bs-toggle="modal"
             data-bs-target="#modalLogout"
@@ -110,6 +141,7 @@
       </div>
       <button
         class="view-btn"
+        onclick="closeSideNav(false, true)"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal1"
       >
@@ -126,40 +158,6 @@
     Contact us!
   </button>
 </div>
-
-<!-- <div class="position-fixed top-50 start-0 translate-middle-y" id="expo-list">
-  <div class="card p-3">
-    <p style="cursor: pointer" id="expo-close">
-      <span
-        data-feather="arrow-left"
-        style="color: #01cdf2; margin-bottom: 2px; margin-right: 5px"
-      ></span
-      ><strong style="color: white">Back</strong>
-    </p>
-    <div class="container mt-3 overflow-auto" style="height: 350px">
-      <div class="row">
-        <div class="col-6">
-          <img
-            class="img-fluid mb-4"
-            style="cursor: pointer"
-            src="./img/landing/acer.png"
-            alt=""
-            onclick="navigateFrame(2)"
-          />
-        </div>
-        <div class="col-6">
-          <img
-            class="img-fluid mb-4"
-            style="cursor: pointer"
-            src="./img/landing/acer.png"
-            alt=""
-            onclick="navigateFrame(3)"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div
   class="modal fade"
@@ -192,146 +190,146 @@
           <i>*click text to visit</i>
         </p>
       </div>
-      <div class="overflow-auto" style="margin-top: -60px">
-        <div class="position-relative">
+      <div class="overflow-auto mb-3">
+        <div class="position-relative mx-auto" style="width: fit-content">
           <div
             onclick="navigateFrame(1)"
             class="click-map-room lobby"
-            style="margin-top: 190px; margin-left: 90px"
+            style="margin-top: 115px; margin-left: 35px"
           ></div>
           <div
             onclick="navigateFrame(2)"
             class="click-map-room information"
-            style="margin-top: 190px; margin-left: 280px"
+            style="margin-top: 115px; margin-left: 220px"
           ></div>
           <div
             onclick="navigateFrame(3)"
             class="click-map-room entrance"
-            style="margin-top: 190px; margin-left: 430px"
+            style="margin-top: 115px; margin-left: 350px"
           ></div>
           <div
             onclick="navigateFrame(6, 90)"
             class="click-map-room MSI"
-            style="margin-top: 73px; margin-left: 572px"
+            style="margin-top: 5px; margin-left: 490px"
           ></div>
           <div
             onclick="navigateFrame(5, 90)"
             class="click-map-room AOC"
-            style="margin-top: 160px; margin-left: 572px"
+            style="margin-top: 85px; margin-left: 490px"
           ></div>
           <div
             onclick="navigateFrame(9, 90)"
             class="click-map-room ALIENWARE"
-            style="margin-top: 220px; margin-left: 572px"
+            style="margin-top: 145px; margin-left: 490px"
           ></div>
           <div
             onclick="navigateFrame(10, 90)"
             class="click-map-room APC"
-            style="margin-top: 300px; margin-left: 572px"
+            style="margin-top: 215px; margin-left: 490px"
           ></div>
           <div
             onclick="navigateFrame(7, 90)"
             class="click-map-room ROG"
-            style="margin-top: 80px; margin-left: 690px"
+            style="margin-top: 10px; margin-left: 600px"
           ></div>
           <div
             onclick="navigateFrame(11, 90)"
             class="click-map-room ASUS OPBG"
-            style="margin-top: 300px; margin-left: 690px"
+            style="margin-top: 215px; margin-left: 600px"
           ></div>
           <div
             onclick="navigateFrame(12, 90)"
             class="click-map-room HP"
-            style="margin-top: 190px; margin-left: 760px"
+            style="margin-top: 110px; margin-left: 670px"
           ></div>
           <div
             onclick="navigateFrame(18, 90)"
             class="click-map-room LOGITECH"
-            style="margin-top: 165px; margin-left: 880px"
+            style="margin-top: 90px; margin-left: 775px"
           ></div>
           <div
             onclick="navigateFrame(19, 90)"
             class="click-map-room INFINIX"
-            style="margin-top: 165px; margin-left: 985px"
+            style="margin-top: 90px; margin-left: 875px"
           ></div>
           <div
             onclick="navigateFrame(24, 90)"
             class="click-map-room RAZER"
-            style="margin-top: 215px; margin-left: 880px"
+            style="margin-top: 135px; margin-left: 775px"
           ></div>
           <div
             onclick="navigateFrame(25, 90)"
             class="click-map-room RAZERGOLD"
-            style="margin-top: 215px; margin-left: 985px"
+            style="margin-top: 135px; margin-left: 875px"
           ></div>
           <div
             onclick="navigateFrame(20, 90)"
             class="click-map-room INNO3D"
-            style="margin-top: 90px; margin-left: 820px"
+            style="margin-top: 20px; margin-left: 720px"
           ></div>
           <div
             onclick="navigateFrame(21, 90)"
             class="click-map-room VIEWSONIC"
-            style="margin-top: 90px; margin-left: 910px"
+            style="margin-top: 20px; margin-left: 805px"
           ></div>
           <div
             onclick="navigateFrame(22, 90)"
             class="click-map-room ACER"
-            style="margin-top: 90px; margin-left: 990px"
+            style="margin-top: 20px; margin-left: 885px"
           ></div>
           <div
             onclick="navigateFrame(26, 90)"
             class="click-map-room KINGSTON"
-            style="margin-top: 290px; margin-left: 830px"
+            style="margin-top: 205px; margin-left: 730px"
           ></div>
           <div
             onclick="navigateFrame(27, 90)"
             class="click-map-room TFORCE"
-            style="margin-top: 290px; margin-left: 920px"
+            style="margin-top: 205px; margin-left: 815px"
           ></div>
           <div
             onclick="navigateFrame(28, 90)"
             class="click-map-room MSI"
-            style="margin-top: 290px; margin-left: 990px"
+            style="margin-top: 205px; margin-left: 885px"
           ></div>
           <div
             class="click-map-room BYGEARENA"
             onclick="navigateFrame(31, 90)"
-            style="margin-top: 150px; margin-left: 1090px; height: 100px"
+            style="margin-top: 80px; margin-left: 975px; height: 100px"
           ></div>
           <div
             class="click-map-npc satu"
-            style="margin-top: 195px; margin-left: 500px"
+            style="margin-top: 120px; margin-left: 425px"
           ></div>
           <div
             class="click-map-npc dua"
-            style="margin-top: 162px; margin-left: 688px"
+            style="margin-top: 90px; margin-left: 595px"
           ></div>
           <div
             class="click-map-npc tiga"
-            style="margin-top: 195px; margin-left: 700px"
+            style="margin-top: 120px; margin-left: 610px"
           ></div>
           <div
             class="click-map-npc empat"
-            style="margin-top: 230px; margin-left: 688px"
+            style="margin-top: 150px; margin-left: 595px"
           ></div>
           <div
             class="click-map-npc lima"
-            style="margin-top: 105px; margin-left: 1050px"
+            style="margin-top: 35px; margin-left: 940px"
           ></div>
           <div
             class="click-map-npc enam"
-            style="margin-top: 193px; margin-left: 1040px"
+            style="margin-top: 120px; margin-left: 930px"
           ></div>
           <div
             class="click-map-npc tujuh"
-            style="margin-top: 292px; margin-left: 1050px"
+            style="margin-top: 210px; margin-left: 940px"
           ></div>
 
           <img
             src="./img/landing/map.png"
             alt="map-BYGE"
-            style="height: 400px"
+            style="height: 260px"
           />
         </div>
       </div>
@@ -379,7 +377,7 @@
             Collect BYGE Points and become the highest rank to get the Grand
             Prize. You guys need to explore Nexworld, find hidden codes to get
             the points, and double up your point by predict BYGE Esports
-            Tournament. Total prizes is 200 Million IDR only for you, our BYGE
+            Tournament. Total prizes is 350 Million IDR only for you, our BYGE
             Member.
           </p>
           <p>This event will be held on 20 Nov - 12 Dec 2021</p>
@@ -589,7 +587,7 @@
         class="view-btn my-4 py-1"
         style="font-size: small"
         data-bs-toggle="modal"
-        data-tagVideo="https://www.youtube.com/embed/2SmpA3H_Xxs"
+        data-tagVideo="https://www.youtube.com/embed/lBCuSWiysn0"
         data-bs-target="#videoModal"
         data-bs-dismiss="modal"
       >
@@ -797,10 +795,6 @@
         $("#map").modal("toggle");
       }, 1000);
     }
-    if ($(window).width() <= 731) {
-      $("#left-card").fadeOut(500);
-      $("#right-card-show").show();
-    }
   }
 
   function autoPlayYouTubeModal() {
@@ -815,9 +809,11 @@
       });
     });
   }
+
   function openNewWindow() {
     window.open("/special-deal");
   }
+
   $("#submit-email").click(function (e) {
     e.preventDefault();
     $("#submit-email").text("Sending Email...");
@@ -853,15 +849,17 @@
       });
   });
 
-  // $("#expo-list").hide();
-  // $("#expo").click(function () {
-  //   $("#expo-list").fadeIn(500);
-  //   $("#left-card").hide();
-  // });
-  // $("#expo-close").click(function () {
-  //   $("#expo-list").fadeOut(500);
-  //   $("#left-card").fadeIn(500);
-  // });
+  function closeSideNav(left, right) {
+    if ($(window).width() <= 731) {
+      if (left) {
+        $("#left-card").fadeOut(500);
+        $("#left-card-show").show();
+      } else {
+        $("#right-card").fadeOut(500);
+        $("#right-card-show").show();
+      }
+    }
+  }
 
   $(document).ready(function () {
     autoPlayYouTubeModal();
@@ -913,62 +911,54 @@
       });
     }
     $(".container-fluid").append(`
-      <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2">
+      <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2" style="cursor: pointer">
         Welcome, ${localStorage.getItem("synnex-username")} !
+        <!-- <div id="showFs" onclick="openFullscreen()"><small><i>*click here to fullscreen</i></small></div>
+        <div id="exitFs" onclick="closeFullscreen()"><small><i>*click to exit fullscreen</i></small></div> -->
       </div>
       `);
+    $("#exitFs").hide();
   });
 </script>
 
 <script>
   $("#profile-email").text(localStorage.getItem("synnex-user"));
   $("#profile-name").text(localStorage.getItem("synnex-username"));
-  var waitForEl = function (selector, callback) {
-    if (jQuery(selector).length) {
-      callback();
-    } else {
-      setTimeout(function () {
-        waitForEl(selector, callback);
-      }, 100);
+
+  var elem = document.documentElement;
+  /* View in fullscreen */
+  function openFullscreen() {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      /* IE11 */
+      elem.msRequestFullscreen();
     }
-  };
-
-  // (function (d, t) {
-  //   var BASE_URL = "https://nexworldchat.synnexmetrodata.com";
-  //   var g = d.createElement(t),
-  //     s = d.getElementsByTagName(t)[0];
-  //   g.src = BASE_URL + "/packs/js/sdk.js";
-  //   g.defer = true;
-  //   g.async = true;
-  //   s.parentNode.insertBefore(g, s);
-  //   g.onload = function () {
-  //     window.chatwootSDK.run({
-  //       websiteToken: "XJve1NRLkycyeEe5TFijwjgY",
-  //       baseUrl: BASE_URL,
-  //     });
-  //   };
-  // })(document, "script");
-
-  // window.chatwootSettings = {
-  //   type: "expanded_bubble",
-  //   launcherTitle: "Chat with us",
-  // };
-
-  // $(document).ready(function () {
-  //   waitForEl(".woot-widget-holder", function () {
-  //     $(".woot-widget-holder").css("position", "relative");
-  //     $(".woot-widget-holder").append(`
-  //       <div class="position-absolute top-100 start-50 translate-middle" style="height: 60px; width: 200px; background-color:#f4f6fb;">
-  //       </div>
-  //       `);
-  //     console.log("wooott");
-  //   });
-  // });
+    $("#exitFs").show();
+    $("#showFs").hide();
+  }
+  /* Close fullscreen */
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      /* IE11 */
+      document.msExitFullscreen();
+    }
+    $("#exitFs").hide();
+    $("#showFs").show();
+  }
 </script>
 
 <script>
   fetch(
-    "https://api.nevvorld.com/api/token/app/findRegistRankList?eventToken=UY9WOEUV",
+    "https://api.nevvorld.com/api/token/app/findRegistRankList?eventToken=O5MIQR7O",
     {
       method: "GET",
     }

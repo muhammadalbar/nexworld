@@ -110,6 +110,15 @@ app.get("/event-info", async (req, res) => {
     res.send(err.toString());
   }
 });
+app.get("/tutorial", async (req, res) => {
+  try {
+    res.render("tutorial", {
+      layout: "layouts/bootstraplayout",
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
 
 app.get("/special-deal", async (req, res) => {
   try {
