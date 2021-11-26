@@ -34,7 +34,7 @@ module.exports = {
         totalData = booths.rowCount;
 
         const booth = await db.query(
-          "SELECT * FROM booths  LIMIT $1 OFFSET $2 ",
+          "SELECT * FROM booths ORDER BY name ASC LIMIT $1 OFFSET $2 ",
           [perPage, page]
         );
         res.status(200).json({

@@ -63,9 +63,20 @@
             />
             <p style="font-size: smaller">BYGE MAP</p>
           </div>
-          <div
+          <!-- <div
             class="menu px-5 py-1"
             onclick="navigateFrame(31, 90, true); closeSideNav(true, false)"
+          >
+            <img
+              src="./img/landing/stadium.png"
+              alt="stadium-icon"
+              style="width: 40px"
+            />
+            <p style="font-size: smaller">BYGE ARENA</p>
+          </div> -->
+          <div
+            class="menu px-5 py-1"
+            onclick='goToUrl("https://youtu.be/RnwFDgrZyCY"); closeSideNav(true, false)'
           >
             <img
               src="./img/landing/stadium.png"
@@ -813,6 +824,10 @@
   function openNewWindow() {
     window.open("/special-deal");
   }
+
+  const goToUrl = (url) => {
+    window.open(url);
+  };
 
   $("#submit-email").click(function (e) {
     e.preventDefault();

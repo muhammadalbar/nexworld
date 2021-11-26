@@ -37,7 +37,7 @@ module.exports = {
         const data = await db.query("SELECT * FROM stores ");
         totalData = data.rowCount;
         const stores = await db.query(
-          "SELECT * FROM stores LIMIT $1 OFFSET $2",
+          "SELECT * FROM stores ORDER BY name ASC LIMIT $1 OFFSET $2",
           [perPage, page]
         );
         res.status(200).json({
