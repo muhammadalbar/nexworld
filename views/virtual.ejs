@@ -1228,13 +1228,14 @@
   src="https://www.googletagmanager.com/gtag/js?id=UA-213391322-1"
 ></script>
 <script>
+  var GA_CODE = "<%=process.env.GA_CODE %>";
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     dataLayer.push(arguments);
   }
   gtag("js", new Date());
 
-  gtag("config", "UA-213391322-1");
+  gtag("config", GA_CODE);
 </script>
 
 <script>
@@ -1257,7 +1258,7 @@
     "//www.google-analytics.com/analytics.js",
     "ga"
   );
-  ga("create", "UA-213391322-1", "auto", {
+  ga("create", GA_CODE, "auto", {
     userId: localStorage.getItem("synnex-user"),
   });
   ga("send", "pageview");
