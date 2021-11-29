@@ -48,6 +48,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
           layout: "layouts/bootstraplayout",
           userkey: "synnex",
           user: email,
+          username: name,
           userid: uid,
           jwt: jwtToken,
           redirecturl: "/virtual",
