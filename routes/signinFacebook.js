@@ -76,113 +76,71 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
           redirecturl: "/virtual",
         });
       }
-    }
-    let getemail = req.user.emails.map(({ value }) => value);
-    let email = getemail[0];
-    let name = req.user.displayName;
-    // let props = { name: req.user.displayName };
-    let uid = uuidv4();
-    let register_date = new Date();
-    let role = "user";
-    let userkey = "synnex";
-    let login = "facebook";
-
-    let response = await pgdb.getGuest(email);
-
-    // res.send({
-    //   email,
-    //   props,
-    //   uid,
-    //   register_date,
-    //   role,
-    //   userkey,
-    //   response,
-    // });
-
-    if (response.length == 0) {
-      await db.query(
-        `INSERT into guests (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
-        [uid, email, role, name, register_date, login]
-      );
-      const user = {
-        email: email,
-        devicetoken: uuidv4(),
-        role: "user",
-      };
-
-      const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "30d",
-      });
-      req.session.user = {
-        user: email,
-        jwt: jwtToken,
-      };
-      res.render("loginredirect", {
-        layout: "layouts/bootstraplayout",
-        userkey: "synnex",
-        user: email,
-        username: name,
-        userid: uid,
-        jwt: jwtToken,
-        redirecturl: "/virtual",
-      });
     } else {
-      const user = {
-        email: email,
-        devicetoken: uuidv4(),
-        role: "user",
-      };
+      let getemail = req.user.emails.map(({ value }) => value);
+      let email = getemail[0];
+      let name = req.user.displayName;
+      // let props = { name: req.user.displayName };
+      let uid = uuidv4();
+      let register_date = new Date();
+      let role = "user";
+      let userkey = "synnex";
+      let login = "facebook";
 
-      const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "30d",
-      });
-      req.session.user = {
-        user: email,
-        jwt: jwtToken,
-      };
-      res.render("loginredirect", {
-        layout: "layouts/bootstraplayout",
-        userkey: "synnex",
-        user: email,
-        username: name,
-        userid: uid,
-        jwt: jwtToken,
-        redirecturl: "/virtual",
-      });
+      let response = await pgdb.getGuest(email);
+
+      if (response.length == 0) {
+        await db.query(
+          `INSERT into guests (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
+          [uid, email, role, name, register_date, login]
+        );
+        const user = {
+          email: email,
+          devicetoken: uuidv4(),
+          role: "user",
+        };
+
+        const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "30d",
+        });
+        req.session.user = {
+          user: email,
+          jwt: jwtToken,
+        };
+        res.render("loginredirect", {
+          layout: "layouts/bootstraplayout",
+          userkey: "synnex",
+          user: email,
+          username: name,
+          userid: uid,
+          jwt: jwtToken,
+          redirecturl: "/virtual",
+        });
+      } else {
+        const user = {
+          email: email,
+          devicetoken: uuidv4(),
+          role: "user",
+        };
+
+        const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: "30d",
+        });
+        req.session.user = {
+          user: email,
+          jwt: jwtToken,
+        };
+        res.render("loginredirect", {
+          layout: "layouts/bootstraplayout",
+          userkey: "synnex",
+          user: email,
+          username: name,
+          userid: uid,
+          jwt: jwtToken,
+          redirecturl: "/virtual",
+        });
+      }
     }
-
-    // let dbpassword = response[0].password;
-
-    // let userid = response[0].uid;
-
-    // let match = await bcrypt.compare(req.body.password, dbpassword);
-    // if (match) {
-    //   const user = {
-    //     userid,
-    //     email: req.body.email,
-    //     devicetoken: uuidv4(),
-    //     role: response[0].role,
-    //   };
-
-    //   const jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    //     expiresIn: "30d",
-    //   });
-
-    //   res.send({
-    //     error: false,
-    //     content: {
-    //       userkey: "synnex",
-    //       user: req.body.email,
-    //       userid,
-    //       jwt: jwtToken,
-    //       redirecturl: "/virtual",
-    //     },
-    //   });
-    // } else {
-    //   res
-    //     .status(500)
-    //     .send({ error: true, message: "Wrong username or password" });
-    // }
   } catch (err) {
     res.status(500).send({ error: true, message: err.toString() });
   }
