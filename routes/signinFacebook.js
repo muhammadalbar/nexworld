@@ -28,7 +28,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
 
       if (response.length == 0) {
         await db.query(
-          `INSERT into guest (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
+          `INSERT into guests (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
           [uid, email, role, name, register_date, login]
         );
         const user = {
@@ -101,7 +101,7 @@ router.get("/dashFacebook", isLoggedIn, async (req, res) => {
 
     if (response.length == 0) {
       await db.query(
-        `INSERT into guest (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
+        `INSERT into guests (uid, email, role, name, register_date, login) values ($1, $2, $3, $4, $5, $6)`,
         [uid, email, role, name, register_date, login]
       );
       const user = {
