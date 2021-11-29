@@ -232,6 +232,17 @@ router.get("/editpartner", async (req, res) => {
   }
 });
 
+router.get("/upload-ga", async (req, res) => {
+  try {
+    res.render("admin_uploadga", {
+      title: "Synnex Admin - Upload GA",
+      layout: "layouts/adminsidenav",
+    });
+  } catch (err) {
+    res.send(err.toString());
+  }
+});
+
 router.get("/guestlist", async (req, res) => {
   const { page, perPage, search } = req.query;
   try {
