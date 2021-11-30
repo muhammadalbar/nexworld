@@ -1,5 +1,17 @@
 <div class="container-fluid p-3 p-sm-5">
-  <h4><strong><%= title %></strong></h4>
+  <div class="d-flex justify-content-between">
+    <div class="align-self-center">
+      <h4><strong><%= title %></strong></h4>
+    </div>
+    <div>
+      <img
+        src="/img/Logo.png"
+        class="img-fluid"
+        style="cursor: pointer"
+        onclick="openNewWindow()"
+      />
+    </div>
+  </div>
   <p class="mt-4 mb-4" style="font-size: smaller"><%= description %></p>
   <% contents.map((item, index)=>{ %>
   <div class="mb-1">
@@ -31,6 +43,9 @@
     console.log(id, $(`#${id}`).text());
     window.open($(`#${id}`).text());
   };
+  function openNewWindow() {
+    window.open("/special-deal");
+  }
 </script>
 
 <style>

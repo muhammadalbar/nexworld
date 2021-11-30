@@ -5,27 +5,20 @@
   style="width: 100vw; height: 100vh; position: absolute"
 ></iframe>
 <div class="container-fluid">
-  <button
-    type="button"
-    class="
-      btn btn-danger
-      shadow
-      position-absolute
-      top-0
-      end-0
-      mt-3
-      me-2
-      rounded-circle
-    "
-    style="background-color: #b7025f"
-  >
-    <div id="showFs" onclick="openFullscreen()">
-      <span style="width: 16px" data-feather="maximize"></span>
-    </div>
-    <div id="exitFs" onclick="closeFullscreen()">
-      <span style="width: 16px" data-feather="minimize"></span>
-    </div>
-  </button>
+  <img
+    class="position-absolute top-0 end-0 mt-3 me-2"
+    style="cursor: pointer"
+    id="showFs"
+    onclick="openFullscreen()"
+    src="./img/landing/openfs.png"
+  />
+  <img
+    class="position-absolute top-0 end-0 mt-3 me-2"
+    style="cursor: pointer"
+    id="exitFs"
+    onclick="closeFullscreen()"
+    src="./img/landing/closefs.png"
+  />
   <img
     class="position-absolute top-50 start-0 translate-middle"
     style="width: 60px; cursor: pointer; margin-left: 25px"
@@ -117,11 +110,11 @@
             onclick="openNewWindow(); closeSideNav(true, false);"
           >
             <img
-              src="./img/landing/hot-sale.png"
+              src="./img/landing/hot-sale.gif"
               alt="stadium-icon"
               style="width: 40px"
             />
-            <p style="font-size: smaller">SPECIAL DEAL</p>
+            <p style="font-size: smaller" class="neonText">SPECIAL DEAL</p>
           </div>
           <div
             onclick="closeSideNav(true, false)"
@@ -940,8 +933,6 @@
     $(".container-fluid").append(`
       <div class="position-absolute top-0 start-0 welcome-text p-2 mt-3 ms-2" style="cursor: pointer">
         Welcome, ${localStorage.getItem("synnex-username")} !
-        <!-- <div id="showFs" onclick="openFullscreen()"><small><i>*click here to fullscreen</i></small></div>
-        <div id="exitFs" onclick="closeFullscreen()"><small><i>*click to exit fullscreen</i></small></div> -->
       </div>
       `);
     $("#exitFs").hide();
@@ -1033,21 +1024,30 @@
 </script>
 
 <style>
+  .neonText {
+    animation: glow 0.5s ease-in-out infinite alternate;
+    color: #fff;
+  }
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0fa, 0 0 20px #0fa,
+        0 0 25px #0fa, 0 0 30px #0fa, 0 0 35px #0fa;
+    }
+    to {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0fa, 0 0 40px #0fa,
+        0 0 50px #0fa, 0 0 60px #0fa, 0 0 70px #0fa;
+    }
+  }
+
   .welcome-text {
     background: black;
     border: 3px solid #ca2164;
     box-sizing: border-box;
     border-radius: 10px;
     color: #01cdf2;
-    /* animation: welcomemove 3s infinite; */
     text-shadow: 0 0 2px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 70px #0fa;
     box-shadow: -1px -1px 10px 10px #0ff;
   }
-  /* @keyframes welcomemove {
-    50% {
-      box-shadow: -1px -1px 10px 10px #0ff;
-    }
-  } */
   .winprize-link {
     color: #01cdf2;
     cursor: pointer;
