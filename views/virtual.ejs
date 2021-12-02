@@ -588,7 +588,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content px-4 pt-4 pb-2 modal-black">
+    <div class="modal-content px-4 pt-4 pb-2 modal-black" style="height: 80vh">
       <div class="leaderboard text-center">
         <h1>Leaderboard</h1>
         <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
@@ -881,8 +881,10 @@
       if (left) {
         $("#left-card").fadeOut(500);
         $("#left-card-show").show();
+        $("#right-card-show").show();
       } else {
         $("#right-card").fadeOut(500);
+        $("#left-card-show").show();
         $("#right-card-show").show();
       }
     }
