@@ -15,12 +15,12 @@ module.exports = {
     try {
       if (search) {
         const data = await db.query(
-          "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid WHERE concat(name,title) ILIKE '%'|| $1 ||'%'",
+          "SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid WHERE concat(name,title) ILIKE '%'|| $1 ||'%'",
           [search]
         );
         totalData = data.rowCount;
         const robot = await db.query(
-          `SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid WHERE concat(name,title) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
+          `SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid WHERE concat(name,title) ILIKE '%'|| $1 ||'%' LIMIT $2 OFFSET $3`,
           [search, perPage, page]
         );
         if (!Array.isArray(data.rows) || !data.rows.length) {
@@ -36,12 +36,12 @@ module.exports = {
       } else {
         if (perPage >= 0) {
           const robot = await db.query(
-            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+            "SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid"
           );
           totalData = robot.rowCount;
 
           const robots = await db.query(
-            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid ORDER BY name ASC LIMIT $1 OFFSET $2",
+            "SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid ORDER BY name ASC LIMIT $1 OFFSET $2",
             [perPage, page]
           );
           res.status(200).json({
@@ -52,12 +52,12 @@ module.exports = {
           });
         } else {
           const robot = await db.query(
-            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+            "SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid"
           );
           totalData = robot.rowCount;
 
           const robots = await db.query(
-            "SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid"
+            "SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid"
           );
           res.status(200).json({
             totalData,
@@ -77,7 +77,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const robot = await db.query(
-        `SELECT (robots.uid),boothid,name,title,description FROM robots JOIN booths ON robots.boothid = booths.uid WHERE robots.uid = $1`,
+        `SELECT (robots.uid),boothid,name,title,description,url FROM robots JOIN booths ON robots.boothid = booths.uid WHERE robots.uid = $1`,
         [id]
       );
       const robotContents = await db.query(
@@ -99,13 +99,13 @@ module.exports = {
   },
   addRobot: async (req, res) => {
     try {
-      const { title, description, boothid } = req.body;
+      const { title, description, boothid, url } = req.body;
       const uid = uuidv4();
       const created_at = new Date();
 
       await db.query(
-        `INSERT into robots (uid,title,description,boothid,created_at) values ($1, $2,$3,$4,$5)`,
-        [uid, title, description, boothid, created_at]
+        `INSERT into robots (uid,title,description,boothid,created_at,url) values ($1, $2,$3,$4,$5,$6)`,
+        [uid, title, description, boothid, created_at, url]
       );
       res
         .status(200)
@@ -151,11 +151,11 @@ module.exports = {
   updateRobot: async (req, res) => {
     try {
       const { id } = req.params;
-      const { title, description } = req.body;
+      const { title, description, url } = req.body;
 
       await db.query(
-        `UPDATE robots SET (title, description) = ($2, $3) where uid = $1`,
-        [id, title, description]
+        `UPDATE robots SET (title, description,url) = ($2, $3, $4) where uid = $1`,
+        [id, title, description, url]
       );
       res
         .status(200)
