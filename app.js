@@ -113,7 +113,7 @@ app.get("/event-info", async (req, res) => {
 app.get("/tutorial", async (req, res) => {
   try {
     res.render("tutorial", {
-      layout: "layouts/bootstraplayout",
+      layout: "layouts/tutoriallayout",
     });
   } catch (err) {
     res.send(err.toString());
