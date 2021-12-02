@@ -8,7 +8,7 @@
         src="/img/landing/special-deal.png"
         class="img-fluid"
         style="cursor: pointer"
-        onclick="openNewWindow()"
+        onclick="openNewWindow('/special-deal')"
       />
     </div>
   </div>
@@ -43,8 +43,8 @@
     console.log(id, $(`#${id}`).text());
     window.open($(`#${id}`).text());
   };
-  function openNewWindow() {
-    window.open("/special-deal");
+  function openNewWindow(url) {
+    window.open(url);
   }
 </script>
 

@@ -895,15 +895,15 @@
     $("#demo").modal("show");
 
     if ($(window).width() <= 731) {
-      $("#right-card").hide();
-      $("#right-card-show").hide();
       $("#leftmenu").click(function () {
         $("#left-card").fadeOut(500);
         $(".welcome-text").fadeIn(500);
         $("#right-card-show").show();
+        $("#left-card-show").show();
       });
       $("#rightmenu").click(function () {
         $("#right-card").fadeOut(500);
+        $("#right-card-show").show();
         $("#left-card-show").show();
       });
       $("#left-card-show").click(function () {
