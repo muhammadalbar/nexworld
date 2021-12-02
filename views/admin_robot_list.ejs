@@ -45,7 +45,7 @@
           <input type="text" class="form-control" id="desc" />
         </div>
         <div class="mb-3">
-          <label for="title" class="form-label" style="font-weight: 700"
+          <label for="store-url" class="form-label" style="font-weight: 700"
             >Store Url</label
           >
           <input type="text" class="form-control" id="store-url" />
@@ -334,6 +334,7 @@
           title: $("#title").val(),
           description: $("#desc").val(),
           boothid: $("#annBooth").val(),
+          url: $("#store-url").val(),
         }),
       }
     )

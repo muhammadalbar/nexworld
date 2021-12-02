@@ -350,7 +350,7 @@ router.get("/editrobot", async (req, res) => {
       process.env.FRONTEND_ADDRESS + `/api/robots/getRobot/${id}`
     );
     const dataRobot = await data.json();
-    const { boothid, name, title, description, contents } = dataRobot.data;
+    const { boothid, name, title, description, contents, url } = dataRobot.data;
 
     res.render("admin_editrobot", {
       title: "Synnex Admin - Edit Robot",
@@ -359,6 +359,7 @@ router.get("/editrobot", async (req, res) => {
       name: name ? name : "",
       title: title ? title : "",
       description: description ? description : "",
+      url: url ? url : "",
       contents: contents ? contents : [],
     });
   } catch (err) {

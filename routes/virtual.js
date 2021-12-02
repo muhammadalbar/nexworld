@@ -26,13 +26,14 @@ router.get("/robot-konten", async (req, res) => {
       process.env.FRONTEND_ADDRESS + `/api/robots/getRobot/${id}`
     );
     const data = await resp.json();
-    const { title, description, contents } = data.data;
+    const { title, description, contents, url } = data.data;
 
     res.render("robot_konten", {
       title: "Robot Konten",
       layout: "layouts/robotlayout",
       title: title ? title : "",
       description: description ? description : "",
+      url: url ? url : "",
       contents: contents ? contents : [],
     });
   } catch (error) {

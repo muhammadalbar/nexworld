@@ -200,7 +200,7 @@
         type="text"
         class="form-control"
         id="store-url"
-        value="<%= description %>"
+        value="<%= url %>"
       />
     </div>
   </div>
@@ -516,6 +516,7 @@
         body: JSON.stringify({
           title: $("#robottitle").val(),
           description: $("#robotdesc").val(),
+          url: $("#store-url").val(),
         }),
       }
     )
