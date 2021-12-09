@@ -38,9 +38,7 @@
     <!-- favicon end-->
 
     <!-- Google Tag Manager -->
-
-    <!-- <script>
-      var GTM_CODE = "<%= process.env.GTM_CODE %>";
+    <script>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
@@ -50,15 +48,16 @@
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", `"${GTM_CODE}"`);
-    </script> -->
-
+      })(window, document, "script", "dataLayer", "GTM-W4CD7WP");
+    </script>
     <!-- End Google Tag Manager -->
+
     <!-- GOOGLE ANALYTICS -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>
       var GA_CODE = "<%= process.env.GA_CODE %>";
     </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=UA-213391322-2"
@@ -93,12 +92,10 @@
         "//www.google-analytics.com/analytics.js",
         "ga"
       );
-      ga("create", GA_CODE, "auto", {
+      ga("create", "UA-213391322-2", "auto", {
         userId: localStorage.getItem("synnex-user"),
       });
       ga("send", "pageview");
-      var dimensionValue = localStorage.getItem("synnex-user");
-      ga("set", "dimension1", dimensionValue);
     </script>
 
     <!-- Required meta tags -->
