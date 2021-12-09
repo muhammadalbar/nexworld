@@ -38,7 +38,7 @@
     <!-- favicon end-->
 
     <!-- Google Tag Manager -->
-    <!-- <script>
+    <script>
       var GTM_CODE = "<%= process.env.GTM_CODE %>";
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -49,8 +49,8 @@
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", GTM_CODE);
-    </script> -->
+      })(window, document, "script", "dataLayer", `"${GTM_CODE}"`);
+    </script>
     <!-- End Google Tag Manager -->
     <!-- GOOGLE ANALYTICS -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
