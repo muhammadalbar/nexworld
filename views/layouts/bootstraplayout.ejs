@@ -49,7 +49,6 @@
       gtag("js", new Date());
 
       gtag("config", "UA-213391322-2");
-      gtag("set", { user_id: localStorage.getItem("synnex-user") }); // Set the user ID using signed-in user_id.
     </script>
 
     <!-- Google Tag Manager -->
@@ -70,7 +69,7 @@
       var GA_CODE = "<%= process.env.GA_CODE %>";
     </script>
 
-    <!-- <script>
+    <script>
       (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;
         (i[r] =
@@ -96,7 +95,7 @@
       ga("send", "pageview");
       var dimensionValue = localStorage.getItem("synnex-user");
       ga("set", "dimension1", dimensionValue);
-    </script> -->
+    </script>
 
     <!-- Required meta tags -->
     <meta charset="utf-8" />
