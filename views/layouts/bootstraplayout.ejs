@@ -36,6 +36,20 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
     <!-- favicon end-->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-213391322-2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-213391322-2");
+    </script>
 
     <!-- Google Tag Manager -->
     <script>
@@ -53,23 +67,6 @@
     <!-- End Google Tag Manager -->
     <script>
       var GA_CODE = "<%= process.env.GA_CODE %>";
-    </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-213391322-2"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      var user = localStorage.getItem("synnex-user");
-      gtag("js", new Date());
-
-      gtag("config", "UA-213391322-2");
-      // gtag("set", { user_id: localStorage.getItem("synnex-user") });
-      ga("set", "userId", user); // Set the user ID using signed-in user_id.
     </script>
 
     <!-- <script>
@@ -124,17 +121,6 @@
   </head>
 
   <body id="bootstraplayout" class="dark-background">
-    <!-- Google Tag Manager (noscript) -->
-    <!-- <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=<%= process.env.GTM_CODE %>"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript> -->
-    <!-- End Google Tag Manager (noscript) -->
-
     <%- body %>
     <script
       src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
