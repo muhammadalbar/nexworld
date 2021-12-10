@@ -59,6 +59,8 @@
         userId: localStorage.getItem("synnex-user"),
       });
       ga("send", "pageview");
+      var dimensionValue = localStorage.getItem("synnex-user");
+      ga("set", "dimension1", dimensionValue);
     </script>
 
     <!-- Required meta tags -->

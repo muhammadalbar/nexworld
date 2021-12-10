@@ -51,9 +51,6 @@
       })(window, document, "script", "dataLayer", "GTM-W4CD7WP");
     </script>
     <!-- End Google Tag Manager -->
-
-    <!-- GOOGLE ANALYTICS -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>
       var GA_CODE = "<%= process.env.GA_CODE %>";
     </script>
@@ -96,6 +93,8 @@
         userId: localStorage.getItem("synnex-user"),
       });
       ga("send", "pageview");
+      var dimensionValue = localStorage.getItem("synnex-user");
+      ga("set", "dimension1", dimensionValue);
     </script>
 
     <!-- Required meta tags -->
