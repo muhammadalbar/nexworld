@@ -1,42 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- favicon start -->
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicon/favicon-16x16.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="144x144"
-      href="favicon/apple-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="144x144"
-      href="favicon/android-chrome-144x144.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="favicon/manifest.json" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
-    <!-- favicon end-->
-
     <!-- Google Tag Manager -->
     <script>
       var GTM_CODE = "<%= process.env.GTM_CODE %>";
@@ -49,7 +13,7 @@
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-TGHMQBD'");
+      })(window, document, "script", "dataLayer", "GTM-TGHMQBD");
     </script>
     <!-- End Google Tag Manager -->
     <!-- GOOGLE ANALYTICS -->
@@ -100,6 +64,42 @@
       ga("set", "dimension1", dimensionValue);
     </script>
 
+    <!-- favicon start -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="favicon/apple-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="144x144"
+      href="favicon/android-chrome-144x144.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <!-- favicon end-->
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -125,14 +125,14 @@
 
   <body id="bootstraplayout" class="dark-background">
     <!-- Google Tag Manager (noscript) -->
-    <!-- <noscript
+    <noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=<%= process.env.GTM_CODE %>"
         height="0"
         width="0"
         style="display: none; visibility: hidden"
       ></iframe
-    ></noscript> -->
+    ></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <%- body %>
