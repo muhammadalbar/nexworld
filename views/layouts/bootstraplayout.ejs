@@ -40,16 +40,18 @@
         custom_map: { dimension2: "UserId" },
       });
 
-      // Sends an event that passes 'age' as a parameter.
-      var getuser = localStorage.getItem("synnex-user");
-      gtag("event", "customuserid_dimension", { CustomUserId: getuser });
-      gtag("event", "userid_dimension", { UserId: getuser });
+      gtag("event", "customuserid_dimension", {
+        CustomUserId: localStorage.getItem("synnex-user"),
+      });
+      gtag("event", "userid_dimension", {
+        UserId: localStorage.getItem("synnex-user"),
+      });
       gtag("set", { user_id: getuser });
     </script>
 
     <!-- End Google Tag Manager -->
 
-    <!-- <script>
+    <script>
       (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;
         (i[r] =
@@ -75,7 +77,8 @@
       ga("send", "pageview");
       var dimensionValue = localStorage.getItem("synnex-user");
       ga("set", "dimension1", dimensionValue);
-    </script> -->
+      ga("set", "dimension2", dimensionValue);
+    </script>
     <!-- favicon start -->
     <link
       rel="icon"
