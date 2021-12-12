@@ -126,7 +126,7 @@ module.exports = {
         `SELECT * FROM robot_contents WHERE robotid = $1`,
         [robotid]
       );
-      if (data.rowCount >= 4) {
+      if (data.rowCount >= 5) {
         res.status(500).json({
           status: "Failed",
           message: "Data Content Robot is maximum!",
