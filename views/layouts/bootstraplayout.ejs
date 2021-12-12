@@ -31,6 +31,16 @@
 
       gtag("config", "UA-213391322-2");
     </script>
+    <script>
+      // Maps 'dimension2' to 'age'.
+      gtag("config", "UA-213391322-2", {
+        custom_map: { dimension2: "UserId" },
+      });
+
+      // Sends an event that passes 'age' as a parameter.
+      var getuser = localStorage.getItem("synnex-user");
+      gtag("event", "userid_dimension", { UserId: getuser });
+    </script>
 
     <!-- End Google Tag Manager -->
 
