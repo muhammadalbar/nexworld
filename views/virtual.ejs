@@ -170,13 +170,7 @@
     >
       <button
         type="button"
-        class="
-          btn-close btn-close-white
-          position-absolute
-          top-0
-          start-100
-          translate-middle
-        "
+        class="btn-close btn-close-white position-absolute top-0 start-100 translate-middle"
         style="border: 2px solid rgb(81, 220, 255); border-radius: 5px"
         data-bs-dismiss="modal"
         aria-label="Close"
@@ -353,14 +347,7 @@
       </h3>
       <button
         type="button"
-        class="
-          btn-close btn-close-white
-          position-absolute
-          top-0
-          end-0
-          mt-3
-          me-3
-        "
+        class="btn-close btn-close-white position-absolute top-0 end-0 mt-3 me-3"
         data-bs-dismiss="modal"
         aria-label="Close"
       ></button>
@@ -680,13 +667,7 @@
     >
       <button
         type="button"
-        class="
-          btn-close btn-close-white
-          position-absolute
-          top-0
-          start-100
-          translate-middle
-        "
+        class="btn-close btn-close-white position-absolute top-0 start-100 translate-middle"
         style="border: 2px solid rgb(81, 220, 255); border-radius: 5px"
         data-bs-dismiss="modal"
         aria-label="Close"
@@ -777,8 +758,38 @@
   </div>
 </div>
 
+<div
+  id="spinner"
+  style="
+    height: 100vh;
+    width: 100vw;
+    background-color: blue;
+    z-index: 1080;
+    position: fixed;
+  "
+>
+  <div style="height: 100vh" class="d-flex align-items-center">
+    <img
+      class="rounded mx-auto d-block"
+      src="./img/Logo.png"
+      style="width: 160px"
+    />
+  </div>
+</div>
+
 <script>
+  window.addEventListener("message", (event) => {
+    console.log("EVENT", event.data);
+    if (event.data === "tourLoaded") {
+      console.log("TRUE LOADED");
+      setTimeout(function () {
+        $("#spinner").fadeOut(500);
+      }, 1000);
+    }
+  });
+
   function navigateFrame(media, yaw, disableTogle) {
+    $("#spinner").fadeIn(200);
     if (yaw) {
       $("#virtual3dFrame").attr(
         "src",
