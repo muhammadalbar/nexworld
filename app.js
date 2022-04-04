@@ -87,6 +87,13 @@ app.use(
 
 //ROUTES//
 
+// SYNNEX PHASE 2
+app.get("/synnex-phase2", (req, res) => {
+  res.render("synnex-phase2",{ layout: "layouts/bootstraplayout" });
+})
+
+// SYNNEX PHASE 2
+
 app.get("/", (req, res) => {
   const session = req.session.user;
   if (session === null || session === undefined) {
