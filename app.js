@@ -89,7 +89,7 @@ app.use(
 
 // SYNNEX PHASE 2
 app.get("/synnex-phase2", (req, res) => {
-  res.render("synnex-phase2",{ layout: "layouts/bootstraplayout" });
+  res.render("synnex-phase2",{ layout: "layouts/emptylayout" });
 })
 
 // SYNNEX PHASE 2
